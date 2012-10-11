@@ -6,6 +6,23 @@ Semaforo :: Semaforo ( char* nombre,int valorInicial ) {
 
 	key_t clave = ftok ( nombre,'a' );
 	this->id = semget ( clave,1,0666 | IPC_CREAT );
+	
+	if (this->id < 0) {
+		switch(errno) {
+			case EACCES:
+				throw "Creating semaphore: permission denied";
+			case EEXIST:
+				throw "Creating semaphore: already exists";
+			case EINVAL:
+				throw "Creating semaphore: bad parameters";
+			case ENOMEM:
+				throw "Creating semaphore: no memory";
+			case ENOSPC:
+				throw "Creating semaphore: count limit exceeded";
+			default:
+				throw "Creating semaphore: unknown error";
+		}
+	}
 
 	this->inicializar ();
 }
