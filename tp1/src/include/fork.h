@@ -5,13 +5,13 @@
     #include <stdlib.h>
     #include <errno.h>
     
-    class Process {
+    class Proceso {
         public:
-            Process() {};
-            virtual ~Process() {};
-            virtual void run() {};
+            Proceso() {};
+            virtual ~Proceso() {};
+            virtual void ejecutar() {};
     };
     
-    void fork(Process& p);
+    void fork(Proceso& p);
 
 #endif /* FORK_H_ */
