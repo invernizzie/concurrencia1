@@ -1,6 +1,6 @@
 #include "fork.h"
 
-void fork(Process& p) {
+void fork(Proceso& p) {
     pid_t id = fork();
     
     if (id < 0) {
@@ -8,7 +8,7 @@ void fork(Process& p) {
     }
     
     if (id == 0) {
-        p.run();
+        p.ejecutar();
         
         // This process will never get out of this scope
         // All deinitilization needs to be done by the parent
