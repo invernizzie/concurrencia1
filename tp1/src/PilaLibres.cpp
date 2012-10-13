@@ -6,6 +6,7 @@ using namespace std;
 
 PilaLibres :: PilaLibres(int lugares) {
     this->inicializar(lugares);
+    this->semaforo = new Semaforo((char*)ARCHIVO_AUXILIAR, 0);
 }
 
 void PilaLibres :: inicializar(int lugares) {
@@ -13,4 +14,9 @@ void PilaLibres :: inicializar(int lugares) {
     REPEAT(i, 10) {
         this->lugaresLibres.push_back(LIBRE);
     }
+}
+
+PilaLibres :: ~PilaLibres() {
+    this->semaforo->eliminar();
+    delete this->semaforo;
 }
