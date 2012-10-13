@@ -16,7 +16,7 @@ void Saludador :: ejecutar() {
 int main() {
     Saludador saludador;
     try {
-        fork(saludador);
+        saludador.iniciar();
     }
     catch (int errno) {
         // TODO: Print error

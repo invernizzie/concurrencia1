@@ -6,7 +6,7 @@ Semaforo :: Semaforo ( char* nombre,int valorInicial ) {
 
 	key_t clave = ftok ( nombre,'a' );
 	this->id = semget ( clave,1,0666 | IPC_CREAT );
-	
+
 	if (this->id < 0) {
 		switch(errno) {
 			case EACCES:
@@ -44,7 +44,7 @@ int Semaforo :: inicializar () {
 	return resultado;
 }
 
-int Semaforo :: p () {
+int Semaforo :: wait () {
 
 	struct sembuf operacion;
 
@@ -56,7 +56,7 @@ int Semaforo :: p () {
 	return resultado;
 }
 
-int Semaforo :: v () {
+int Semaforo :: signal () {
 
 	struct sembuf operacion;
 

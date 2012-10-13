@@ -18,8 +18,8 @@
 		Semaforo ( char* nombre,int valorInicial );
 		virtual ~Semaforo();
 
-		int p (); // decrementa
-		int v (); // incrementa
+		int wait (); // decrementa
+		int signal (); // incrementa
 		void eliminar ();
 	};
 
