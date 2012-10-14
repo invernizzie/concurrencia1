@@ -2,8 +2,7 @@
 // Name        : tp1.cpp
 // Author      :
 // Version     :
-// Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
+// Description : Proceso principal ConcuParking
 //============================================================================
 
 #include <iostream>
@@ -19,22 +18,16 @@
 using namespace std;
 
 int main() {
-    // Creacion del estacionamiento en memoria compartida
-    MemoriaCompartida<Estacionamiento> estacionamiento;
-    estacionamiento.crear((char*)ARCHIVO_AUXILIAR, 'e');
-    Estacionamiento e;
-    estacionamiento.escribir(e);
-
     // Tiempo de inicio guardado en memoria compartida
     MemoriaCompartida<time_t> inicio;
     inicio.crear((char*)ARCHIVO_AUXILIAR, 't');
 
-    Entrada entrada(10);
+    Entrada entrada1("1", 10);
+    Entrada entrada2("2", 10);
 
     inicio.escribir(time(NULL));
-    entrada.iniciar();
-
-    estacionamiento.liberar();
+    entrada1.iniciar();
+    entrada2.iniciar();
 
     /*
 	try {

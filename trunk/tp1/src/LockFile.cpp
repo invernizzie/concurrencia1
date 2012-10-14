@@ -1,6 +1,6 @@
 #include "LockFile.h"
 
-LockFile :: LockFile ( char* nombre ) {
+LockFile :: LockFile ( const char* nombre ) {
 
 	strcpy ( this->nombre,nombre );
 

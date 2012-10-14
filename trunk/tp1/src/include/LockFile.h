@@ -15,7 +15,7 @@ private:
 
 public:
 
-	LockFile ( char* nombre );
+	LockFile ( const char* nombre );
 	virtual ~LockFile();
 
 	int tomarLock ();
