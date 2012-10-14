@@ -24,7 +24,7 @@
 
 		MemoriaCompartida ();
 		~MemoriaCompartida ();
-		int crear ( char *archivo,char letra );
+		int crear ( const char *archivo,char letra );
 		void liberar ();
 		void escribir ( T dato );
 		T leer ();
@@ -37,7 +37,7 @@
 	template <class T> MemoriaCompartida<T> :: ~MemoriaCompartida () {
 	}
 
-	template <class T> int MemoriaCompartida<T> :: crear ( char *archivo,char letra ) {
+	template <class T> int MemoriaCompartida<T> :: crear ( const char *archivo,char letra ) {
 
 		// generacion de la clave
 		key_t clave = ftok ( archivo,letra );

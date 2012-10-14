@@ -1,66 +1,115 @@
 #include "Estacionamiento.h"
 #include <vector>
+#include <errno.h>
 
-Estacionamiento::Estacionamiento(int capacidad) : occupied_posicions_(0), ocupacion_lock_("ocupacion_lock.tmp")
+#include <iostream> // TODO Quitar
+
+Estacionamiento::Estacionamiento(int capacidad) : lockOcupacion((char*)"ocupacion_lock.tmp")
 {
-    shared_memories_.resize(capacidad);
-    posicions_lockers_.resizq(capacidad);
+    int resultado = posicionesOcupadas.crear((char*)ARCHIVO_AUXILIAR, 'p');
+    if (resultado != 0) {
+        cout << "Error al crear memoria compartida" << endl;
+        switch (errno) {
+            case EACCES:
+                cout << "EACCES" << endl;
+                break;
+            case EBADF:
+                cout << "EBADF" << endl;
+                break;
+            case EFAULT:
+                cout << "EFAULT" << endl;
+                break;
+            case ELOOP:
+                cout << "ELOOP" << endl;
+                break;
+            case ENAMETOOLONG:
+                cout << "ENAMETOOLONG" << endl;
+                break;
+            case ENOENT:
+                cout << "ENOENT" << endl;
+                break;
+            case ENOMEM:
+                cout << "ENOMEM" << endl;
+                break;
+            case ENOTDIR:
+                cout << "ENOTDIR" << endl;
+                break;
+            case EOVERFLOW:
+                cout << "EOVERFLOW" << endl;
+                break;
+            default:
+                cout << errno << endl;
+        }
+    }
+
+    posicionesOcupadas.escribir((unsigned)0);
+
+    estadosPosicion.reserve(capacidad);
+    locksPosicion.reserve(capacidad);
     for ( int i=0 ; i < capacidad ; i++){
-        create_posicion(i);
+        crearPosicion(i);
     }
 }
 
 Estacionamiento::~Estacionamiento()
 {
-    //dtor
+    int capacidad = estadosPosicion.size();
+    for (int i = 0; i < capacidad; i++) {
+        destruirPosicion(i);
+    }
+    posicionesOcupadas.liberar();
 }
 
 
 void Estacionamiento::liberar(int posicion){
-    posicions_lockers_[posicion].tomarLock();
-    shared_memories_[pos_num].escribir(Parking_Status::FREE);
-    posicions_lockers_[posicion].liberarLock();
+    locksPosicion[posicion]->tomarLock();
+    estadosPosicion[posicion].escribir(LIBRE);
+    locksPosicion[posicion]->liberarLock();
 }
 
-void ocupar(int posicion){
-    posicions_lockers_[posicion].tomarLock();
-    Parking_Status status = shared_memories_[pos_num].leer();
-    if ( status == Parking_Status::FREE ){
-        shared_memories_[pos_num].escribir(Parking_Status::BUSY);
-        posicions_lockers_[posicion].liberarLock();
+void Estacionamiento::ocupar(int posicion){
+    locksPosicion[posicion]->tomarLock();
+    EstadoLugar status = estadosPosicion[posicion].leer();
+    if ( status == LIBRE ){
+        estadosPosicion[posicion].escribir(OCUPADO);
+        locksPosicion[posicion]->liberarLock();
     } else {
-        posicions_lockers_[posicion].liberarLock();
+        locksPosicion[posicion]->liberarLock();
         throw LugarOcupado();
     }
 }
 
 void Estacionamiento::ocuparLugar(){
-    ocupacion_lock_.tomarLock();
-    if ( occupied_posicions_ < shared_memories_.size() ){
-        occupied_posicions_++;
-        ocupacion_lock_.liberarLock();
+    lockOcupacion.tomarLock();
+    if ( posicionesOcupadas.leer() < estadosPosicion.size() ){
+        posicionesOcupadas.escribir(posicionesOcupadas.leer() + 1);
+        lockOcupacion.liberarLock();
     } else {
-        ocupacion_lock_.liberarLock();
+        lockOcupacion.liberarLock();
         throw EstacionamientoCompleto();
     }
 }
 
 void Estacionamiento::liberarLugar(){
-    ocupacion_lock_.tomarLock();
-    occupied_posicions_--;
-    ocupacion_lock_.liberarLock();
+    lockOcupacion.tomarLock();
+    posicionesOcupadas.escribir(posicionesOcupadas.leer() - 1);
+    lockOcupacion.liberarLock();
 }
 
-void Estacionamiento::create_posicion(int pos_num){
+void Estacionamiento::crearPosicion(int pos_num){
     // Create the shared memory
-    MemoriaCompartida<int> sh_mem;
-    std::stringstream ss;
+    MemoriaCompartida<EstadoLugar> sh_mem;
+    stringstream ss;
     ss << "pos_" << pos_num << ".c";
-    sh_mem.crear ( ss.str().c_str() ,'R' );
-    sh_mem.escribir( Parking_Status::FREE );
-    shared_memories_[pos_num] = sh_mem;
+    sh_mem.crear ( ss.str().c_str(), 'l' );
+    sh_mem.escribir( LIBRE );
+    estadosPosicion.push_back(sh_mem);
 
     //Now create the lock for that memory
-    LockFile lock(ss.str().c_str());
-    posicions_lockers_[pos_num] = lock;
+    locksPosicion.push_back( new LockFile(ss.str().c_str()) );
+}
+
+void Estacionamiento::destruirPosicion(int pos) {
+    estadosPosicion[pos].liberar();
+    delete locksPosicion[pos];
 }

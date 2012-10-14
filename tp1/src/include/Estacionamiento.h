@@ -1,17 +1,24 @@
 #ifndef ESTACIONAMIENTO_H
 #define ESTACIONAMIENTO_H
+
 #include <vector>
-#include "lugar.h"
+#include <exception>
+#include <sstream>
+
+#include "constantes.h"
+#include "LockFile.h"
+#include "MemoriaCompartida.h"
+//#include "lugar.h"
 
 using namespace std;
 
-class EstacionamientoCompleto : public Exception(){ }
+class EstacionamientoCompleto : public exception { };
 
-class LugarOcupado : public Exception() { }
+class LugarOcupado : public exception { };
 
 class Estacionamiento {
 
-    enum Parking_Status { FREE, BUSY };
+    enum EstadoLugar { LIBRE, OCUPADO };
 
     public:
         Estacionamiento(int capacidad = CAPACIDAD_ESTACIONAMIENTO);
@@ -25,16 +32,15 @@ class Estacionamiento {
         void liberarLugar();
         void ocuparLugar();
 
-private:
+    private:
+        vector< MemoriaCompartida<EstadoLugar> > estadosPosicion; // para liberarlas cuando ya no se usen.
+        vector< LockFile* > locksPosicion; //lock para cada posicion.
 
-    //std::vector< int* > parking_availability_posicions_;
-    std::vector< MemoriaCompartida<int> > shared_memories_; // para lierarlas cuando ya no se usen.
-    std::vector< LockFile > posicions_lockers_; //lock para cada posicion.
+        MemoriaCompartida< unsigned > posicionesOcupadas;
+        LockFile lockOcupacion;
 
-    int occupied_posicions_;
-    LockFile ocupacion_lock_;
-
-    void create_posicion(int pos_num);
+        void crearPosicion(int);
+        void destruirPosicion(int);
 };
 
 /* Clase Estacionamiento de Diego

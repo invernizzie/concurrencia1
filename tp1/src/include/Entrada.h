@@ -1,27 +1,25 @@
 #ifndef ENTRADA_H_
 #define ENTRADA_H_
 
-#include <time.h>
-#include <exception>
-#include <unistd.h>
+#include <string>
 
-#include "constantes.h"
 #include "Proceso.h"
 #include "MemoriaCompartida.h"
 #include "Estacionamiento.h"
 
 class Entrada : public Proceso {
     private:
-        MemoriaCompartida<Estacionamiento> estacionamiento;
+        Estacionamiento estacionamiento;
         int tiempoSimulacion;
         int instanteFinal;
+        string nombre;
 
         void inicializar();
         void recibirAutos();
         unsigned tiempoEntreArribos();;
 
     public:
-        Entrada(int tiempoSimulacion) : tiempoSimulacion(tiempoSimulacion) {};
+        Entrada(string nombre, int tiempoSimulacion);
         virtual void ejecutar();
         virtual ~Entrada() {};
 };
