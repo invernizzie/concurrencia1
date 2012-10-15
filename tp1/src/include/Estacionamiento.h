@@ -32,6 +32,9 @@ class Estacionamiento {
         void liberarLugar();
         void ocuparLugar();
 
+        unsigned getLugaresLibres();
+        unsigned getCapacidad();
+
     private:
         vector< MemoriaCompartida<EstadoLugar> > estadosPosicion; // para liberarlas cuando ya no se usen.
         vector< LockFile* > locksPosicion; //lock para cada posicion.

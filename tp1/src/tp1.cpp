@@ -22,12 +22,14 @@ int main() {
     MemoriaCompartida<time_t> inicio;
     inicio.crear((char*)ARCHIVO_AUXILIAR, 't');
 
-    Entrada entrada1("1", 10);
-    Entrada entrada2("2", 10);
+    Entrada* entrada1 = new Entrada("1", 10);
+    Entrada* entrada2 = new Entrada("2", 10);
+    Entrada* entrada3 = new Entrada("3", 10);
 
     inicio.escribir(time(NULL));
-    entrada1.iniciar();
-    entrada2.iniciar();
+    entrada1->iniciar();
+    entrada2->iniciar();
+    entrada3->iniciar();
 
     /*
 	try {

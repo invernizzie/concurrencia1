@@ -6,6 +6,7 @@
 #include <exception>
 
 #include "constantes.h"
+#include "Auto.h"
 
 #include <iostream> // TODO Quitar
 
@@ -34,9 +35,13 @@ void Entrada :: recibirAutos() {
         sleep(espera);
         try {
             estacionamiento.ocuparLugar();
-            // Forkear proceso Auto
+            // Si hay lugar, se forkea un Auto
+            Auto* _auto = new Auto();
+            _auto->iniciar();
+            cout << "Entrada " << nombre << ": quedan " <<
+                estacionamiento.getLugaresLibres() << " lugares libres" << endl;
         } catch (exception e) {
-            // Un auto se retira
+            // Si no, el auto se retira
         }
         espera = tiempoEntreArribos();
     }
@@ -44,5 +49,5 @@ void Entrada :: recibirAutos() {
 }
 
 unsigned Entrada :: tiempoEntreArribos() {
-    return rand() % (ESTADIA_MAXIMA - 1) + 1;
+    return rand() % (TIEMPO_ENTRE_ARRIBOS - 1) + 1;
 }
