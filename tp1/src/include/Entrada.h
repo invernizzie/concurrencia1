@@ -16,7 +16,7 @@ class Entrada : public Proceso {
 
         void inicializar();
         void recibirAutos();
-        unsigned tiempoEntreArribos();;
+        unsigned tiempoEntreArribos();
 
     public:
         Entrada(string nombre, int tiempoSimulacion);

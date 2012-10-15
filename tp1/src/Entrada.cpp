@@ -1,12 +1,12 @@
-#include "Entrada.h"
+#include "include/Entrada.h"
 
 #include <cstdlib>
 #include <unistd.h>
 #include <time.h>
 #include <exception>
 
-#include "constantes.h"
-#include "Auto.h"
+#include "include/constantes.h"
+#include "include/Auto.h"
 
 #include <iostream> // TODO Quitar
 
@@ -15,7 +15,9 @@ Entrada :: Entrada(string nombre, int tiempoSimulacion) :
             nombre(nombre) {}
 
 void Entrada :: ejecutar() {
+    // Esto solamente lo hace el auto, entonces porque va a recibir autos????
     inicializar();
+    // Esto no debiera no utilizarse aca??????
     recibirAutos();
 }
 
@@ -31,7 +33,7 @@ void Entrada :: inicializar() {
 void Entrada :: recibirAutos() {
     unsigned espera = tiempoEntreArribos();
     while (instanteFinal > time(NULL) + espera) {
-        cout << "Entrada " << nombre << " esperara " << espera << " segundos" << endl;
+        cout << "Entrada    " << nombre << " esperara " << espera << " segundos" << endl;
         sleep(espera);
         try {
             estacionamiento.ocuparLugar();
@@ -40,6 +42,7 @@ void Entrada :: recibirAutos() {
             _auto->iniciar();
             cout << "Entrada " << nombre << ": quedan " <<
                 estacionamiento.getLugaresLibres() << " lugares libres" << endl;
+            //iniciar();
         } catch (exception e) {
             // Si no, el auto se retira
         }

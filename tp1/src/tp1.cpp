@@ -8,12 +8,12 @@
 #include <iostream>
 #include <time.h>
 
-#include "constantes.h"
-#include "MemoriaCompartida.h"
-#include "Semaforo.h"
-#include "Estacionamiento.h"
-#include "Entrada.h"
-#include "Proceso.h"
+#include "include/constantes.h"
+#include "include/MemoriaCompartida.h"
+#include "include/Semaforo.h"
+#include "include/Estacionamiento.h"
+#include "include/Entrada.h"
+#include "include/Proceso.h"
 
 using namespace std;
 

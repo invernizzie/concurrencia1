@@ -1,4 +1,4 @@
-#include "lugar.h"
+#include "include/lugar.h"
 
 lugar::lugar()
 {

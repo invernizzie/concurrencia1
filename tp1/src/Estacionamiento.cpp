@@ -1,11 +1,11 @@
-#include "Estacionamiento.h"
+#include "include/Estacionamiento.h"
 #include <vector>
 #include <errno.h>
 
 #include <iostream> // TODO Quitar
 
 Estacionamiento::Estacionamiento(int capacidad) : lockOcupacion((char*)"ocupacion_lock.tmp") {
-
+    valorFacturado = 0;
     int resultado = posicionesOcupadas.crear((char*)ARCHIVO_AUXILIAR, 'p');
     if (resultado != 0) {
         cout << "Error al crear memoria compartida" << endl;
