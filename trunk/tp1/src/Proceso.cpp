@@ -10,8 +10,9 @@ void Proceso :: iniciar() {
     if (id == 0) {
         this->ejecutar();
 
-        // This process will never get out of this scope
-        // All deinitilization needs to be done by the parent
+        // Es obligatorio crear el Proceso con new
+        delete this;
+        // Este proceso nunca abandona este scope
         exit(0);
     }
 }

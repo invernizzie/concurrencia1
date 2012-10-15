@@ -4,8 +4,8 @@
 
 #include <iostream> // TODO Quitar
 
-Estacionamiento::Estacionamiento(int capacidad) : lockOcupacion((char*)"ocupacion_lock.tmp")
-{
+Estacionamiento::Estacionamiento(int capacidad) : lockOcupacion((char*)"ocupacion_lock.tmp") {
+
     int resultado = posicionesOcupadas.crear((char*)ARCHIVO_AUXILIAR, 'p');
     if (resultado != 0) {
         cout << "Error al crear memoria compartida" << endl;
@@ -51,15 +51,13 @@ Estacionamiento::Estacionamiento(int capacidad) : lockOcupacion((char*)"ocupacio
     }
 }
 
-Estacionamiento::~Estacionamiento()
-{
+Estacionamiento::~Estacionamiento() {
     int capacidad = estadosPosicion.size();
     for (int i = 0; i < capacidad; i++) {
         destruirPosicion(i);
     }
     posicionesOcupadas.liberar();
 }
-
 
 void Estacionamiento::liberar(int posicion){
     locksPosicion[posicion]->tomarLock();
@@ -81,8 +79,9 @@ void Estacionamiento::ocupar(int posicion){
 
 void Estacionamiento::ocuparLugar(){
     lockOcupacion.tomarLock();
-    if ( posicionesOcupadas.leer() < estadosPosicion.size() ){
+    if ( posicionesOcupadas.leer() < getCapacidad() ){
         posicionesOcupadas.escribir(posicionesOcupadas.leer() + 1);
+        cout << "Estacionamiento: ocupando lugar, hay " << posicionesOcupadas.leer() << " ocupadas" << endl;
         lockOcupacion.liberarLock();
     } else {
         lockOcupacion.liberarLock();
@@ -94,6 +93,14 @@ void Estacionamiento::liberarLugar(){
     lockOcupacion.tomarLock();
     posicionesOcupadas.escribir(posicionesOcupadas.leer() - 1);
     lockOcupacion.liberarLock();
+}
+
+unsigned Estacionamiento::getLugaresLibres() {
+    return getCapacidad() - posicionesOcupadas.leer();
+}
+
+unsigned Estacionamiento::getCapacidad() {
+    return estadosPosicion.size();
 }
 
 void Estacionamiento::crearPosicion(int pos_num){

@@ -7,6 +7,7 @@
     #define TIEMPO_SIMULACION           8
 
     #define ESTADIA_MAXIMA              6
+    #define TIEMPO_ENTRE_ARRIBOS        3
 
     #define ARCHIVO_AUXILIAR            "tmp"
 
