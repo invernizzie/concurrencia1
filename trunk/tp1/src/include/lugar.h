@@ -1,7 +1,7 @@
 #ifndef LUGAR_H
     #define LUGAR_H
 
-    #include<constantes.h>
+    #include "constantes.h"
 
     class lugar
     {

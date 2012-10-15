@@ -1,4 +1,4 @@
-#include "Proceso.h"
+#include "include/Proceso.h"
 
 void Proceso :: iniciar() {
     pid_t id = fork();

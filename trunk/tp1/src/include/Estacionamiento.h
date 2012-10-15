@@ -2,6 +2,8 @@
 #define ESTACIONAMIENTO_H
 
 #include <vector>
+#include <iostream>
+#include <typeinfo>
 #include <exception>
 #include <sstream>
 
@@ -35,12 +37,18 @@ class Estacionamiento {
         unsigned getLugaresLibres();
         unsigned getCapacidad();
 
+        float getValorFacturado(){ return valorFacturado;};
+
     private:
         vector< MemoriaCompartida<EstadoLugar> > estadosPosicion; // para liberarlas cuando ya no se usen.
         vector< LockFile* > locksPosicion; //lock para cada posicion.
 
         MemoriaCompartida< unsigned > posicionesOcupadas;
         LockFile lockOcupacion;
+
+        float valorFacturado;
+
+        void setValorFacturado(float valor){ valorFacturado = valor;};
 
         void crearPosicion(int);
         void destruirPosicion(int);

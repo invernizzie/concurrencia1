@@ -1,6 +1,6 @@
 using namespace std;
-#include "PilaLibres.h"
-#include "constantes.h"
+#include "include/PilaLibres.h"
+#include "include/constantes.h"
 
 #define REPEAT(i, x) for(int i=(x); i>0; i--)
 
