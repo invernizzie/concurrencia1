@@ -61,9 +61,6 @@ class Estacionamiento {
         MemoriaCompartida<float> valorFacturado;
         LockFile lockFacturacion;
 
-        // TODO Lockear acceso
-        void setValorFacturado(float valor);
-
         float valorHora;
 
         void crearPosicion(int);
