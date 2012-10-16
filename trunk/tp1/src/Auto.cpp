@@ -18,6 +18,7 @@ void Auto :: ejecutar() {
 }
 
 // Estrategia: comienza en posicion 0, mira una a una
+// Si llega al final vuelve a empezar
 void Auto :: buscarLugar() {
     cout << "Auto " << getpid() << " buscando lugar" << endl;
     int cantidad = estacionamiento.getCapacidad();

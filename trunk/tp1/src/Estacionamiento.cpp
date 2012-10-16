@@ -5,9 +5,9 @@
 
 #include <iostream> // TODO Quitar
 
-Estacionamiento::Estacionamiento(int capacidad, float precio) : lockOcupacion((char*)"ocupacion_lock.tmp"),
-lockParaLiberar((char*)"paraLiberar_lock.tmp"),lockFacturacion((char*)"facturacion_lock.tmp") {
-    // valorFacturado.escribir(0);
+Estacionamiento::Estacionamiento(int capacidad, float precio) : lockOcupacion((char*)ARCHIVO_LOCK_OCUPACION),
+lockParaLiberar((char*)"paraLiberar_lock.tmp"),lockFacturacion((char*)ARCHIVO_LOCK_FACTURACION) {
+
     int resultado = posicionesOcupadas.crear((char*)ARCHIVO_AUXILIAR, 'p');
     if (resultado != 0) {
         cout << "Error al crear memoria compartida" << endl;
@@ -43,6 +43,7 @@ lockParaLiberar((char*)"paraLiberar_lock.tmp"),lockFacturacion((char*)"facturaci
                 cout << errno << endl;
         }
     }
+    valorFacturado.crear((char*)ARCHIVO_AUXILIAR, 'F');
     valorHora = precio;
     estadosPosicion.reserve(capacidad);
     locksPosicion.reserve(capacidad);
@@ -52,6 +53,7 @@ lockParaLiberar((char*)"paraLiberar_lock.tmp"),lockFacturacion((char*)"facturaci
 }
 
 void Estacionamiento :: inicializarMemoria() {
+    valorFacturado.escribir(0.0);
     posicionesOcupadas.escribir((unsigned)0);
     for ( unsigned i=0 ; i < getCapacidad(); i++){
         estadosPosicion[i].escribir( LIBRE );
@@ -128,12 +130,8 @@ float Estacionamiento::getValorFacturado(){
 
 void Estacionamiento::registrarPago(float pago){
     lockFacturacion.tomarLock();
-    valorFacturado.escribir(valorFacturado.leer()+ pago);
+    valorFacturado.escribir(valorFacturado.leer() + pago);
     lockFacturacion.liberarLock();
-}
-
-void Estacionamiento::setValorFacturado(float valor){
-    valorFacturado.escribir(valor);
 }
 
 void Estacionamiento::crearPosicion(int pos_num){
