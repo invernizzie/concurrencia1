@@ -1,6 +1,7 @@
 #include "include/Estacionamiento.h"
 #include <vector>
 #include <errno.h>
+#include <stdlib.h>
 
 #include <iostream> // TODO Quitar
 
@@ -42,12 +43,17 @@ Estacionamiento::Estacionamiento(int capacidad) : lockOcupacion((char*)"ocupacio
         }
     }
 
-    posicionesOcupadas.escribir((unsigned)0);
-
     estadosPosicion.reserve(capacidad);
     locksPosicion.reserve(capacidad);
     for ( int i=0 ; i < capacidad ; i++){
         crearPosicion(i);
+    }
+}
+
+void Estacionamiento :: inicializarMemoria() {
+    posicionesOcupadas.escribir((unsigned)0);
+    for ( unsigned i=0 ; i < getCapacidad(); i++){
+        estadosPosicion[i].escribir( LIBRE );
     }
 }
 
@@ -67,8 +73,8 @@ void Estacionamiento::liberar(int posicion){
 
 void Estacionamiento::ocupar(int posicion){
     locksPosicion[posicion]->tomarLock();
-    EstadoLugar status = estadosPosicion[posicion].leer();
-    if ( status == LIBRE ){
+    EstadoLugar estado = estadosPosicion[posicion].leer();
+    if ( estado == LIBRE ){
         estadosPosicion[posicion].escribir(OCUPADO);
         locksPosicion[posicion]->liberarLock();
     } else {
@@ -84,6 +90,7 @@ void Estacionamiento::ocuparLugar(){
         cout << "Estacionamiento: ocupando lugar, hay " << posicionesOcupadas.leer() << " ocupadas" << endl;
         lockOcupacion.liberarLock();
     } else {
+        cout << "Estacionamiento: ya no hay lugar, hay " << posicionesOcupadas.leer() << " ocupadas" << endl;
         lockOcupacion.liberarLock();
         throw EstacionamientoCompleto();
     }
@@ -92,6 +99,7 @@ void Estacionamiento::ocuparLugar(){
 void Estacionamiento::liberarLugar(){
     lockOcupacion.tomarLock();
     posicionesOcupadas.escribir(posicionesOcupadas.leer() - 1);
+    cout << "Estacionamiento: liberando lugar, hay " << posicionesOcupadas.leer() << " ocupadas" << endl;
     lockOcupacion.liberarLock();
 }
 
@@ -108,8 +116,11 @@ void Estacionamiento::crearPosicion(int pos_num){
     MemoriaCompartida<EstadoLugar> sh_mem;
     stringstream ss;
     ss << "pos_" << pos_num << ".c";
-    sh_mem.crear ( ss.str().c_str(), 'l' );
-    sh_mem.escribir( LIBRE );
+    int resultado = sh_mem.crear ( ss.str().c_str(), 'l' );
+    if (resultado != SHM_OK) {
+        cout << "Error al crear memoria compartida para posicion " << pos_num << endl;
+        exit(-1);
+    }
     estadosPosicion.push_back(sh_mem);
 
     //Now create the lock for that memory

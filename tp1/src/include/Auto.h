@@ -6,9 +6,6 @@
 
 class Auto : public Proceso {
     private:
-        static unsigned idCount;
-
-        unsigned id;
         unsigned posicion;
         Estacionamiento estacionamiento;
 

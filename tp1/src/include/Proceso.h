@@ -9,7 +9,7 @@ class Proceso {
     public:
         Proceso() {};
         virtual ~Proceso() {};
-        void iniciar();
+        pid_t iniciar();
         virtual void ejecutar() {};
 };
 
