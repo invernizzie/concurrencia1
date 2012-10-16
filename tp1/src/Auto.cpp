@@ -40,10 +40,14 @@ void Auto :: liberarLugar() {
 }
 
 unsigned Auto :: determinarEspera() {
-    return rand() % (ESTADIA_MAXIMA - 1) + 1;
+    espera = rand() % (ESTADIA_MAXIMA - 1) + 1;
+    return espera;
 }
 
 void Auto :: pagar() {
+    // Esto seria el pago
+    estacionamiento.registrarPago(espera * estacionamiento.getValorHora() );
+
     cout << "Auto " << getpid() << " se retira" << endl;
     // Esto debe hacerlo la salida
     estacionamiento.liberarLugar();

@@ -15,6 +15,7 @@ class Auto : public Proceso {
         void pagar();
 
     public:
+        unsigned espera;
         Auto();
         virtual void ejecutar();
         virtual ~Auto() {};

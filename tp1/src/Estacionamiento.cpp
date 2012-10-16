@@ -5,8 +5,9 @@
 
 #include <iostream> // TODO Quitar
 
-Estacionamiento::Estacionamiento(int capacidad) : lockOcupacion((char*)"ocupacion_lock.tmp") {
-    valorFacturado = 0;
+Estacionamiento::Estacionamiento(int capacidad, float precio) : lockOcupacion((char*)"ocupacion_lock.tmp"),
+lockParaLiberar((char*)"paraLiberar_lock.tmp"),lockFacturacion((char*)"facturacion_lock.tmp") {
+    // valorFacturado.escribir(0);
     int resultado = posicionesOcupadas.crear((char*)ARCHIVO_AUXILIAR, 'p');
     if (resultado != 0) {
         cout << "Error al crear memoria compartida" << endl;
@@ -42,7 +43,7 @@ Estacionamiento::Estacionamiento(int capacidad) : lockOcupacion((char*)"ocupacio
                 cout << errno << endl;
         }
     }
-
+    valorHora = precio;
     estadosPosicion.reserve(capacidad);
     locksPosicion.reserve(capacidad);
     for ( int i=0 ; i < capacidad ; i++){
@@ -63,6 +64,15 @@ Estacionamiento::~Estacionamiento() {
         destruirPosicion(i);
     }
     posicionesOcupadas.liberar();
+    posicionesParaLiberar.liberar();
+}
+
+void Estacionamiento::MarcarLugarParaLiberar(int posicion){
+    locksPosicion[posicion]->tomarLock();
+    estadosPosicion[posicion].escribir(PARA_LIBERAR);
+    locksPosicion[posicion]->liberarLock();
+
+    // ACA FALTA AGREGARLO A LA SM DE LUGARES A LIBERAR PARA QUE LO HAGA LA SALIDA.....
 }
 
 void Estacionamiento::liberar(int posicion){
@@ -96,6 +106,7 @@ void Estacionamiento::ocuparLugar(){
     }
 }
 
+
 void Estacionamiento::liberarLugar(){
     lockOcupacion.tomarLock();
     posicionesOcupadas.escribir(posicionesOcupadas.leer() - 1);
@@ -109,6 +120,20 @@ unsigned Estacionamiento::getLugaresLibres() {
 
 unsigned Estacionamiento::getCapacidad() {
     return estadosPosicion.size();
+}
+
+float Estacionamiento::getValorFacturado(){
+    return valorFacturado.leer();
+}
+
+void Estacionamiento::registrarPago(float pago){
+    lockFacturacion.tomarLock();
+    valorFacturado.escribir(valorFacturado.leer()+ pago);
+    lockFacturacion.liberarLock();
+}
+
+void Estacionamiento::setValorFacturado(float valor){
+    valorFacturado.escribir(valor);
 }
 
 void Estacionamiento::crearPosicion(int pos_num){

@@ -20,10 +20,8 @@ class LugarOcupado : public exception { };
 
 class Estacionamiento {
 
-    enum EstadoLugar { LIBRE, OCUPADO };
-
     public:
-        Estacionamiento(int capacidad = CAPACIDAD_ESTACIONAMIENTO);
+        Estacionamiento(int capacidad = CAPACIDAD_ESTACIONAMIENTO, float precio = PRECIO_SUGERIDO);
         virtual ~Estacionamiento();
         void inicializarMemoria();
 
@@ -36,10 +34,19 @@ class Estacionamiento {
         void liberarLugar();
         void ocuparLugar();
 
+        void MarcarLugarParaLiberar(int posicion);
+
         unsigned getLugaresLibres();
         unsigned getCapacidad();
 
-        float getValorFacturado(){ return valorFacturado;};
+        float getValorFacturado();
+        void registrarPago(float valor);
+
+        float getValorHora(){return valorHora;};
+
+        void setValorHora(float precio){valorHora = precio;};
+
+
 
     private:
         vector< MemoriaCompartida<EstadoLugar> > estadosPosicion; // para liberarlas cuando ya no se usen.
@@ -48,38 +55,19 @@ class Estacionamiento {
         MemoriaCompartida< unsigned > posicionesOcupadas;
         LockFile lockOcupacion;
 
-        float valorFacturado;
+        MemoriaCompartida< unsigned > posicionesParaLiberar;
+        LockFile lockParaLiberar;
+
+        MemoriaCompartida<float> valorFacturado;
+        LockFile lockFacturacion;
 
         // TODO Lockear acceso
-        void setValorFacturado(float valor){ valorFacturado = valor;};
+        void setValorFacturado(float valor);
+
+        float valorHora;
 
         void crearPosicion(int);
         void destruirPosicion(int);
 };
-
-/* Clase Estacionamiento de Diego
-class Estacionamiento
-{
-    private:
-    int lugaresLibres;
-    vector<estadoLugar> lugares;
-
-    void inicializarMapa(int lugares){
-        for(int i = 0; i < lugares; i++)
-            this->lugares.push_back(LIBRE);
-    };
-
-    public:
-        Estacionamiento(int lugares, int tiempoSimulacion){
-            this->lugaresLibres = lugares;
-            this->lugares.reserve(lugares);
-            inicializarMapa(lugares);
-        };
-
-        Estacionamiento();
-        virtual ~Estacionamiento();
-    protected:
-};
-*/
 
 #endif // ESTACIONAMIENTO_H
