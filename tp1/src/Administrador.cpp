@@ -29,11 +29,14 @@ void Administrador :: inicializar() {
 
 void Administrador :: consultarPeriodicamente() {
     unsigned espera = tiempoEntreConsultas();
-    while (instanteFinal > time(NULL) + espera) {
+    unsigned capacidad;
+    unsigned lugaresLibres = capacidad = estacionamiento.getCapacidad();
+    while ((instanteFinal > time(NULL) + espera) || (lugaresLibres < capacidad)) {
         cout << "Administrador esperara " << espera << " segundos" << endl;
         sleep(espera);
 
-        cout << "Administrador: hay " << estacionamiento.getLugaresLibres() << " lugares libres" << endl;
+        lugaresLibres = estacionamiento.getLugaresLibres();
+        cout << "Administrador: hay " << lugaresLibres << " lugares libres" << endl;
         cout << "Administrador: se facturo " << estacionamiento.getValorFacturado() << endl;
 
         espera = tiempoEntreConsultas();

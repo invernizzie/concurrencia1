@@ -5,6 +5,7 @@
 		<Option title="tp1" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
+		<Option virtualFolders="src/include/;" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/tp1" prefix_auto="1" extension_auto="1" />
@@ -13,6 +14,8 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add option="-Wwrite-strings" />
+					<Add directory="src/include" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -32,7 +35,28 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="main.cpp" />
+		<Unit filename="include/Auto.h">
+			<Option virtualFolder="src/include/" />
+		</Unit>
+		<Unit filename="src/Auto.cpp" />
+		<Unit filename="src/Entrada.cpp" />
+		<Unit filename="src/Estacionamiento.cpp" />
+		<Unit filename="src/LockFile.cpp" />
+		<Unit filename="src/PilaLibres.cpp" />
+		<Unit filename="src/Proceso.cpp" />
+		<Unit filename="src/Semaforo.cpp" />
+		<Unit filename="src/include/Auto.h" />
+		<Unit filename="src/include/Entrada.h" />
+		<Unit filename="src/include/Estacionamiento.h" />
+		<Unit filename="src/include/LockFile.h" />
+		<Unit filename="src/include/MemoriaCompartida.h" />
+		<Unit filename="src/include/PilaLibres.h" />
+		<Unit filename="src/include/Proceso.h" />
+		<Unit filename="src/include/Semaforo.h" />
+		<Unit filename="src/include/constantes.h" />
+		<Unit filename="src/include/lugar.h" />
+		<Unit filename="src/lugar.cpp" />
+		<Unit filename="src/tp1.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
