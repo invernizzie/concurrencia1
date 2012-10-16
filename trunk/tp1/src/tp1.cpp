@@ -22,6 +22,11 @@ int main() {
     MemoriaCompartida<time_t> inicio;
     inicio.crear((char*)ARCHIVO_AUXILIAR, 't');
 
+    Estacionamiento e;
+    // Si se llama en mas de un proceso, se reinicializa
+    // la memoria compartida perdiendo valores ya escritos
+    e.inicializarMemoria();
+
     Entrada* entrada1 = new Entrada("1", 10);
     Entrada* entrada2 = new Entrada("2", 10);
     Entrada* entrada3 = new Entrada("3", 10);

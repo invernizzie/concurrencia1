@@ -15,9 +15,7 @@ Entrada :: Entrada(string nombre, int tiempoSimulacion) :
             nombre(nombre) {}
 
 void Entrada :: ejecutar() {
-    // Esto solamente lo hace el auto, entonces porque va a recibir autos????
     inicializar();
-    // Esto no debiera no utilizarse aca??????
     recibirAutos();
 }
 
@@ -33,18 +31,19 @@ void Entrada :: inicializar() {
 void Entrada :: recibirAutos() {
     unsigned espera = tiempoEntreArribos();
     while (instanteFinal > time(NULL) + espera) {
-        cout << "Entrada    " << nombre << " esperara " << espera << " segundos" << endl;
+        cout << "Entrada " << nombre << " esperara " << espera << " segundos" << endl;
         sleep(espera);
         try {
             estacionamiento.ocuparLugar();
             // Si hay lugar, se forkea un Auto
+
             Auto* _auto = new Auto();
-            _auto->iniciar();
-            cout << "Entrada " << nombre << ": quedan " <<
-                estacionamiento.getLugaresLibres() << " lugares libres" << endl;
-            //iniciar();
+            pid_t pIdAuto = _auto->iniciar();
+            cout << "Entrada " << nombre << ": cree auto " << pIdAuto << endl;
+
         } catch (exception e) {
             // Si no, el auto se retira
+            cout << "Entrada " << nombre << ": no hay lugares libres" << endl;
         }
         espera = tiempoEntreArribos();
     }

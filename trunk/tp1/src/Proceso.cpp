@@ -1,6 +1,6 @@
 #include "include/Proceso.h"
 
-void Proceso :: iniciar() {
+pid_t Proceso :: iniciar() {
     pid_t id = fork();
 
     if (id < 0) {
@@ -15,6 +15,7 @@ void Proceso :: iniciar() {
         // Este proceso nunca abandona este scope
         exit(0);
     }
+    return id;
 }
 
 

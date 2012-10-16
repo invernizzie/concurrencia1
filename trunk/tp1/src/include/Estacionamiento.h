@@ -25,6 +25,8 @@ class Estacionamiento {
     public:
         Estacionamiento(int capacidad = CAPACIDAD_ESTACIONAMIENTO);
         virtual ~Estacionamiento();
+        void inicializarMemoria();
+
 
         // Para ser usados por el auto.
         void liberar(int posicion);
@@ -48,6 +50,7 @@ class Estacionamiento {
 
         float valorFacturado;
 
+        // TODO Lockear acceso
         void setValorFacturado(float valor){ valorFacturado = valor;};
 
         void crearPosicion(int);
