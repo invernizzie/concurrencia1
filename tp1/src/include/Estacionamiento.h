@@ -21,7 +21,7 @@ class LugarOcupado : public exception { };
 class Estacionamiento {
 
     public:
-        Estacionamiento(int capacidad = CAPACIDAD_ESTACIONAMIENTO, float precio = PRECIO_SUGERIDO);
+        Estacionamiento();
         virtual ~Estacionamiento();
         void inicializarMemoria();
 
@@ -61,7 +61,7 @@ class Estacionamiento {
         MemoriaCompartida<float> valorFacturado;
         LockFile lockFacturacion;
 
-        float valorHora;
+        int valorHora;
 
         void crearPosicion(int);
         void destruirPosicion(int);
