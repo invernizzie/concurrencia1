@@ -11,9 +11,11 @@
     #define TIEMPO_ENTRE_CONSULTAS      4
     #define ARCHIVO_LOG                 "log"
 
-    #define ARCHIVO_AUXILIAR            "tmp"
-    #define ARCHIVO_LOCK_OCUPACION      "ocupacion_lock.tmp"
-    #define ARCHIVO_LOCK_FACTURACION    "facturacion_lock.tmp"
+    #define DIR_AUXILIAR                "tmp"
+
+    #define ARCHIVO_AUXILIAR            "tmp/tmp"
+    #define ARCHIVO_LOCK_OCUPACION      "tmp/ocupacion_lock.tmp"
+    #define ARCHIVO_LOCK_FACTURACION    "tmp/facturacion_lock.tmp"
 
     #define C_SHM_CAPACIDAD             'C'
     #define C_SHM_PRECIO                'P'
