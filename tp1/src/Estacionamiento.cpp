@@ -147,7 +147,7 @@ void Estacionamiento::crearPosicion(int pos_num){
     // Create the shared memory
     MemoriaCompartida<EstadoLugar> sh_mem;
     stringstream ss;
-    ss << "pos_" << pos_num << ".c";
+    ss << DIR_AUXILIAR << "/pos_" << pos_num << ".c";
     int resultado = sh_mem.crear ( ss.str().c_str(), C_SHM_LUGAR_ESTACIONAMIENTO );
     if (resultado != SHM_OK) {
         cout << "Error al crear memoria compartida para posicion " << pos_num << endl;

@@ -11,6 +11,8 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <climits>
+#include <sys/stat.h>
+#include <sys/types.h>
 
 #include "include/constantes.h"
 #include "include/MemoriaCompartida.h"
@@ -133,12 +135,13 @@ void crearArchivo(const char* nombre) {
 }
 
 void crearArchivosAuxiliares(int capacidadEstacionamiento) {
+    mkdir(DIR_AUXILIAR, 0777);
     crearArchivo(ARCHIVO_AUXILIAR);
     crearArchivo(ARCHIVO_LOCK_OCUPACION);
     crearArchivo(ARCHIVO_LOCK_FACTURACION);
     for (int i = 0; i < capacidadEstacionamiento; i++) {
         stringstream ss;
-        ss << "pos_" << i << ".c";
+        ss << DIR_AUXILIAR << "/pos_" << i << ".c";
         crearArchivo(ss.str().c_str());
     }
 }
