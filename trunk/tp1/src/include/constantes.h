@@ -7,7 +7,7 @@
     #define TIEMPO_SIMULACION           10
     #define PRECIO_SUGERIDO             12
     #define ESTADIA_MAXIMA              6
-    #define TIEMPO_ENTRE_ARRIBOS        3
+    #define AUTOS_POR_HORA              10
     #define TIEMPO_ENTRE_CONSULTAS      4
     #define ARCHIVO_LOG                 "log"
 

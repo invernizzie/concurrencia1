@@ -7,7 +7,6 @@
 
 Estacionamiento::Estacionamiento() :
     lockOcupacion((char*)ARCHIVO_LOCK_OCUPACION),
-    lockParaLiberar((char*)"paraLiberar_lock.tmp"),
     lockFacturacion((char*)ARCHIVO_LOCK_FACTURACION) {
 
     // Capacidad y precio leidos de memoria compartida
