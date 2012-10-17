@@ -9,9 +9,10 @@
     #define ESTADIA_MAXIMA              6
     #define AUTOS_POR_HORA              10
     #define TIEMPO_ENTRE_CONSULTAS      4
-    #define ARCHIVO_LOG                 "log"
 
     #define DIR_AUXILIAR                "tmp"
+    #define ARCHIVO_LOG                 "Estacionamiento.log"
+    #define MODO_LOG_DEFAULT            DEBUG
 
     #define ARCHIVO_AUXILIAR            "tmp/tmp"
     #define ARCHIVO_LOCK_OCUPACION      "tmp/ocupacion_lock.tmp"
@@ -25,5 +26,6 @@
     #define C_SHM_LUGAR_ESTACIONAMIENTO 'l'
 
     enum EstadoLugar { LIBRE, OCUPADO, PARA_LIBERAR };
+    enum TipoLog { INFO, DEBUG, WARNING, ERROR, FATAL };
 
 #endif // CONSTANTES_H_INCLUDED
