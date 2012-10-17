@@ -5,8 +5,7 @@
 
 #include <iostream> // TODO Quitar
 
-Estacionamiento::Estacionamiento(int capacidad, float precio) : lockOcupacion((char*)ARCHIVO_LOCK_OCUPACION),
-lockParaLiberar((char*)"paraLiberar_lock.tmp"),lockFacturacion((char*)ARCHIVO_LOCK_FACTURACION) {
+Estacionamiento::Estacionamiento(int capacidad, float precio) : lockOcupacion((char*)ARCHIVO_LOCK_OCUPACION),lockFacturacion((char*)ARCHIVO_LOCK_FACTURACION) {
 
     int resultado = posicionesOcupadas.crear((char*)ARCHIVO_AUXILIAR, 'p');
     if (resultado != 0) {
@@ -47,6 +46,7 @@ lockParaLiberar((char*)"paraLiberar_lock.tmp"),lockFacturacion((char*)ARCHIVO_LO
     valorHora = precio;
     estadosPosicion.reserve(capacidad);
     locksPosicion.reserve(capacidad);
+    locksSalidas.reserve(CANT_SALIDAS);
     for ( int i=0 ; i < capacidad ; i++){
         crearPosicion(i);
     }
@@ -66,15 +66,12 @@ Estacionamiento::~Estacionamiento() {
         destruirPosicion(i);
     }
     posicionesOcupadas.liberar();
-    posicionesParaLiberar.liberar();
 }
 
-void Estacionamiento::MarcarLugarParaLiberar(int posicion){
-    locksPosicion[posicion]->tomarLock();
-    estadosPosicion[posicion].escribir(PARA_LIBERAR);
-    locksPosicion[posicion]->liberarLock();
-
-    // ACA FALTA AGREGARLO A LA SM DE LUGARES A LIBERAR PARA QUE LO HAGA LA SALIDA.....
+void Estacionamiento::salir(unsigned salida){
+    locksSalidas[salida]->tomarLock();
+    liberarLugar();
+    locksSalidas[salida]->liberarLock();
 }
 
 void Estacionamiento::liberar(int posicion){

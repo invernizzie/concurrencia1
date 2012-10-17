@@ -12,6 +12,7 @@ class Auto : public Proceso {
         void buscarLugar();
         void liberarLugar();
         unsigned determinarEspera();
+        unsigned determinarSalida(){return rand() % (CANT_SALIDAS - 1);};
         void pagar();
 
     public:

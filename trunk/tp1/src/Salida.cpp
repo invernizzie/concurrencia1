@@ -8,7 +8,7 @@ Salida::~Salida()
 }
 
 void Salida::liberarEspacio(){
-
+    estacionamiento.liberar();
 }
 
 void Salida::run(){
@@ -21,7 +21,7 @@ void Salida::run(){
             // sacar el primero
             // hacer el signal
 
-            estacionamiento.liberar();
+            liberarEspacio();
 
     }
 

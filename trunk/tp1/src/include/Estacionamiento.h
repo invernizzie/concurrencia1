@@ -34,17 +34,18 @@ class Estacionamiento {
         void liberarLugar();
         void ocuparLugar();
 
-        void MarcarLugarParaLiberar(int posicion);
-
         unsigned getLugaresLibres();
         unsigned getCapacidad();
 
         float getValorFacturado();
+
         void registrarPago(float valor);
 
         float getValorHora(){return valorHora;};
 
         void setValorHora(float precio){valorHora = precio;};
+
+        void salir(unsigned salida);
 
 
 
@@ -55,8 +56,7 @@ class Estacionamiento {
         MemoriaCompartida< unsigned > posicionesOcupadas;
         LockFile lockOcupacion;
 
-        MemoriaCompartida< unsigned > posicionesParaLiberar;
-        LockFile lockParaLiberar;
+        vector< LockFile* > locksSalidas;
 
         MemoriaCompartida<float> valorFacturado;
         LockFile lockFacturacion;
