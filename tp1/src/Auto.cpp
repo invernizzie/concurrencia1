@@ -15,6 +15,7 @@ void Auto :: ejecutar() {
     sleep(determinarEspera());
     liberarLugar();
     pagar();
+    estacionamiento.salir(determinarSalida());
 }
 
 // Estrategia: comienza en posicion 0, mira una a una
@@ -50,6 +51,5 @@ void Auto :: pagar() {
     estacionamiento.registrarPago(espera * estacionamiento.getValorHora() );
 
     cout << "Auto " << getpid() << " se retira" << endl;
-    // Esto debe hacerlo la salida
-    estacionamiento.liberarLugar();
+
 }

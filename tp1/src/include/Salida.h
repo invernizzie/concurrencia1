@@ -9,7 +9,7 @@
     #include "Proceso.h"
     #include "Estacionamiento.h"
     #include "MemoriaCompartida.h"
-    #include "Proceso.h"
+    #include "LockFile.h"
 
 
     class Salida
@@ -19,6 +19,8 @@
             int tiempoSimulacion;
             MemoriaCompartida<time_t> inicio;
             MemoriaCompartida<Estacionamiento> estacionamiento;
+
+
 
             void run(); // Aca seteo la memoria compartida con los mapas de posiciones del estacionamiento
 
