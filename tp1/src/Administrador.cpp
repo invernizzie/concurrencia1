@@ -21,7 +21,7 @@ void Administrador :: ejecutar() {
 void Administrador :: inicializar() {
     // Obtener tiempo de inicio de memoria compartida
     MemoriaCompartida<time_t> inicio;
-    inicio.crear((char*)ARCHIVO_AUXILIAR, 't');
+    inicio.crear((char*)ARCHIVO_AUXILIAR, C_SHM_TIEMPO_INICIO);
     instanteFinal = inicio.leer() + this->tiempoSimulacion;
 
     srand (time(NULL) + getpid());

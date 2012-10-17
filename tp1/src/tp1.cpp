@@ -14,7 +14,6 @@
 
 #include "include/constantes.h"
 #include "include/MemoriaCompartida.h"
-#include "include/Semaforo.h"
 #include "include/Estacionamiento.h"
 #include "include/Entrada.h"
 #include "include/Administrador.h"
@@ -96,13 +95,13 @@ int main(int argc, char **argv) {
 
     // Tiempo de inicio, capacidad y precio guardados en memoria compartida
     MemoriaCompartida<int> memCapacidad;
-    memCapacidad.crear((char*)ARCHIVO_AUXILIAR, 'C');
+    memCapacidad.crear((char*)ARCHIVO_AUXILIAR, C_SHM_CAPACIDAD);
     memCapacidad.escribir(capacidad);
     MemoriaCompartida<int> memPrecio;
-    memPrecio.crear((char*)ARCHIVO_AUXILIAR, 'P');
+    memPrecio.crear((char*)ARCHIVO_AUXILIAR, C_SHM_PRECIO);
     memPrecio.escribir(precio);
     MemoriaCompartida<time_t> inicio;
-    inicio.crear((char*)ARCHIVO_AUXILIAR, 't');
+    inicio.crear((char*)ARCHIVO_AUXILIAR, C_SHM_TIEMPO_INICIO);
 
     Estacionamiento e;
     // Si se llama en mas de un proceso, se reinicializa
@@ -123,6 +122,7 @@ int main(int argc, char **argv) {
     inicio.liberar();
     memCapacidad.liberar();
     memPrecio.liberar();
+
 	return 0;
 }
 

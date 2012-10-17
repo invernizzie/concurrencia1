@@ -11,16 +11,16 @@ Estacionamiento::Estacionamiento() :
 
     // Capacidad y precio leidos de memoria compartida
     MemoriaCompartida<int> memCapacidad;
-    memCapacidad.crear((char*)ARCHIVO_AUXILIAR, 'C');
+    memCapacidad.crear((char*)ARCHIVO_AUXILIAR, C_SHM_CAPACIDAD);
     int capacidad = memCapacidad.leer();
     memCapacidad.liberar();
 
     MemoriaCompartida<int> memPrecio;
-    memPrecio.crear((char*)ARCHIVO_AUXILIAR, 'P');
+    memPrecio.crear((char*)ARCHIVO_AUXILIAR, C_SHM_PRECIO);
     valorHora = memPrecio.leer();
     memPrecio.liberar();
 
-    int resultado = posicionesOcupadas.crear((char*)ARCHIVO_AUXILIAR, 'p');
+    int resultado = posicionesOcupadas.crear((char*)ARCHIVO_AUXILIAR, C_SHM_POS_OCUPADAS);
     if (resultado != 0) {
         cout << "Error al crear memoria compartida" << endl;
         switch (errno) {
@@ -55,7 +55,7 @@ Estacionamiento::Estacionamiento() :
                 cout << errno << endl;
         }
     }
-    valorFacturado.crear((char*)ARCHIVO_AUXILIAR, 'F');
+    valorFacturado.crear((char*)ARCHIVO_AUXILIAR, C_SHM_VALOR_FACTURADO);
     estadosPosicion.reserve(capacidad);
     locksPosicion.reserve(capacidad);
     locksSalidas.reserve(CANT_SALIDAS);
@@ -148,7 +148,7 @@ void Estacionamiento::crearPosicion(int pos_num){
     MemoriaCompartida<EstadoLugar> sh_mem;
     stringstream ss;
     ss << "pos_" << pos_num << ".c";
-    int resultado = sh_mem.crear ( ss.str().c_str(), 'l' );
+    int resultado = sh_mem.crear ( ss.str().c_str(), C_SHM_LUGAR_ESTACIONAMIENTO );
     if (resultado != SHM_OK) {
         cout << "Error al crear memoria compartida para posicion " << pos_num << endl;
         exit(-1);
