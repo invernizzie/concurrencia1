@@ -39,7 +39,7 @@ STR2INT_ERROR str2int (int &i, char const *s, int base = 0);
 int main(int argc, char **argv) {
 
     // Opciones con sus valores por defecto
-    bool debug = false;
+    bool debug=false;
     string archivoLog(ARCHIVO_LOG);
     int tiempoSimulacion = TIEMPO_SIMULACION;
     int capacidad = CAPACIDAD_ESTACIONAMIENTO;
