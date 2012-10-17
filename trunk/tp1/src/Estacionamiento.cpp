@@ -5,7 +5,21 @@
 
 #include <iostream> // TODO Quitar
 
-Estacionamiento::Estacionamiento(int capacidad, float precio) : lockOcupacion((char*)ARCHIVO_LOCK_OCUPACION),lockFacturacion((char*)ARCHIVO_LOCK_FACTURACION) {
+Estacionamiento::Estacionamiento() :
+    lockOcupacion((char*)ARCHIVO_LOCK_OCUPACION),
+    lockParaLiberar((char*)"paraLiberar_lock.tmp"),
+    lockFacturacion((char*)ARCHIVO_LOCK_FACTURACION) {
+
+    // Capacidad y precio leidos de memoria compartida
+    MemoriaCompartida<int> memCapacidad;
+    memCapacidad.crear((char*)ARCHIVO_AUXILIAR, 'C');
+    int capacidad = memCapacidad.leer();
+    memCapacidad.liberar();
+
+    MemoriaCompartida<int> memPrecio;
+    memPrecio.crear((char*)ARCHIVO_AUXILIAR, 'P');
+    valorHora = memPrecio.leer();
+    memPrecio.liberar();
 
     int resultado = posicionesOcupadas.crear((char*)ARCHIVO_AUXILIAR, 'p');
     if (resultado != 0) {
@@ -43,7 +57,6 @@ Estacionamiento::Estacionamiento(int capacidad, float precio) : lockOcupacion((c
         }
     }
     valorFacturado.crear((char*)ARCHIVO_AUXILIAR, 'F');
-    valorHora = precio;
     estadosPosicion.reserve(capacidad);
     locksPosicion.reserve(capacidad);
     locksSalidas.reserve(CANT_SALIDAS);
