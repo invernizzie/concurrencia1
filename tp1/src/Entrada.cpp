@@ -29,27 +29,28 @@ void Entrada :: inicializar() {
 }
 
 void Entrada :: recibirAutos() {
-    unsigned espera = tiempoEntreArribos();
-    while (instanteFinal > time(NULL) + espera) {
-        cout << "Entrada " << nombre << " esperara " << espera << " segundos" << endl;
-        sleep(espera);
-        try {
-            estacionamiento.ocuparLugar();
-            // Si hay lugar, se forkea un Auto
+    while (instanteFinal > time(NULL)) {
+        int autos = autosPorHora();
+        cout << "Entrada " << nombre << ": intentando recibir " << autos << " autos" << endl;
+        for (; autos > 0; autos--) {
+            try {
+                estacionamiento.ocuparLugar();
+                // Si hay lugar, se forkea un Auto
 
-            Auto* _auto = new Auto();
-            pid_t pIdAuto = _auto->iniciar();
-            cout << "Entrada " << nombre << ": cree auto " << pIdAuto << endl;
+                Auto* _auto = new Auto();
+                pid_t pIdAuto = _auto->iniciar();
+                cout << "Entrada " << nombre << ": dejo ingresar auto " << pIdAuto << endl;
 
-        } catch (exception e) {
-            // Si no, el auto se retira
-            cout << "Entrada " << nombre << ": no hay lugares libres" << endl;
+            } catch (exception e) {
+                // Si no, el auto se retira
+                cout << "Entrada " << nombre << ": no hay lugares libres, se retira un auto" << endl;
+            }
         }
-        espera = tiempoEntreArribos();
+        sleep(1);
     }
     cout << "Entrada " << nombre << " finaliza la simulacion" << endl;
 }
 
-unsigned Entrada :: tiempoEntreArribos() {
-    return rand() % (TIEMPO_ENTRE_ARRIBOS - 1) + 1;
+unsigned Entrada :: autosPorHora() {
+    return rand() % AUTOS_POR_HORA;
 }
