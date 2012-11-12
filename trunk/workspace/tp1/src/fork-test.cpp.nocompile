@@ -1,0 +1,28 @@
+#include <iostream>
+#include "fork.h"
+using namespace std;
+
+class Saludador : public Proceso {
+    public:
+        Saludador() {};
+        virtual void ejecutar();
+        virtual ~Saludador() {};
+};
+
+void Saludador :: ejecutar() {
+    cout << "Hola :)" << endl;
+}
+
+int main() {
+    Saludador saludador;
+    try {
+        saludador.iniciar();
+    }
+    catch (int errno) {
+        // TODO: Print error
+        exit(1);
+    }
+    
+    cout << "Yo sigo vivo" << endl;
+    return 0;
+}

@@ -1,0 +1,293 @@
+
+**** Build of configuration Debug for project prueba1 ****
+
+make prueba1 
+make: «prueba1» está actualizado.
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project prueba1 ****
+
+make all 
+Building file: ../src/prueba1.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
+Finished building: ../src/prueba1.cpp
+ 
+Building target: prueba1
+Invoking: GCC C++ Linker
+g++  -o "prueba1"  ./src/prueba1.o   
+Finished building target: prueba1
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project prueba1 ****
+
+make all 
+Building file: ../src/prueba1.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
+Finished building: ../src/prueba1.cpp
+ 
+Building target: prueba1
+Invoking: GCC C++ Linker
+g++  -o "prueba1"  ./src/prueba1.o   
+Finished building target: prueba1
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project prueba1 ****
+
+make all 
+Building file: ../src/prueba1.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
+Finished building: ../src/prueba1.cpp
+ 
+Building target: prueba1
+Invoking: GCC C++ Linker
+g++  -o "prueba1"  ./src/prueba1.o   
+Finished building target: prueba1
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project prueba1 ****
+
+make all 
+Building file: ../src/prueba1.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
+Finished building: ../src/prueba1.cpp
+ 
+Building target: prueba1
+Invoking: GCC C++ Linker
+g++  -o "prueba1"  ./src/prueba1.o   
+Finished building target: prueba1
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project prueba1 ****
+
+make all 
+Building file: ../src/prueba1.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
+../src/prueba1.cpp: En la función ‘int main()’:
+../src/prueba1.cpp:32:16: error: faltan argumentos para la función ‘time_t time(time_t*)’
+/usr/include/time.h:186:15: nota: se declara aquí
+make: *** [src/prueba1.o] Error 1
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project prueba1 ****
+
+make all 
+Building file: ../src/prueba1.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
+Finished building: ../src/prueba1.cpp
+ 
+Building target: prueba1
+Invoking: GCC C++ Linker
+g++  -o "prueba1"  ./src/prueba1.o   
+Finished building target: prueba1
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project prueba1 ****
+
+make all 
+Building file: ../src/prueba1.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
+Finished building: ../src/prueba1.cpp
+ 
+Building target: prueba1
+Invoking: GCC C++ Linker
+g++  -o "prueba1"  ./src/prueba1.o   
+Finished building target: prueba1
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project prueba1 ****
+
+make all 
+Building file: ../src/prueba1.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
+Finished building: ../src/prueba1.cpp
+ 
+Building target: prueba1
+Invoking: GCC C++ Linker
+g++  -o "prueba1"  ./src/prueba1.o   
+Finished building target: prueba1
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project prueba1 ****
+
+make all 
+Building file: ../src/prueba1.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
+Finished building: ../src/prueba1.cpp
+ 
+Building target: prueba1
+Invoking: GCC C++ Linker
+g++  -o "prueba1"  ./src/prueba1.o   
+Finished building target: prueba1
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project prueba1 ****
+
+make all 
+Building file: ../src/prueba1.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
+Finished building: ../src/prueba1.cpp
+ 
+Building target: prueba1
+Invoking: GCC C++ Linker
+g++  -o "prueba1"  ./src/prueba1.o   
+Finished building target: prueba1
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project prueba1 ****
+
+make all 
+Building file: ../src/prueba1.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
+Finished building: ../src/prueba1.cpp
+ 
+Building target: prueba1
+Invoking: GCC C++ Linker
+g++  -o "prueba1"  ./src/prueba1.o   
+Finished building target: prueba1
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project prueba1 ****
+
+make all 
+Building file: ../src/prueba1.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
+Finished building: ../src/prueba1.cpp
+ 
+Building target: prueba1
+Invoking: GCC C++ Linker
+g++  -o "prueba1"  ./src/prueba1.o   
+Finished building target: prueba1
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project prueba1 ****
+
+make all 
+Building file: ../src/prueba1.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
+../src/prueba1.cpp: En la función ‘int main()’:
+../src/prueba1.cpp:53:1: error: expected ‘}’ at end of input
+make: *** [src/prueba1.o] Error 1
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project prueba1 ****
+
+make all 
+Building file: ../src/prueba1.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
+Finished building: ../src/prueba1.cpp
+ 
+Building target: prueba1
+Invoking: GCC C++ Linker
+g++  -o "prueba1"  ./src/prueba1.o   
+Finished building target: prueba1
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project prueba1 ****
+
+make all 
+Building file: ../src/prueba1.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
+Finished building: ../src/prueba1.cpp
+ 
+Building target: prueba1
+Invoking: GCC C++ Linker
+g++  -o "prueba1"  ./src/prueba1.o   
+Finished building target: prueba1
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project prueba1 ****
+
+make all 
+Building file: ../src/prueba1.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
+Finished building: ../src/prueba1.cpp
+ 
+Building target: prueba1
+Invoking: GCC C++ Linker
+g++  -o "prueba1"  ./src/prueba1.o   
+Finished building target: prueba1
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project prueba1 ****
+
+make all 
+make: No se hace nada para «all».
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project prueba1 ****
+
+make all 
+Building file: ../src/prueba1.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
+Finished building: ../src/prueba1.cpp
+ 
+Building target: prueba1
+Invoking: GCC C++ Linker
+g++  -o "prueba1"  ./src/prueba1.o   
+Finished building target: prueba1
+ 
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project prueba1 ****
+
+make all 
+make: No se hace nada para «all».
+
+**** Build Finished ****
+
+**** Build of configuration Debug for project prueba1 ****
+
+make all 
+make: No se hace nada para «all».
+
+**** Build Finished ****
