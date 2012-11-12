@@ -1,0 +1,77 @@
+!SESSION 2012-11-12 19:43:20.827 -----------------------------------------------
+eclipse.buildId=I20110613-1736
+java.version=1.6.0_24
+java.vendor=Sun Microsystems Inc.
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=es_AR
+Command-line arguments:  -os linux -ws gtk -arch x86_64
+
+This is a continuation of log file /home/diego/Documentos/Personal/Facultad/201202/7559/Practica/workspace/.metadata/.bak_0.log
+Created Time: 2012-11-12 19:44:11.077
+
+!ENTRY org.eclipse.cdt.codan.core 4 1 2012-11-12 19:44:11.077
+!MESSAGE Internal Error
+!STACK 0
+java.lang.IllegalArgumentException: {launchModes=>{RUN_ON_FULL_BUILD=>true,RUN_ON_INC_BUILD=>true,RUN_ON_FILE_OPEN=>false,RUN_ON_FILE_SAVE=>false,RUN_AS_YOU_TYPE=>true,RUN_ON_DEMAND=>true}}:java.lang.IllegalArgumentException: No enum const class org.eclipse.cdt.codan.core.model.CheckerLaunchMode.RUN_ON_FILE_OPEN
+	at org.eclipse.cdt.codan.core.param.MapProblemPreference.importValue(MapProblemPreference.java:151)
+	at org.eclipse.cdt.codan.internal.core.CodanPreferencesLoader.setProblemPreferenceValues(CodanPreferencesLoader.java:193)
+	at org.eclipse.cdt.codan.internal.core.CodanPreferencesLoader.load(CodanPreferencesLoader.java:149)
+	at org.eclipse.cdt.codan.internal.core.CheckersRegistry.getWorkspaceProfile(CheckersRegistry.java:362)
+	at org.eclipse.cdt.codan.internal.core.CheckersRegistry.getResourceProfile(CheckersRegistry.java:388)
+	at org.eclipse.cdt.codan.internal.core.CheckersRegistry.getResourceProfile(CheckersRegistry.java:399)
+	at org.eclipse.cdt.codan.internal.core.CheckersRegistry.getResourceProfile(CheckersRegistry.java:399)
+	at org.eclipse.cdt.codan.internal.core.CheckersRegistry.isCheckerEnabledForLaunchMode(CheckersRegistry.java:452)
+	at org.eclipse.cdt.codan.internal.core.CodanBuilder.processResource(CodanBuilder.java:141)
+	at org.eclipse.cdt.codan.internal.core.CodanBuilder.runInEditor(CodanBuilder.java:218)
+	at org.eclipse.cdt.codan.core.cxx.internal.model.CxxCodanReconciler.reconciledAst(CxxCodanReconciler.java:38)
+	at org.eclipse.cdt.codan.internal.ui.cxx.CodanCReconciler.reconciled(CodanCReconciler.java:81)
+	at org.eclipse.cdt.internal.ui.editor.CEditor.reconciled(CEditor.java:3192)
+	at org.eclipse.cdt.internal.ui.text.CReconcilingStrategy.reconcile(CReconcilingStrategy.java:108)
+	at org.eclipse.cdt.internal.ui.text.CReconcilingStrategy.reconcile(CReconcilingStrategy.java:73)
+	at org.eclipse.cdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:84)
+	at org.eclipse.cdt.internal.ui.text.CCompositeReconcilingStrategy.reconcile(CCompositeReconcilingStrategy.java:90)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:77)
+	at org.eclipse.cdt.internal.ui.text.CReconciler.process(CReconciler.java:396)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:206)
+Caused by: java.lang.IllegalArgumentException: No enum const class org.eclipse.cdt.codan.core.model.CheckerLaunchMode.RUN_ON_FILE_OPEN
+	at java.lang.Enum.valueOf(Enum.java:214)
+	at org.eclipse.cdt.codan.core.model.CheckerLaunchMode.valueOf(CheckerLaunchMode.java:1)
+	at org.eclipse.cdt.codan.core.param.LaunchModeProblemPreference.importChildValue(LaunchModeProblemPreference.java:135)
+	at org.eclipse.cdt.codan.core.param.MapProblemPreference.importValue(MapProblemPreference.java:177)
+	at org.eclipse.cdt.codan.core.param.MapProblemPreference.importChildValue(MapProblemPreference.java:199)
+	at org.eclipse.cdt.codan.core.param.MapProblemPreference.importValue(MapProblemPreference.java:177)
+	at org.eclipse.cdt.codan.core.param.MapProblemPreference.importValue(MapProblemPreference.java:149)
+	... 19 more
+
+!ENTRY org.eclipse.cdt.codan.core 4 1 2012-11-12 19:44:11.078
+!MESSAGE Internal Error
+!STACK 0
+java.lang.IllegalArgumentException: {launchModes=>{RUN_ON_FULL_BUILD=>true,RUN_ON_INC_BUILD=>true,RUN_ON_FILE_OPEN=>false,RUN_ON_FILE_SAVE=>false,RUN_AS_YOU_TYPE=>true,RUN_ON_DEMAND=>true}}:java.lang.IllegalArgumentException: No enum const class org.eclipse.cdt.codan.core.model.CheckerLaunchMode.RUN_ON_FILE_OPEN
+	at org.eclipse.cdt.codan.core.param.MapProblemPreference.importValue(MapProblemPreference.java:151)
+	at org.eclipse.cdt.codan.internal.core.CodanPreferencesLoader.setProblemPreferenceValues(CodanPreferencesLoader.java:193)
+	at org.eclipse.cdt.codan.internal.core.CodanPreferencesLoader.load(CodanPreferencesLoader.java:149)
+	at org.eclipse.cdt.codan.internal.core.CheckersRegistry.getWorkspaceProfile(CheckersRegistry.java:362)
+	at org.eclipse.cdt.codan.internal.core.CheckersRegistry.getResourceProfile(CheckersRegistry.java:388)
+	at org.eclipse.cdt.codan.internal.core.CheckersRegistry.getResourceProfile(CheckersRegistry.java:399)
+	at org.eclipse.cdt.codan.internal.core.CheckersRegistry.getResourceProfile(CheckersRegistry.java:399)
+	at org.eclipse.cdt.codan.internal.core.CheckersRegistry.isCheckerEnabledForLaunchMode(CheckersRegistry.java:452)
+	at org.eclipse.cdt.codan.internal.core.CodanBuilder.processResource(CodanBuilder.java:141)
+	at org.eclipse.cdt.codan.internal.core.CodanBuilder.runInEditor(CodanBuilder.java:218)
+	at org.eclipse.cdt.codan.core.cxx.internal.model.CxxCodanReconciler.reconciledAst(CxxCodanReconciler.java:38)
+	at org.eclipse.cdt.codan.internal.ui.cxx.CodanCReconciler.reconciled(CodanCReconciler.java:81)
+	at org.eclipse.cdt.internal.ui.editor.CEditor.reconciled(CEditor.java:3192)
+	at org.eclipse.cdt.internal.ui.text.CReconcilingStrategy.reconcile(CReconcilingStrategy.java:108)
+	at org.eclipse.cdt.internal.ui.text.CReconcilingStrategy.reconcile(CReconcilingStrategy.java:73)
+	at org.eclipse.cdt.internal.ui.text.CompositeReconcilingStrategy.reconcile(CompositeReconcilingStrategy.java:84)
+	at org.eclipse.cdt.internal.ui.text.CCompositeReconcilingStrategy.reconcile(CCompositeReconcilingStrategy.java:90)
+	at org.eclipse.jface.text.reconciler.MonoReconciler.process(MonoReconciler.java:77)
+	at org.eclipse.cdt.internal.ui.text.CReconciler.process(CReconciler.java:396)
+	at org.eclipse.jface.text.reconciler.AbstractReconciler$BackgroundThread.run(AbstractReconciler.java:206)
+Caused by: java.lang.IllegalArgumentException: No enum const class org.eclipse.cdt.codan.core.model.CheckerLaunchMode.RUN_ON_FILE_OPEN
+	at java.lang.Enum.valueOf(Enum.java:214)
+	at org.eclipse.cdt.codan.core.model.CheckerLaunchMode.valueOf(CheckerLaunchMode.java:1)
+	at org.eclipse.cdt.codan.core.param.LaunchModeProblemPreference.importChildValue(LaunchModeProblemPreference.java:135)
+	at org.eclipse.cdt.codan.core.param.MapProblemPreference.importValue(MapProblemPreference.java:177)
+	at org.eclipse.cdt.codan.core.param.MapProblemPreference.importChildValue(MapProblemPreference.java:199)
+	at org.eclipse.cdt.codan.core.param.MapProblemPreference.importValue(MapProblemPreference.java:177)
+	at org.eclipse.cdt.codan.core.param.MapProblemPreference.importValue(MapProblemPreference.java:149)
+	... 19 more
