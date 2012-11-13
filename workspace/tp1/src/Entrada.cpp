@@ -1,12 +1,12 @@
-#include "include/Entrada.h"
+#include "Entrada.h"
 
 #include <cstdlib>
 #include <unistd.h>
 #include <time.h>
 #include <exception>
 
-#include "include/constantes.h"
-#include "include/Auto.h"
+#include "constantes.h"
+#include "Auto.h"
 
 #include <iostream> // TODO Quitar
 
