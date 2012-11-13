@@ -14,12 +14,12 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-#include "include/constantes.h"
-#include "include/MemoriaCompartida.h"
-#include "include/Estacionamiento.h"
-#include "include/Entrada.h"
-#include "include/Administrador.h"
-#include "include/Proceso.h"
+#include "constantes.h"
+#include "MemoriaCompartida.h"
+#include "Estacionamiento.h"
+#include "Entrada.h"
+#include "Administrador.h"
+#include "Proceso.h"
 
 /* Opciones disponibles:
  * - Tiempo de simulacion (obligatorio)

@@ -1,4 +1,4 @@
-#include "include/logger.h"
+#include "logger.h"
 
 
 Logger* Logger::m_pInstance = NULL;
@@ -17,12 +17,18 @@ bool Logger::openLogFile(std::string logFile)
 }
 
 void Logger::writeToLogFile(TipoLog modo, std::string mensaje){
-    if (modo >= this.modo)
-        fd << "[" << NowTime() << " : "  << modo << "]" << mensaje << endl;
+    if (modo >= this->modo)
+    {
+        //fd << "[" << clock() << " : "  << modo << "]" << mensaje << std::endl;
+    	std::string msj = "[" << clock() << " : "  << modo << "]" << mensaje;
+    	//write((int)fd,msj.c_str(),msj.length());
+    	fd.write(msj.c_str(), msj.length());
+    }
 }
 
 
 bool Logger::closeLogFile(){
     fd.close();
+    return true;
 }
 

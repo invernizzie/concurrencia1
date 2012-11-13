@@ -6,6 +6,8 @@
     #include <iostream>
     #include <fstream>
     #include <cstdio>
+	#include <unistd.h>
+	#include <ctime>
 
     class Logger{
     public:

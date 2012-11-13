@@ -1,4 +1,4 @@
-#include "include/LockFile.h"
+#include "LockFile.h"
 
 LockFile :: LockFile ( const char* nombre ) {
 
