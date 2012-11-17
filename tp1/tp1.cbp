@@ -35,27 +35,24 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="include/Auto.h">
-			<Option virtualFolder="src/include/" />
-		</Unit>
+		<Unit filename="src/Administrador.cpp" />
 		<Unit filename="src/Auto.cpp" />
 		<Unit filename="src/Entrada.cpp" />
 		<Unit filename="src/Estacionamiento.cpp" />
 		<Unit filename="src/LockFile.cpp" />
-		<Unit filename="src/PilaLibres.cpp" />
 		<Unit filename="src/Proceso.cpp" />
 		<Unit filename="src/Semaforo.cpp" />
+		<Unit filename="src/include/Administrador.h" />
 		<Unit filename="src/include/Auto.h" />
 		<Unit filename="src/include/Entrada.h" />
 		<Unit filename="src/include/Estacionamiento.h" />
 		<Unit filename="src/include/LockFile.h" />
 		<Unit filename="src/include/MemoriaCompartida.h" />
-		<Unit filename="src/include/PilaLibres.h" />
 		<Unit filename="src/include/Proceso.h" />
 		<Unit filename="src/include/Semaforo.h" />
 		<Unit filename="src/include/constantes.h" />
-		<Unit filename="src/include/lugar.h" />
-		<Unit filename="src/lugar.cpp" />
+		<Unit filename="src/include/logger.h" />
+		<Unit filename="src/logger.cpp" />
 		<Unit filename="src/tp1.cpp" />
 		<Extensions>
 			<code_completion />

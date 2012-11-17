@@ -26,6 +26,7 @@ Logger& Logger::getInstance() {
 }
 
 void Logger :: initialize(TipoLog mode, string logFile) {
+    getInstance().lock = new LockFile((char*)logFile.c_str());
     getInstance().modo = mode;
     getInstance().openLogFile(logFile);
 }
@@ -39,13 +40,22 @@ void Logger::openLogFile(string logFile)
     fd.open( logFile.c_str(), ofstream::out);
 }
 
-void Logger::writeToLogFile(TipoLog modo, string mensaje){
-    if (modo >= this->modo)
-        fd << "[" << time(NULL) << " : "  << modo << "] " << mensaje << endl;
+void Logger::writeToLogFile(TipoLog modo, string mensaje) {
+    if (modo >= this->modo) {
+        lock->tomarLock();
+        fd << "[" << fechaFormateada() << " : "  << modo << "] " << mensaje << endl;
+        lock->liberarLock();
+    }
 }
 
+string Logger::fechaFormateada() {
+        time_t ahora = time(NULL);
+        string fecha = ctime(&ahora);
+        return fecha.substr(0, fecha.length() - 1);
+}
 
 Logger::~Logger(){
+    delete lock;
     fd.close();
 }
 

@@ -5,6 +5,7 @@
     #include "constantes.h"
     #include <iostream>
     #include <fstream>
+    #include "LockFile.h"
 
     using namespace std;
 
@@ -21,10 +22,12 @@
         Logger(){};
         Logger(Logger const&){};
         Logger& operator=(Logger const&){ return *this; };
+        string fechaFormateada();
 
         static TipoLog modo;
 
         std::ofstream fd;
+        LockFile* lock;
     };
 
 #endif // LOGGER_H
