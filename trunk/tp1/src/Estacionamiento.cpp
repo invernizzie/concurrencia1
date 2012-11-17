@@ -3,7 +3,7 @@
 #include <errno.h>
 #include <stdlib.h>
 
-#include <iostream> // TODO Quitar
+#include "logger.h"
 
 Estacionamiento::Estacionamiento() :
     lockOcupacion((char*)ARCHIVO_LOCK_OCUPACION),
@@ -22,38 +22,41 @@ Estacionamiento::Estacionamiento() :
 
     int resultado = posicionesOcupadas.crear((char*)ARCHIVO_AUXILIAR, C_SHM_POS_OCUPADAS);
     if (resultado != 0) {
-        cout << "Error al crear memoria compartida" << endl;
+        stringstream ss;
+        ss << "Error al crear memoria compartida: ";
         switch (errno) {
             case EACCES:
-                cout << "EACCES" << endl;
+                ss << "EACCES";
                 break;
             case EBADF:
-                cout << "EBADF" << endl;
+                ss << "EBADF";
                 break;
             case EFAULT:
-                cout << "EFAULT" << endl;
+                ss << "EFAULT";
                 break;
             case ELOOP:
-                cout << "ELOOP" << endl;
+                ss << "ELOOP";
                 break;
             case ENAMETOOLONG:
-                cout << "ENAMETOOLONG" << endl;
+                ss << "ENAMETOOLONG";
                 break;
             case ENOENT:
-                cout << "ENOENT" << endl;
+                ss << "ENOENT";
                 break;
             case ENOMEM:
-                cout << "ENOMEM" << endl;
+                ss << "ENOMEM";
                 break;
             case ENOTDIR:
-                cout << "ENOTDIR" << endl;
+                ss << "ENOTDIR";
                 break;
             case EOVERFLOW:
-                cout << "EOVERFLOW" << endl;
+                ss << "EOVERFLOW";
                 break;
             default:
-                cout << errno << endl;
+                ss << errno;
         }
+        Logger::write(FATAL, ss.str());
+        abort();
     }
     valorFacturado.crear((char*)ARCHIVO_AUXILIAR, C_SHM_VALOR_FACTURADO);
     estadosPosicion.reserve(capacidad);
@@ -108,10 +111,8 @@ void Estacionamiento::ocuparLugar(){
     lockOcupacion.tomarLock();
     if ( posicionesOcupadas.leer() < getCapacidad() ){
         posicionesOcupadas.escribir(posicionesOcupadas.leer() + 1);
-        cout << "Estacionamiento: ocupando lugar, hay " << posicionesOcupadas.leer() << " ocupadas" << endl;
         lockOcupacion.liberarLock();
     } else {
-        cout << "Estacionamiento: ya no hay lugar, hay " << posicionesOcupadas.leer() << " ocupadas" << endl;
         lockOcupacion.liberarLock();
         throw EstacionamientoCompleto();
     }
@@ -121,7 +122,6 @@ void Estacionamiento::ocuparLugar(){
 void Estacionamiento::liberarLugar(){
     lockOcupacion.tomarLock();
     posicionesOcupadas.escribir(posicionesOcupadas.leer() - 1);
-    cout << "Estacionamiento: liberando lugar, hay " << posicionesOcupadas.leer() << " ocupadas" << endl;
     lockOcupacion.liberarLock();
 }
 
@@ -150,8 +150,10 @@ void Estacionamiento::crearPosicion(int pos_num){
     ss << DIR_AUXILIAR << "/pos_" << pos_num << ".c";
     int resultado = sh_mem.crear ( ss.str().c_str(), C_SHM_LUGAR_ESTACIONAMIENTO );
     if (resultado != SHM_OK) {
-        cout << "Error al crear memoria compartida para posicion " << pos_num << endl;
-        exit(-1);
+        stringstream ss;
+        ss << "Error al crear memoria compartida para posicion " << pos_num;
+        Logger::write(FATAL, ss.str());
+        abort();
     }
     estadosPosicion.push_back(sh_mem);
 

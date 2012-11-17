@@ -20,6 +20,7 @@
 #include "include/Entrada.h"
 #include "include/Administrador.h"
 #include "include/Proceso.h"
+#include "include/logger.h"
 
 /* Opciones disponibles:
  * - Tiempo de simulacion (obligatorio)
@@ -91,6 +92,12 @@ int main(int argc, char **argv) {
                 abort();
         }
     }
+
+    TipoLog modoDebug = ERROR;
+    if (debug) {
+        modoDebug = INFO;
+    }
+    Logger::initialize(modoDebug, archivoLog);
 
     // Archivos utilizados por ftok y flock
     crearArchivosAuxiliares(capacidad);
