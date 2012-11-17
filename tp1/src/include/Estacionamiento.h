@@ -2,7 +2,6 @@
 #define ESTACIONAMIENTO_H
 
 #include <vector>
-#include <iostream>
 #include <typeinfo>
 #include <exception>
 #include <sstream>
@@ -10,7 +9,6 @@
 #include "constantes.h"
 #include "LockFile.h"
 #include "MemoriaCompartida.h"
-//#include "lugar.h"
 
 using namespace std;
 

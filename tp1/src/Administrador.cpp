@@ -7,8 +7,7 @@
 
 #include "include/constantes.h"
 #include "include/Auto.h"
-
-#include <iostream> // TODO Quitar
+#include "logger.h"
 
 Administrador :: Administrador(int tiempoSimulacion) :
             tiempoSimulacion(tiempoSimulacion) {}
@@ -32,16 +31,23 @@ void Administrador :: consultarPeriodicamente() {
     unsigned capacidad;
     unsigned lugaresLibres = capacidad = estacionamiento.getCapacidad();
     while ((instanteFinal > time(NULL) + espera) || (lugaresLibres < capacidad)) {
-        cout << "Administrador esperara " << espera << " segundos" << endl;
+        stringstream ss;
+        ss << "Administrador esperara " << espera << " segundos";
+        Logger::write(DEBUG, ss.str());
+
         sleep(espera);
 
         lugaresLibres = estacionamiento.getLugaresLibres();
-        cout << "Administrador: hay " << lugaresLibres << " lugares libres" << endl;
-        cout << "Administrador: se facturo " << estacionamiento.getValorFacturado() << endl;
+
+        stringstream ss1;
+        ss1 << "Administrador: hay " << lugaresLibres << " lugares libres, se facturo " << estacionamiento.getValorFacturado();
+        Logger::write(DEBUG, ss1.str());
 
         espera = tiempoEntreConsultas();
     }
-    cout << "Administrador finaliza la simulacion" << endl;
+    stringstream ss;
+    ss << "Administrador finaliza la simulacion";
+    Logger::write(DEBUG, ss.str());
 }
 
 unsigned Administrador :: tiempoEntreConsultas() {

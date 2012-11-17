@@ -4,7 +4,7 @@
 #include <unistd.h>
 #include <time.h>
 
-#include <iostream>
+#include "logger.h"
 
 Auto :: Auto() {
     srand (time(NULL) + getpid());
@@ -21,23 +21,37 @@ void Auto :: ejecutar() {
 // Estrategia: comienza en posicion 0, mira una a una
 // Si llega al final vuelve a empezar
 void Auto :: buscarLugar() {
-    cout << "Auto " << getpid() << " buscando lugar" << endl;
+    stringstream ss;
+    ss << "Auto " << getpid() << ": buscando lugar";
+    Logger::write(DEBUG, ss.str());
+
     int cantidad = estacionamiento.getCapacidad();
     bool encontrado = false;
     posicion = 0;
     while (!encontrado) {
         try {
             estacionamiento.ocupar(posicion);
-            cout << "Auto " << getpid() << " ocupo lugar " << posicion << endl;
+
+            stringstream ss;
+            ss << "Auto " << getpid() << ": ocupo lugar " << posicion;
+            Logger::write(DEBUG, ss.str());
+
             encontrado = true;
         } catch (exception e) {
+            stringstream ss;
+            ss << "Auto " << getpid() << ": lugar " << posicion << " ocupado, sigo buscando";
+            Logger::write(DEBUG, ss.str());
+
             posicion = (posicion + 1) % cantidad;
         }
     }
 }
 
 void Auto :: liberarLugar() {
-    cout << "Auto " << getpid() << " libero lugar " << posicion << endl;
+    stringstream ss;
+    ss << "Auto " << getpid() << ": libero lugar " << posicion;
+    Logger::write(DEBUG, ss.str());
+
     estacionamiento.liberar(posicion);
 }
 
@@ -50,6 +64,7 @@ void Auto :: pagar() {
     // Esto seria el pago
     estacionamiento.registrarPago(espera * estacionamiento.getValorHora() );
 
-    cout << "Auto " << getpid() << " se retira" << endl;
-
+    stringstream ss;
+    ss << "Auto " << getpid() << ": se retira";
+    Logger::write(DEBUG, ss.str());
 }
