@@ -1,0 +1,6 @@
+16:47:19 **** Build of configuration Default for project tp2 ****
+make all 
+make: *** No rule to make target `all'.  Stop.
+
+16:47:19 Build Finished (took 97ms)
+

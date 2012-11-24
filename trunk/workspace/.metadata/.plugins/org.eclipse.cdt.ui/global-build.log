@@ -1,293 +1,175 @@
-
-**** Build of configuration Debug for project prueba1 ****
-
-make prueba1 
-make: «prueba1» está actualizado.
-
-**** Build Finished ****
-
-**** Build of configuration Debug for project prueba1 ****
-
-make all 
-Building file: ../src/prueba1.cpp
+18:52:55 **** Incremental Build of configuration Debug for project tp1 ****
+make -k all 
+make: Nothing to be done for `all'.
+18:54:52 **** Incremental Build of configuration Debug for project tp1 ****
+make -k all 
+Building file: ../src/logger.cpp
 Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
-Finished building: ../src/prueba1.cpp
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/logger.d" -MT"src/logger.d" -o "src/logger.o" "../src/logger.cpp"
+Finished building: ../src/logger.cpp
  
-Building target: prueba1
+Building target: tp1
 Invoking: GCC C++ Linker
-g++  -o "prueba1"  ./src/prueba1.o   
-Finished building target: prueba1
+g++  -o "tp1"  ./src/Administrador.o ./src/Auto.o ./src/Entrada.o ./src/Estacionamiento.o ./src/LockFile.o ./src/Proceso.o ./src/Semaforo.o ./src/logger.o ./src/tp1.o   
+Finished building target: tp1
  
-
-**** Build Finished ****
-
-**** Build of configuration Debug for project prueba1 ****
-
-make all 
-Building file: ../src/prueba1.cpp
+18:57:52 **** Incremental Build of configuration Debug for project tp1 ****
+make -k all 
+Building file: ../src/logger.cpp
 Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
-Finished building: ../src/prueba1.cpp
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/logger.d" -MT"src/logger.d" -o "src/logger.o" "../src/logger.cpp"
+Finished building: ../src/logger.cpp
  
-Building target: prueba1
+Building target: tp1
 Invoking: GCC C++ Linker
-g++  -o "prueba1"  ./src/prueba1.o   
-Finished building target: prueba1
+g++  -o "tp1"  ./src/Administrador.o ./src/Auto.o ./src/Entrada.o ./src/Estacionamiento.o ./src/LockFile.o ./src/Proceso.o ./src/Semaforo.o ./src/logger.o ./src/tp1.o   
+Finished building target: tp1
  
-
-**** Build Finished ****
-
-**** Build of configuration Debug for project prueba1 ****
-
-make all 
-Building file: ../src/prueba1.cpp
+19:00:42 **** Incremental Build of configuration Debug for project tp1 ****
+make -k all 
+Building file: ../src/Administrador.cpp
 Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
-Finished building: ../src/prueba1.cpp
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Administrador.d" -MT"src/Administrador.d" -o "src/Administrador.o" "../src/Administrador.cpp"
+Finished building: ../src/Administrador.cpp
  
-Building target: prueba1
+Building file: ../src/Auto.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Auto.d" -MT"src/Auto.d" -o "src/Auto.o" "../src/Auto.cpp"
+Finished building: ../src/Auto.cpp
+ 
+Building file: ../src/Entrada.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Entrada.d" -MT"src/Entrada.d" -o "src/Entrada.o" "../src/Entrada.cpp"
+Finished building: ../src/Entrada.cpp
+ 
+Building file: ../src/Estacionamiento.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Estacionamiento.d" -MT"src/Estacionamiento.d" -o "src/Estacionamiento.o" "../src/Estacionamiento.cpp"
+Finished building: ../src/Estacionamiento.cpp
+ 
+Building file: ../src/logger.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/logger.d" -MT"src/logger.d" -o "src/logger.o" "../src/logger.cpp"
+Finished building: ../src/logger.cpp
+ 
+Building file: ../src/tp1.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/tp1.d" -MT"src/tp1.d" -o "src/tp1.o" "../src/tp1.cpp"
+Finished building: ../src/tp1.cpp
+ 
+Building target: tp1
 Invoking: GCC C++ Linker
-g++  -o "prueba1"  ./src/prueba1.o   
-Finished building target: prueba1
+g++  -o "tp1"  ./src/Administrador.o ./src/Auto.o ./src/Entrada.o ./src/Estacionamiento.o ./src/LockFile.o ./src/Proceso.o ./src/Semaforo.o ./src/logger.o ./src/tp1.o   
+Finished building target: tp1
  
-
-**** Build Finished ****
-
-**** Build of configuration Debug for project prueba1 ****
-
-make all 
-Building file: ../src/prueba1.cpp
+19:04:53 **** Incremental Build of configuration Debug for project tp1 ****
+make -k all 
+Building file: ../src/logger.cpp
 Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
-Finished building: ../src/prueba1.cpp
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/logger.d" -MT"src/logger.d" -o "src/logger.o" "../src/logger.cpp"
+Finished building: ../src/logger.cpp
  
-Building target: prueba1
+Building target: tp1
 Invoking: GCC C++ Linker
-g++  -o "prueba1"  ./src/prueba1.o   
-Finished building target: prueba1
+g++  -o "tp1"  ./src/Administrador.o ./src/Auto.o ./src/Entrada.o ./src/Estacionamiento.o ./src/LockFile.o ./src/Proceso.o ./src/Semaforo.o ./src/logger.o ./src/tp1.o   
+Finished building target: tp1
  
-
-**** Build Finished ****
-
-**** Build of configuration Debug for project prueba1 ****
-
-make all 
-Building file: ../src/prueba1.cpp
+19:05:02 **** Incremental Build of configuration Debug for project tp1 ****
+make -k all 
+Building file: ../src/logger.cpp
 Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
-../src/prueba1.cpp: En la función ‘int main()’:
-../src/prueba1.cpp:32:16: error: faltan argumentos para la función ‘time_t time(time_t*)’
-/usr/include/time.h:186:15: nota: se declara aquí
-make: *** [src/prueba1.o] Error 1
-
-**** Build Finished ****
-
-**** Build of configuration Debug for project prueba1 ****
-
-make all 
-Building file: ../src/prueba1.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
-Finished building: ../src/prueba1.cpp
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/logger.d" -MT"src/logger.d" -o "src/logger.o" "../src/logger.cpp"
+Finished building: ../src/logger.cpp
  
-Building target: prueba1
+Building target: tp1
 Invoking: GCC C++ Linker
-g++  -o "prueba1"  ./src/prueba1.o   
-Finished building target: prueba1
+g++  -o "tp1"  ./src/Administrador.o ./src/Auto.o ./src/Entrada.o ./src/Estacionamiento.o ./src/LockFile.o ./src/Proceso.o ./src/Semaforo.o ./src/logger.o ./src/tp1.o   
+Finished building target: tp1
  
-
-**** Build Finished ****
-
-**** Build of configuration Debug for project prueba1 ****
-
-make all 
-Building file: ../src/prueba1.cpp
+19:08:44 **** Incremental Build of configuration Debug for project tp1 ****
+make -k all 
+Building file: ../src/logger.cpp
 Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
-Finished building: ../src/prueba1.cpp
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/logger.d" -MT"src/logger.d" -o "src/logger.o" "../src/logger.cpp"
+Finished building: ../src/logger.cpp
  
-Building target: prueba1
+Building target: tp1
 Invoking: GCC C++ Linker
-g++  -o "prueba1"  ./src/prueba1.o   
-Finished building target: prueba1
+g++  -o "tp1"  ./src/Administrador.o ./src/Auto.o ./src/Entrada.o ./src/Estacionamiento.o ./src/LockFile.o ./src/Proceso.o ./src/Semaforo.o ./src/logger.o ./src/tp1.o   
+Finished building target: tp1
  
-
-**** Build Finished ****
-
-**** Build of configuration Debug for project prueba1 ****
-
-make all 
-Building file: ../src/prueba1.cpp
+19:14:23 **** Incremental Build of configuration Debug for project tp1 ****
+make -k all 
+Building file: ../src/logger.cpp
 Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
-Finished building: ../src/prueba1.cpp
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/logger.d" -MT"src/logger.d" -o "src/logger.o" "../src/logger.cpp"
+Finished building: ../src/logger.cpp
  
-Building target: prueba1
+Building target: tp1
 Invoking: GCC C++ Linker
-g++  -o "prueba1"  ./src/prueba1.o   
-Finished building target: prueba1
+g++  -o "tp1"  ./src/Administrador.o ./src/Auto.o ./src/Entrada.o ./src/Estacionamiento.o ./src/LockFile.o ./src/Proceso.o ./src/Semaforo.o ./src/logger.o ./src/tp1.o   
+Finished building target: tp1
  
-
-**** Build Finished ****
-
-**** Build of configuration Debug for project prueba1 ****
-
-make all 
-Building file: ../src/prueba1.cpp
+19:14:40 **** Incremental Build of configuration Debug for project tp1 ****
+make -k all 
+Building file: ../src/logger.cpp
 Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
-Finished building: ../src/prueba1.cpp
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/logger.d" -MT"src/logger.d" -o "src/logger.o" "../src/logger.cpp"
+Finished building: ../src/logger.cpp
  
-Building target: prueba1
+Building target: tp1
 Invoking: GCC C++ Linker
-g++  -o "prueba1"  ./src/prueba1.o   
-Finished building target: prueba1
+g++  -o "tp1"  ./src/Administrador.o ./src/Auto.o ./src/Entrada.o ./src/Estacionamiento.o ./src/LockFile.o ./src/Proceso.o ./src/Semaforo.o ./src/logger.o ./src/tp1.o   
+Finished building target: tp1
  
-
-**** Build Finished ****
-
-**** Build of configuration Debug for project prueba1 ****
-
-make all 
-Building file: ../src/prueba1.cpp
+19:15:53 **** Incremental Build of configuration Debug for project tp1 ****
+make -k all 
+Building file: ../src/logger.cpp
 Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
-Finished building: ../src/prueba1.cpp
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/logger.d" -MT"src/logger.d" -o "src/logger.o" "../src/logger.cpp"
+Finished building: ../src/logger.cpp
  
-Building target: prueba1
+Building target: tp1
 Invoking: GCC C++ Linker
-g++  -o "prueba1"  ./src/prueba1.o   
-Finished building target: prueba1
+g++  -o "tp1"  ./src/Administrador.o ./src/Auto.o ./src/Entrada.o ./src/Estacionamiento.o ./src/LockFile.o ./src/Proceso.o ./src/Semaforo.o ./src/logger.o ./src/tp1.o   
+Finished building target: tp1
  
-
-**** Build Finished ****
-
-**** Build of configuration Debug for project prueba1 ****
-
-make all 
-Building file: ../src/prueba1.cpp
+19:16:16 **** Incremental Build of configuration Debug for project tp1 ****
+make -k all 
+Building file: ../src/logger.cpp
 Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
-Finished building: ../src/prueba1.cpp
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/logger.d" -MT"src/logger.d" -o "src/logger.o" "../src/logger.cpp"
+Finished building: ../src/logger.cpp
  
-Building target: prueba1
+Building target: tp1
 Invoking: GCC C++ Linker
-g++  -o "prueba1"  ./src/prueba1.o   
-Finished building target: prueba1
+g++  -o "tp1"  ./src/Administrador.o ./src/Auto.o ./src/Entrada.o ./src/Estacionamiento.o ./src/LockFile.o ./src/Proceso.o ./src/Semaforo.o ./src/logger.o ./src/tp1.o   
+Finished building target: tp1
  
-
-**** Build Finished ****
-
-**** Build of configuration Debug for project prueba1 ****
-
-make all 
-Building file: ../src/prueba1.cpp
+19:16:45 **** Incremental Build of configuration Debug for project tp1 ****
+make -k all 
+Building file: ../src/logger.cpp
 Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
-Finished building: ../src/prueba1.cpp
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/logger.d" -MT"src/logger.d" -o "src/logger.o" "../src/logger.cpp"
+Finished building: ../src/logger.cpp
  
-Building target: prueba1
+Building target: tp1
 Invoking: GCC C++ Linker
-g++  -o "prueba1"  ./src/prueba1.o   
-Finished building target: prueba1
+g++  -o "tp1"  ./src/Administrador.o ./src/Auto.o ./src/Entrada.o ./src/Estacionamiento.o ./src/LockFile.o ./src/Proceso.o ./src/Semaforo.o ./src/logger.o ./src/tp1.o   
+Finished building target: tp1
  
-
-**** Build Finished ****
-
-**** Build of configuration Debug for project prueba1 ****
-
-make all 
-Building file: ../src/prueba1.cpp
+19:17:28 **** Incremental Build of configuration Debug for project tp1 ****
+make -k all 
+Building file: ../src/logger.cpp
 Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
-../src/prueba1.cpp: En la función ‘int main()’:
-../src/prueba1.cpp:53:1: error: expected ‘}’ at end of input
-make: *** [src/prueba1.o] Error 1
-
-**** Build Finished ****
-
-**** Build of configuration Debug for project prueba1 ****
-
-make all 
-Building file: ../src/prueba1.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
-Finished building: ../src/prueba1.cpp
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/logger.d" -MT"src/logger.d" -o "src/logger.o" "../src/logger.cpp"
+Finished building: ../src/logger.cpp
  
-Building target: prueba1
+Building target: tp1
 Invoking: GCC C++ Linker
-g++  -o "prueba1"  ./src/prueba1.o   
-Finished building target: prueba1
+g++  -o "tp1"  ./src/Administrador.o ./src/Auto.o ./src/Entrada.o ./src/Estacionamiento.o ./src/LockFile.o ./src/Proceso.o ./src/Semaforo.o ./src/logger.o ./src/tp1.o   
+Finished building target: tp1
  
-
-**** Build Finished ****
-
-**** Build of configuration Debug for project prueba1 ****
-
-make all 
-Building file: ../src/prueba1.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
-Finished building: ../src/prueba1.cpp
- 
-Building target: prueba1
-Invoking: GCC C++ Linker
-g++  -o "prueba1"  ./src/prueba1.o   
-Finished building target: prueba1
- 
-
-**** Build Finished ****
-
-**** Build of configuration Debug for project prueba1 ****
-
-make all 
-Building file: ../src/prueba1.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
-Finished building: ../src/prueba1.cpp
- 
-Building target: prueba1
-Invoking: GCC C++ Linker
-g++  -o "prueba1"  ./src/prueba1.o   
-Finished building target: prueba1
- 
-
-**** Build Finished ****
-
-**** Build of configuration Debug for project prueba1 ****
-
-make all 
-make: No se hace nada para «all».
-
-**** Build Finished ****
-
-**** Build of configuration Debug for project prueba1 ****
-
-make all 
-Building file: ../src/prueba1.cpp
-Invoking: GCC C++ Compiler
-g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/prueba1.d" -MT"src/prueba1.d" -o "src/prueba1.o" "../src/prueba1.cpp"
-Finished building: ../src/prueba1.cpp
- 
-Building target: prueba1
-Invoking: GCC C++ Linker
-g++  -o "prueba1"  ./src/prueba1.o   
-Finished building target: prueba1
- 
-
-**** Build Finished ****
-
-**** Build of configuration Debug for project prueba1 ****
-
-make all 
-make: No se hace nada para «all».
-
-**** Build Finished ****
-
-**** Build of configuration Debug for project prueba1 ****
-
-make all 
-make: No se hace nada para «all».
-
-**** Build Finished ****
+19:17:34 **** Incremental Build of configuration Debug for project tp1 ****
+make -k all 
+make: Nothing to be done for `all'.

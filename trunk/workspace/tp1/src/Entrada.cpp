@@ -1,14 +1,15 @@
-#include "Entrada.h"
+#include "include/Entrada.h"
 
 #include <cstdlib>
 #include <unistd.h>
 #include <time.h>
 #include <exception>
+#include <string>
+#include <stdlib.h>
 
-#include "constantes.h"
-#include "Auto.h"
-
-#include <iostream> // TODO Quitar
+#include "include/constantes.h"
+#include "include/Auto.h"
+#include "include/logger.h"
 
 Entrada :: Entrada(string nombre, int tiempoSimulacion) :
             tiempoSimulacion(tiempoSimulacion),
@@ -31,7 +32,9 @@ void Entrada :: inicializar() {
 void Entrada :: recibirAutos() {
     while (instanteFinal > time(NULL)) {
         int autos = autosPorHora();
-        cout << "Entrada " << nombre << ": intentando recibir " << autos << " autos" << endl;
+        stringstream ss;
+        ss << "Entrada " << nombre << ": esta hora recibire " << autos << " autos";
+        Logger::write(DEBUG, ss.str());
         for (; autos > 0; autos--) {
             try {
                 estacionamiento.ocuparLugar();
@@ -39,16 +42,23 @@ void Entrada :: recibirAutos() {
 
                 Auto* _auto = new Auto();
                 pid_t pIdAuto = _auto->iniciar();
-                cout << "Entrada " << nombre << ": dejo ingresar auto " << pIdAuto << endl;
 
-            } catch (exception e) {
+                stringstream ss;
+                ss << "Entrada " << nombre << ": dejo ingresar auto " << pIdAuto;
+                Logger::write(DEBUG, ss.str());
+
+            } catch (exception& e) {
                 // Si no, el auto se retira
-                cout << "Entrada " << nombre << ": no hay lugares libres, se retira un auto" << endl;
+                stringstream ss;
+                ss << "Entrada " << nombre << ": no hay lugares libres, se retira un auto";
+                Logger::write(DEBUG, ss.str());
             }
         }
         sleep(1);
     }
-    cout << "Entrada " << nombre << " finaliza la simulacion" << endl;
+    stringstream ss;
+    ss << "Entrada " << nombre << " finaliza la simulacion";
+    Logger::write(DEBUG, ss.str());
 }
 
 unsigned Entrada :: autosPorHora() {

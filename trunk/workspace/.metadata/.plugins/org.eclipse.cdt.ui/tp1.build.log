@@ -1,7 +1,6 @@
+19:17:34 **** Incremental Build of configuration Debug for project tp1 ****
+make -k all 
+make: Nothing to be done for `all'.
 
-**** Build of configuration Debug for project tp1 ****
+19:17:34 Build Finished (took 71ms)
 
-make all 
-make: No se hace nada para «all».
-
-**** Build Finished ****
