@@ -1,4 +1,4 @@
-#include "Semaforo.h"
+#include "include/Semaforo.h"
 
 Semaforo :: Semaforo ( char* nombre,int valorInicial ) {
 
