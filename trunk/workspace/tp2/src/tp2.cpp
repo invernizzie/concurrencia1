@@ -28,7 +28,7 @@
  * - Precio por hora
  * - modo Debug (archivo de salida opcional)
  */
-#define OPTIONS     "t:c:p:d::"
+#define OPTIONS     "e:t:c:p:d::"
 
 using namespace std;
 
@@ -45,6 +45,7 @@ int main(int argc, char **argv) {
     int tiempoSimulacion = TIEMPO_SIMULACION;
     int capacidad = CAPACIDAD_ESTACIONAMIENTO;
     int precio = PRECIO_SUGERIDO;
+    int cantEstacionamientos = CANTIDAD_ESTACIONAMIENTOS;
 
     // Evitamos mensajes de error de getopt
     opterr = 0;
@@ -52,7 +53,14 @@ int main(int argc, char **argv) {
     int opt;
     while ((opt = getopt(argc, argv, OPTIONS)) != -1) {
         switch (opt) {
-            case 't':
+        	case 'e':
+				if ((str2int(cantEstacionamientos, optarg) != SUCCESS) || (cantEstacionamientos < 1)) {
+					cout << "La opcion -e espera una cantidad entera y positiva" << endl;
+					abort();
+				}
+				break;
+
+        	case 't':
                 if ((str2int(tiempoSimulacion, optarg) != SUCCESS) || (tiempoSimulacion < 1)) {
                     cout << "La opcion -t espera una duracion entera y positiva" << endl;
                     abort();
@@ -81,7 +89,7 @@ int main(int argc, char **argv) {
                 break;
 
             case '?':
-                if ((optopt == 't') || (optopt == 'c') || (optopt == 'p')) {
+                if (optopt != 'd') {
                     cout << "La opcion -" << (char) optopt << " requiere un argumento" << endl;
                     abort();
                 } else {
@@ -117,25 +125,41 @@ int main(int argc, char **argv) {
     // la memoria compartida perdiendo valores ya escritos
     e.inicializarMemoria();
 
-    Administrador* administrador = new Administrador(tiempoSimulacion);
-    Entrada* entrada1 = new Entrada("1", tiempoSimulacion);
-    Entrada* entrada2 = new Entrada("2", tiempoSimulacion);
-    Entrada* entrada3 = new Entrada("3", tiempoSimulacion);
+    Administrador* admins[cantEstacionamientos];
+    Entrada* entradas[cantEstacionamientos][CANT_ENTRADAS];
+
+    // Encapsular esto en un estacionamiento?
+    for (int est = 0; est < cantEstacionamientos; est++) {
+    	admins[est] = new Administrador(tiempoSimulacion);
+    	stringstream nombre;
+    	for (int entrada = 0; entrada < CANT_ENTRADAS; entrada++) {
+    		nombre << entrada;
+    		entradas[est][entrada] = new Entrada(est, nombre.str(), tiempoSimulacion);
+    	}
+    }
 
     inicio.escribir(time(NULL));
-    administrador->iniciar();
-    entrada1->iniciar();
-    entrada2->iniciar();
-    entrada3->iniciar();
+    for (int est = 0; est < cantEstacionamientos; est++) {
+		admins[est]->iniciar();
+		for (int entrada = 0; entrada < CANT_ENTRADAS; entrada++) {
+			entradas[est][entrada]->iniciar();
+		}
+	}
 
     inicio.liberar();
     memCapacidad.liberar();
     memPrecio.liberar();
 
-    delete entrada1;
-    delete entrada2;
-    delete entrada3;
-    delete administrador;
+    for (int est = 0; est < cantEstacionamientos; est++) {
+		delete admins[est];
+		for (int entrada = 0; entrada < CANT_ENTRADAS; entrada++) {
+			delete entradas[est][entrada];
+		}
+	}
+
+    // Esperar semaforo/lock de finalizacion y eliminar colas de mensajes?
+    // No es mejor hacerlo cuando termina el administrador central?
+    // Como determina el administrador central que tiene que terminar?
 
 	return 0;
 }
@@ -152,6 +176,7 @@ void crearArchivosAuxiliares(int capacidadEstacionamiento) {
     crearArchivo(ARCHIVO_LOCK_OCUPACION);
     crearArchivo(ARCHIVO_LOCK_FACTURACION);
     crearArchivo(ARCHIVO_LOCK_CANT_PROCESOS);
+    crearArchivo(ARCHIVO_COLAS);
     for (int i = 0; i < capacidadEstacionamiento; i++) {
         stringstream ss;
         ss << DIR_AUXILIAR << "/pos_" << i << ".c";

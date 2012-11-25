@@ -5,21 +5,27 @@
 
 #include "Proceso.h"
 #include "MemoriaCompartida.h"
-#include "Estacionamiento.h"
+#include "Cola.h"
+#include "Mensajes.h"
+
+using namespace std;
 
 class Entrada : public Proceso {
     private:
-        Estacionamiento estacionamiento;
-        int tiempoSimulacion;
+		int nroEstacionamiento;
+		string nombre;
+		int tiempoSimulacion;
         int instanteFinal;
-        string nombre;
+        Cola<Pedido>* colaPedidos;
+        Cola<Respuesta>* colaRespuestas;
 
         void inicializar();
         void recibirAutos();
         unsigned autosPorHora();
+        bool hayLugar();
 
     public:
-        Entrada(string nombre, int tiempoSimulacion);
+        Entrada(int nroEstacionamiento, string nombre, int tiempoSimulacion);
         virtual void ejecutar();
         virtual ~Entrada() {};
 };

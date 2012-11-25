@@ -1,6 +1,7 @@
 #ifndef CONSTANTES_H_INCLUDED
 #define CONSTANTES_H_INCLUDED
 
+	#define CANTIDAD_ESTACIONAMIENTOS	1
     #define CAPACIDAD_ESTACIONAMIENTO   400
     #define CANT_ENTRADAS               3
     #define CANT_SALIDAS                2
@@ -18,6 +19,7 @@
     #define ARCHIVO_LOCK_OCUPACION      "tmp/ocupacion_lock.tmp"
     #define ARCHIVO_LOCK_FACTURACION    "tmp/facturacion_lock.tmp"
 	#define ARCHIVO_LOCK_CANT_PROCESOS	"tmp/proceso_lock.tmp"
+	#define ARCHIVO_COLAS				"tmp/colas.tmp"
 
 	#define C_SHM_CANT_PROCESOS			'c'
     #define C_SHM_CAPACIDAD             'C'
@@ -26,6 +28,9 @@
     #define C_SHM_POS_OCUPADAS          'p'
     #define C_SHM_VALOR_FACTURADO       'F'
     #define C_SHM_LUGAR_ESTACIONAMIENTO 'l'
+
+	#define C_LOCK_COLA_PEDIDOS			'p'
+	#define C_LOCK_COLA_RESPUESTAS		'r'
 
     enum EstadoLugar { LIBRE, OCUPADO, PARA_LIBERAR };
     enum TipoLog { INFO, DEBUG, WARNING, ERROR, FATAL };
