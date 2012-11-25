@@ -37,12 +37,14 @@ void Logger :: write(TipoLog modo, string mensaje) {
 
 void Logger::openLogFile(string logFile)
 {
-    fd.open( logFile.c_str(), ofstream::out);
+	fd.open( logFile.c_str(), ofstream::out);
 }
 
 void Logger::writeToLogFile(TipoLog modo, string mensaje) {
     if (modo >= this->modo) {
         lock->tomarLock();
+        stringstream msj;
+        //msj << "[" << fechaFormateada() << " : "  << modo << "] " << mensaje << endl;
         fd << "[" << fechaFormateada() << " : "  << modo << "] " << mensaje << endl;
         lock->liberarLock();
     }

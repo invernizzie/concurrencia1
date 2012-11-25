@@ -1,6 +1,15 @@
-16:47:19 **** Build of configuration Default for project tp2 ****
+16:12:30 **** Incremental Build of configuration Debug for project tp2 ****
 make all 
-make: *** No rule to make target `all'.  Stop.
+Building file: ../src/Estacionamiento.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"src/Estacionamiento.d" -MT"src/Estacionamiento.d" -o "src/Estacionamiento.o" "../src/Estacionamiento.cpp"
+Finished building: ../src/Estacionamiento.cpp
+ 
+Building target: tp2
+Invoking: GCC C++ Linker
+g++  -o "tp2"  ./src/Administrador.o ./src/Auto.o ./src/Entrada.o ./src/Estacionamiento.o ./src/LockFile.o ./src/Proceso.o ./src/Semaforo.o ./src/logger.o ./src/tp1.o   
+Finished building target: tp2
+ 
 
-16:47:19 Build Finished (took 97ms)
+16:12:30 Build Finished (took 719ms)
 

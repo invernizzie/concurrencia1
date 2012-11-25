@@ -1,0 +1,28 @@
+#include "include/Proceso.h"
+
+pid_t Proceso :: iniciar() {
+    pid_t id = fork();
+
+    if (id < 0) {
+        throw errno;
+    }
+
+    if (id == 0) {
+    	LockFile lockCantProcesos((char*) ARCHIVO_LOCK_CANT_PROCESOS);
+    	MemoriaCompartida<int> cantProcesos;
+    	cantProcesos.crear((char*) ARCHIVO_AUXILIAR, C_SHM_CANT_PROCESOS);
+    	lockCantProcesos.tomarLock();
+    	cantProcesos.escribir(cantProcesos.leer() + 1);
+    	lockCantProcesos.liberarLock();
+
+        this->ejecutar();
+
+        // Es obligatorio crear el Proceso con new
+        delete this;
+        // Este proceso nunca abandona este scope
+        exit(0);
+    }
+    return id;
+}
+
+
