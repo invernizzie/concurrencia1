@@ -10,7 +10,6 @@
 	#include	<sys/ipc.h>
 	#include	<sys/shm.h>
 
-
 	template <class T> class MemoriaCompartida {
 
 	private:
@@ -65,6 +64,7 @@
 
 
 	template <class T> void MemoriaCompartida<T> :: liberar () {
+
 		// detach del bloque de memoria
 		shmdt ( (void *) this->ptrDatos );
 

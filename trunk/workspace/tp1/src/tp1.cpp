@@ -132,6 +132,11 @@ int main(int argc, char **argv) {
     memCapacidad.liberar();
     memPrecio.liberar();
 
+    delete entrada1;
+    delete entrada2;
+    delete entrada3;
+    delete administrador;
+
 	return 0;
 }
 
