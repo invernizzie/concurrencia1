@@ -10,10 +10,13 @@
 
 class Proceso {
     public:
-        Proceso() {};
+        Proceso() : pid(0) {};
         virtual ~Proceso() {};
         pid_t iniciar();
         virtual void ejecutar() {};
+
+    protected:
+        pid_t pid;
 };
 
 #endif /* PROCESO_H_ */

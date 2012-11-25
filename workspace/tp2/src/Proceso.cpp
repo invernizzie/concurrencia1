@@ -1,13 +1,13 @@
 #include "include/Proceso.h"
 
 pid_t Proceso :: iniciar() {
-    pid_t id = fork();
+    pid = fork();
 
-    if (id < 0) {
+    if (pid < 0) {
         throw errno;
     }
 
-    if (id == 0) {
+    if (pid == 0) {
     	LockFile lockCantProcesos((char*) ARCHIVO_LOCK_CANT_PROCESOS);
     	MemoriaCompartida<int> cantProcesos;
     	cantProcesos.crear((char*) ARCHIVO_AUXILIAR, C_SHM_CANT_PROCESOS);
@@ -31,7 +31,7 @@ pid_t Proceso :: iniciar() {
         // Este proceso nunca abandona este scope
         exit(0);
     }
-    return id;
+    return pid;
 }
 
 
