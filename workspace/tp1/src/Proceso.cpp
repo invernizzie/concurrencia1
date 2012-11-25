@@ -12,6 +12,7 @@ pid_t Proceso :: iniciar() {
 
         // Es obligatorio crear el Proceso con new
         delete this;
+        sleep(10);
         // Este proceso nunca abandona este scope
         exit(0);
     }

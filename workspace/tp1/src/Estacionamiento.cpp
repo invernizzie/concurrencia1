@@ -1,4 +1,5 @@
 #include "include/Estacionamiento.h"
+
 #include <vector>
 #include <errno.h>
 #include <stdlib.h>
@@ -63,6 +64,11 @@ Estacionamiento::Estacionamiento() :
     estadosPosicion.reserve(capacidad);
     locksPosicion.reserve(capacidad);
     locksSalidas.reserve(CANT_SALIDAS);
+    for (int i = 0; i < CANT_SALIDAS; i++) {
+		stringstream ss;
+		ss << DIR_AUXILIAR << "/salida_" << i << ".c";
+		locksSalidas[i] = new LockFile(ss.str().c_str());
+	}
     for ( int i=0 ; i < capacidad ; i++){
         crearPosicion(i);
     }
@@ -77,7 +83,11 @@ void Estacionamiento :: inicializarMemoria() {
 }
 
 Estacionamiento::~Estacionamiento() {
+	valorFacturado.liberar();
     int capacidad = estadosPosicion.size();
+    for (int i = 0; i < CANT_SALIDAS; i++) {
+		delete locksSalidas[i];
+	}
     for (int i = 0; i < capacidad; i++) {
         destruirPosicion(i);
     }
