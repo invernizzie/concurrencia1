@@ -2,9 +2,13 @@
     #define LOGGER_H
 
     #include <string>
+	#include <sstream>
     #include "constantes.h"
     #include <iostream>
     #include <fstream>
+    #include <cstdio>
+	#include <unistd.h>
+	#include <ctime>
     #include "LockFile.h"
 
     using namespace std;
