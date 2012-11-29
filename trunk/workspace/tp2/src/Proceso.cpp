@@ -1,5 +1,7 @@
 #include "include/Proceso.h"
 
+#include <unistd.h>
+
 pid_t Proceso :: iniciar() {
     pid = fork();
 
@@ -8,6 +10,8 @@ pid_t Proceso :: iniciar() {
     }
 
     if (pid == 0) {
+    	pid = getpid();
+
     	LockFile lockCantProcesos((char*) ARCHIVO_LOCK_CANT_PROCESOS);
     	MemoriaCompartida<int> cantProcesos;
     	cantProcesos.crear((char*) ARCHIVO_AUXILIAR, C_SHM_CANT_PROCESOS);

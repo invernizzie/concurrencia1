@@ -19,8 +19,8 @@ typedef struct Pedido {
 	int nroEstacionamiento;
 
 	// Solo para que el auto pague
-	int nroLugar;
-	int duracionEstadia;
+	unsigned nroLugar;
+	unsigned duracionEstadia;
 } Pedido;
 
 typedef struct EstadoEstacionamiento {
@@ -34,7 +34,7 @@ typedef struct Respuesta {
 		// Respuesta a ocupacion de lugar (Entrada)
 		bool habiaLugar;
 		// Respuesta a pedido de lugar (Auto)
-		int lugarOtorgado;
+		unsigned lugarOtorgado;
 		// Respuesta a consulta de estado (Adm)
 		EstadoEstacionamiento estado;
 	} respuesta;

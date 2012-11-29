@@ -6,69 +6,79 @@
 
 #include "include/logger.h"
 
-Auto :: Auto() {
-    srand (time(NULL) + getpid());
+Auto :: Auto(int nroEstacionamiento):
+		nroEstacionamiento(nroEstacionamiento),
+		posicion(0),
+		espera(0),
+		colaPedidos(NULL),
+		colaRespuestas(NULL) {}
+
+Auto :: ~Auto() {
+	delete colaPedidos;
+	delete colaRespuestas;
+
+    stringstream ss;
+    ss << "Auto " << getpid() << "(" << nroEstacionamiento << "): destruido";
+	Logger::write(DEBUG, ss.str());
 }
 
 void Auto :: ejecutar() {
+	inicializar();
     buscarLugar();
     sleep(determinarEspera());
     liberarLugar();
-    pagar();
-    estacionamiento.salir(determinarSalida());
+	// TODO No hay cuello de botella de cantidad de salidas, introducirlo
 
     stringstream ss;
-    ss << "Auto " << getpid() << ": se retira";
+    ss << "Auto " << pid << "(" << nroEstacionamiento << "): se retira";
 	Logger::write(DEBUG, ss.str());
+}
+
+void Auto :: inicializar() {
+    srand (time(NULL) + pid);
+	colaPedidos = new Cola<Pedido>((char*)ARCHIVO_COLAS, C_LOCK_COLA_PEDIDOS);
+	colaRespuestas = new Cola<Respuesta>((char*)ARCHIVO_COLAS, C_LOCK_COLA_RESPUESTAS);
 }
 
 // Estrategia: comienza en posicion 0, mira una a una
 // Si llega al final vuelve a empezar
 void Auto :: buscarLugar() {
     stringstream ss;
-    ss << "Auto " << getpid() << ": buscando lugar";
+    ss << "Auto " << pid << ": solicita lugar";
     Logger::write(DEBUG, ss.str());
 
-    int cantidad = estacionamiento.getCapacidad();
-    bool encontrado = false;
-    posicion = 0;
-    while (!encontrado) {
-        try {
-            estacionamiento.ocupar(posicion);
+    Pedido pedidoLugar;
+    pedidoLugar.mtype = P_PIDO_LUGAR;
+    pedidoLugar.pid = pid;
+    pedidoLugar.nroEstacionamiento = nroEstacionamiento;
 
-            stringstream ss;
-            ss << "Auto " << getpid() << ": ocupo lugar " << posicion;
-            Logger::write(DEBUG, ss.str());
+    colaPedidos->escribir(pedidoLugar);
 
-            encontrado = true;
-        } catch (exception& e) {
-            stringstream ss;
-            ss << "Auto " << getpid() << ": lugar " << posicion << " ocupado, sigo buscando";
-            Logger::write(DEBUG, ss.str());
+    Respuesta respuesta;
+    colaRespuestas->leer(pid, &respuesta);
+    posicion = respuesta.respuesta.lugarOtorgado;
 
-            posicion = (posicion + 1) % cantidad;
-        }
-    }
+    ss.str("");
+	ss << "Auto " << pid << "(" << nroEstacionamiento << "): obtuve lugar " << posicion;
+	Logger::write(INFO, ss.str());
 }
 
 void Auto :: liberarLugar() {
-    stringstream ss;
-    ss << "Auto " << getpid() << ": libero lugar " << posicion;
-    Logger::write(DEBUG, ss.str());
+	Pedido pedidoLiberacion;
+	pedidoLiberacion.mtype = P_PAGO_Y_LIBERO;
+	pedidoLiberacion.pid = pid;
+	pedidoLiberacion.nroEstacionamiento = nroEstacionamiento;
+	pedidoLiberacion.nroLugar = posicion;
+	pedidoLiberacion.duracionEstadia = espera;
 
-    estacionamiento.liberar(posicion);
+	colaPedidos->escribir(pedidoLiberacion);
+
+	stringstream ss;
+	ss << "Auto " << pid << "(" << nroEstacionamiento << "): pague y libere lugar " << posicion;
+	Logger::write(DEBUG, ss.str());
 }
 
 unsigned Auto :: determinarEspera() {
     espera = rand() % (ESTADIA_MAXIMA - 1) + 1;
     return espera;
-}
-
-void Auto :: pagar() {
-    // Esto seria el pago
-    estacionamiento.registrarPago(espera * estacionamiento.getValorHora() );
-
-    stringstream ss;
-    ss << "Auto " << getpid() << ": pago";
-    Logger::write(DEBUG, ss.str());
 }
