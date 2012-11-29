@@ -48,36 +48,41 @@ void Entrada :: recibirAutos() {
         for (; autos > 0; autos--) {
         	if (hayLugar()) {
         		// Si hay lugar, se forkea un Auto
-				Auto* _auto = new Auto();
+				Auto* _auto = new Auto(nroEstacionamiento);
 				pid_t pIdAuto = _auto->iniciar();
 
 				stringstream ss;
-				ss << "Entrada " << nombre << ": dejo ingresar auto " << pIdAuto;
+				ss << "Entrada " << nombre << "(" << nroEstacionamiento << "): dejo ingresar auto " << pIdAuto;
 				Logger::write(DEBUG, ss.str());
 
         	} else {
         		// Si no, el auto se retira
 				stringstream ss;
-				ss << "Entrada " << nombre << ": no hay lugares libres, se retira un auto";
+				ss << "Entrada " << nombre << "(" << nroEstacionamiento << "): no hay lugares libres, se retira un auto";
 				Logger::write(DEBUG, ss.str());
         	}
         }
         sleep(1);
     }
     stringstream ss;
-    ss << "Entrada " << nombre << " finaliza la simulacion";
+    ss << "Entrada " << nombre << "(" << nroEstacionamiento << "): finaliza la simulacion";
     Logger::write(DEBUG, ss.str());
 }
 
 bool Entrada :: hayLugar() {
 	Pedido pedido;
 	pedido.mtype = P_OCUPO_LUGAR;
+	pedido.pid = pid;
 	pedido.nroEstacionamiento = nroEstacionamiento;
 
 	colaPedidos->escribir(pedido);
 
 	Respuesta respuesta;
 	colaRespuestas->leer(pid, &respuesta);
+
+	stringstream ss;
+	ss << "Entrada " << nombre << "(" << nroEstacionamiento << "): recibe respuesta";
+	Logger::write(INFO, ss.str());
 	return respuesta.respuesta.habiaLugar;
 }
 
