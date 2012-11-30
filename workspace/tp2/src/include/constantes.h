@@ -9,7 +9,7 @@
     #define PRECIO_SUGERIDO             12
     #define ESTADIA_MAXIMA              6
     #define AUTOS_POR_HORA              10
-    #define TIEMPO_ENTRE_CONSULTAS      4
+    #define TIEMPO_ENTRE_CONSULTAS      3
 
     #define DIR_AUXILIAR                "tmp"
     #define ARCHIVO_LOG                 "Estacionamiento.log"

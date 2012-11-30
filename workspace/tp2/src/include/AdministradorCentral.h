@@ -4,16 +4,13 @@
 #include "Proceso.h"
 #include "Cola.h"
 #include "Mensajes.h"
-
-class Estacionamiento {
-	public:
-		Estacionamiento(int capacidad) {};
-};
+#include "Estacionamiento.h"
 
 class AdministradorCentral : public Proceso {
 	private:
 		int cantEstacionamientos;
 		int capacidad;
+		int valorHora;
 		Estacionamiento** estacionamiento;
         Cola<Pedido>* colaPedidos;
         Cola<Respuesta>* colaRespuestas;
@@ -27,7 +24,7 @@ class AdministradorCentral : public Proceso {
 		void informarEstado(Pedido& pedido);
 
 	public:
-		AdministradorCentral(int cantEstacionamientos, int capacidad);
+		AdministradorCentral(int cantEstacionamientos, int capacidad, int valorHora);
 		virtual ~AdministradorCentral() {};
 		void ejecutar();
 };

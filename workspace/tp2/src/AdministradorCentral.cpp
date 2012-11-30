@@ -2,9 +2,10 @@
 
 #include "include/logger.h"
 
-AdministradorCentral::AdministradorCentral(int cantEstacionamientos, int capacidad):
+AdministradorCentral::AdministradorCentral(int cantEstacionamientos, int capacidad, int valorHora):
 	cantEstacionamientos(cantEstacionamientos),
 	capacidad(capacidad),
+	valorHora(valorHora),
 	estacionamiento(NULL),
 	colaPedidos(NULL),
 	colaRespuestas(NULL) {}
@@ -17,7 +18,7 @@ void AdministradorCentral::ejecutar() {
 void AdministradorCentral::inicializar() {
 	estacionamiento = new Estacionamiento*[cantEstacionamientos];
 	for (int i = 0; i < cantEstacionamientos; i++) {
-		estacionamiento[i] = new Estacionamiento(capacidad);
+		estacionamiento[i] = new Estacionamiento(capacidad, valorHora);
 	}
     colaPedidos = new Cola<Pedido>((char*)ARCHIVO_COLAS, C_LOCK_COLA_PEDIDOS);
     colaRespuestas = new Cola<Respuesta>((char*)ARCHIVO_COLAS, C_LOCK_COLA_RESPUESTAS);
@@ -73,33 +74,58 @@ void AdministradorCentral::servirPedidos() {
 }
 
 void AdministradorCentral::liberarPosicion(Pedido& pedido) {
-	// TODO
+	Estacionamiento& e = *estacionamiento[pedido.nroEstacionamiento];
+	e.liberarLugarOcupado(pedido.nroLugar);
+	e.cobrar(pedido.duracionEstadia);
+
+	stringstream ss;
+	ss << "Administrador central libera lugar " <<
+		pedido.nroLugar << " de estac " <<
+		pedido.nroEstacionamiento << " de auto " << pedido.pid;
+	Logger::write(INFO, ss.str());
 };
 
 void AdministradorCentral::asignarPosicion(Pedido& pedido) {
-	// TODO
-	Respuesta respuesta;
-	respuesta.mtype = pedido.pid;
-	respuesta.respuesta.lugarOtorgado = 0;
+	Respuesta r;
+	r.mtype = pedido.pid;
 
-	colaRespuestas->escribir(respuesta);
+	Estacionamiento& e = *estacionamiento[pedido.nroEstacionamiento];
+	r.respuesta.lugarOtorgado = e.asignarLugarLibre();
+
+	colaRespuestas->escribir(r);
+
+	stringstream ss;
+	ss << "Administrador central asigna lugar " <<
+		r.respuesta.lugarOtorgado << " de estac " <<
+		pedido.nroEstacionamiento << " a auto " << pedido.pid;
+	Logger::write(INFO, ss.str());
 };
 
 void AdministradorCentral::reservarLugar(Pedido& pedido) {
-	// TODO
-	static bool hay = true;
-	Respuesta respuesta;
-	respuesta.mtype = pedido.pid;
-	respuesta.respuesta.habiaLugar = hay;
+	Respuesta r;
+	r.mtype = pedido.pid;
 
-	colaRespuestas->escribir(respuesta);
+	Estacionamiento& e = *estacionamiento[pedido.nroEstacionamiento];
+	r.respuesta.habiaLugar = e.reservarLugar();
+
+	colaRespuestas->escribir(r);
 
 	stringstream ss;
-	ss << "Administrador central reserva lugar para " << pedido.pid << ": " << (hay ? " verdadero" : " falso");
+	ss << "Administrador central " <<
+		(r.respuesta.habiaLugar ? "" : "no") <<
+		" pudo reservar lugar para entrada " << pedido.pid << " de estac " << pedido.nroEstacionamiento;
 	Logger::write(INFO, ss.str());
-	hay = false;
 };
 
 void AdministradorCentral::informarEstado(Pedido& pedido) {
-	// TODO
+	Respuesta r;
+	r.mtype = pedido.pid;
+
+	Estacionamiento& e = *estacionamiento[pedido.nroEstacionamiento];
+	r.respuesta.estado = e.estadoActual();
+
+	colaRespuestas->escribir(r);
+	stringstream ss;
+	ss << "Administrador central informa estado al adm " << pedido.pid << " de estac " << pedido.nroEstacionamiento;
+	Logger::write(INFO, ss.str());
 };

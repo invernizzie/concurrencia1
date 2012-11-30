@@ -6,9 +6,7 @@
 #include <exception>
 #include <sstream>
 
-#include "constantes.h"
-#include "LockFile.h"
-#include "MemoriaCompartida.h"
+#include "Mensajes.h"
 
 using namespace std;
 
@@ -19,50 +17,20 @@ class LugarOcupado : public exception { };
 class Estacionamiento {
 
     public:
-        Estacionamiento();
+        Estacionamiento(int capacidad, int valorHora);
         virtual ~Estacionamiento();
-        void inicializarMemoria();
-
-
-        // Para ser usados por el auto.
-        void liberar(int posicion);
-        void ocupar(int posicion);
-
-        // Para ser usados por las entradas y las salidas.
-        void liberarLugar();
-        void ocuparLugar();
-
-        unsigned getLugaresLibres();
-        unsigned getCapacidad();
-
-        float getValorFacturado();
-
-        void registrarPago(float valor);
-
-        float getValorHora(){return valorHora;};
-
-        void setValorHora(float precio){valorHora = precio;};
-
-        void salir(unsigned salida);
-
-
+        bool reservarLugar();
+        unsigned asignarLugarLibre();
+        void liberarLugarOcupado(unsigned nroLugar);
+        void cobrar(unsigned duracionEstadia);
+        EstadoEstacionamiento estadoActual();
 
     private:
-        vector< MemoriaCompartida<EstadoLugar> > estadosPosicion; // para liberarlas cuando ya no se usen.
-        vector< LockFile* > locksPosicion; //lock para cada posicion.
-
-        MemoriaCompartida< unsigned > posicionesOcupadas;
-        LockFile lockOcupacion;
-
-        vector< LockFile* > locksSalidas;
-
-        MemoriaCompartida<float> valorFacturado;
-        LockFile lockFacturacion;
-
+        int capacidad;
         int valorHora;
-
-        void crearPosicion(int);
-        void destruirPosicion(int);
+        int lugaresLibres;
+        int facturacion;
+        vector<unsigned> posicionesLibres;
 };
 
 #endif // ESTACIONAMIENTO_H
