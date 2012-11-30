@@ -16,10 +16,9 @@
 
 #include "include/constantes.h"
 #include "include/MemoriaCompartida.h"
-//#include "include/Estacionamiento.h"
 #include "include/AdministradorCentral.h"
 #include "include/Entrada.h"
-//#include "include/Administrador.h"
+#include "include/Administrador.h"
 #include "include/Proceso.h"
 #include "include/logger.h"
 
@@ -121,18 +120,13 @@ int main(int argc, char **argv) {
     MemoriaCompartida<time_t> inicio;
     inicio.crear((char*)ARCHIVO_AUXILIAR, C_SHM_TIEMPO_INICIO);
 
-    //Estacionamiento e;
-    // Si se llama en mas de un proceso, se reinicializa
-    // la memoria compartida perdiendo valores ya escritos
-    //e.inicializarMemoria();
-
-    AdministradorCentral admin(cantEstacionamientos, capacidad);
-    //Administrador* admins[cantEstacionamientos];
+	AdministradorCentral admin(cantEstacionamientos, capacidad, precio);
+    Administrador* admins[cantEstacionamientos];
     Entrada* entradas[cantEstacionamientos][CANT_ENTRADAS];
 
     // Encapsular esto en un estacionamiento?
     for (int est = 0; est < cantEstacionamientos; est++) {
-    	//admins[est] = new Administrador(tiempoSimulacion);
+    	admins[est] = new Administrador(est, tiempoSimulacion);
     	stringstream nombre;
     	for (int entrada = 0; entrada < CANT_ENTRADAS; entrada++) {
     		nombre.str("");
@@ -145,7 +139,7 @@ int main(int argc, char **argv) {
     inicio.escribir(time(NULL));
     admin.iniciar();
     for (int est = 0; est < cantEstacionamientos; est++) {
-		//admins[est]->iniciar();
+		admins[est]->iniciar();
 		for (int entrada = 0; entrada < CANT_ENTRADAS; entrada++) {
 			entradas[est][entrada]->iniciar();
 		}
@@ -156,7 +150,7 @@ int main(int argc, char **argv) {
     memPrecio.liberar();
 
     for (int est = 0; est < cantEstacionamientos; est++) {
-		//delete admins[est];
+		delete admins[est];
 		for (int entrada = 0; entrada < CANT_ENTRADAS; entrada++) {
 			delete entradas[est][entrada];
 		}

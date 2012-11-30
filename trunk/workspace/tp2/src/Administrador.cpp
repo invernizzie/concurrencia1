@@ -9,12 +9,17 @@
 #include "include/Auto.h"
 #include "include/logger.h"
 
-Administrador :: Administrador(int tiempoSimulacion) :
-            tiempoSimulacion(tiempoSimulacion) {}
+Administrador :: Administrador(int nroEstacionamiento, int tiempoSimulacion):
+		nroEstacionamiento(nroEstacionamiento),
+		tiempoSimulacion(tiempoSimulacion),
+		instanteFinal(0),
+		colaPedidos(NULL),
+		colaRespuestas(NULL) {}
 
 void Administrador :: ejecutar() {
     inicializar();
     consultarPeriodicamente();
+    deinicializar();
 }
 
 void Administrador :: inicializar() {
@@ -24,30 +29,44 @@ void Administrador :: inicializar() {
     instanteFinal = inicio.leer() + this->tiempoSimulacion;
 	inicio.liberar();
 
+	colaPedidos = new Cola<Pedido>((char*)ARCHIVO_COLAS, C_LOCK_COLA_PEDIDOS);
+	colaRespuestas = new Cola<Respuesta>((char*)ARCHIVO_COLAS, C_LOCK_COLA_RESPUESTAS);
+
     srand (time(NULL) + getpid());
 }
 
+void Administrador::deinicializar() {
+	delete colaPedidos;
+	delete colaRespuestas;
+}
+
 void Administrador :: consultarPeriodicamente() {
-    unsigned espera = tiempoEntreConsultas();
-    unsigned capacidad;
-    unsigned lugaresLibres = capacidad = estacionamiento.getCapacidad();
-    while ((instanteFinal > time(NULL) + espera) || (lugaresLibres < capacidad)) {
+	Respuesta r;
+	Pedido pedido;
+	pedido.mtype = P_CONSULTA_ESTADO;
+	pedido.pid = pid;
+	pedido.nroEstacionamiento = nroEstacionamiento;
+
+	unsigned espera = tiempoEntreConsultas();
+    while ((instanteFinal > time(NULL) + espera)) { // Cuando termina?
         stringstream ss;
-        ss << "Administrador esperara " << espera << " segundos";
+        ss << "Administrador(" << nroEstacionamiento << "): esperara " << espera << " segundos";
         Logger::write(DEBUG, ss.str());
 
         sleep(espera);
 
-        lugaresLibres = estacionamiento.getLugaresLibres();
+        colaPedidos->escribir(pedido);
+        colaRespuestas->leer(pid, &r);
 
         stringstream ss1;
-        ss1 << "Administrador: hay " << lugaresLibres << " lugares libres, se facturo " << estacionamiento.getValorFacturado();
+        ss1 << "Administrador(" << nroEstacionamiento << "): hay " << r.respuesta.estado.lugaresLibres <<
+        		" lugares libres, se facturo " << r.respuesta.estado.facturacion;
         Logger::write(DEBUG, ss1.str());
 
         espera = tiempoEntreConsultas();
     }
     stringstream ss;
-    ss << "Administrador finaliza la simulacion";
+    ss << "Administrador(" << nroEstacionamiento << "): finaliza la simulacion";
     Logger::write(DEBUG, ss.str());
 }
 

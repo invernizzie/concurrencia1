@@ -4,21 +4,24 @@
 #include <string>
 
 #include "Proceso.h"
-#include "MemoriaCompartida.h"
-#include "Estacionamiento.h"
+#include "Cola.h"
+#include "Mensajes.h"
 
 class Administrador : public Proceso {
     private:
-        Estacionamiento estacionamiento;
+		int nroEstacionamiento;
         int tiempoSimulacion;
         int instanteFinal;
+        Cola<Pedido>* colaPedidos;
+        Cola<Respuesta>* colaRespuestas;
 
         void inicializar();
+        void deinicializar();
         void consultarPeriodicamente();
         unsigned tiempoEntreConsultas();
 
     public:
-        Administrador(int tiempoSimulacion);
+        Administrador(int nroEstacionamiento, int tiempoSimulacion);
         virtual void ejecutar();
         virtual ~Administrador() {};
 };
