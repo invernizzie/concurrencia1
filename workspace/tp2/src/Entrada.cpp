@@ -6,6 +6,7 @@
 #include <exception>
 #include <string>
 #include <stdlib.h>
+#include <sys/wait.h>
 
 #include "include/constantes.h"
 #include "include/Auto.h"
@@ -22,21 +23,30 @@ Entrada :: Entrada(int nroEstacionamiento, string nombre, int tiempoSimulacion) 
 void Entrada :: ejecutar() {
     inicializar();
     recibirAutos();
-    delete colaPedidos;
-    delete colaRespuestas;
+    esperarAutos();
+    comunicarCierre();
+    deinicializar();
 }
 
 void Entrada :: inicializar() {
     // Obtener tiempo de inicio de memoria compartida
-    //MemoriaCompartida<time_t> inicio;
     inicio.crear((char*)ARCHIVO_AUXILIAR, C_SHM_TIEMPO_INICIO);
-    instanteFinal = inicio.leer() + this->tiempoSimulacion;
-    //inicio.liberar();
+    instanteFinal = inicio.leer() + tiempoSimulacion;
 
     colaPedidos = new Cola<Pedido>((char*)ARCHIVO_COLAS, C_LOCK_COLA_PEDIDOS);
     colaRespuestas = new Cola<Respuesta>((char*)ARCHIVO_COLAS, C_LOCK_COLA_RESPUESTAS);
 
     srand (time(NULL) + getpid());
+}
+
+void Entrada :: deinicializar() {
+    delete colaPedidos;
+    delete colaRespuestas;
+    inicio.liberar();
+
+    stringstream ss;
+    ss << "Entrada " << nombre << "(" << nroEstacionamiento << ") deinicializada";
+    Logger::write(INFO, ss.str());
 }
 
 void Entrada :: recibirAutos() {
@@ -69,6 +79,15 @@ void Entrada :: recibirAutos() {
     Logger::write(DEBUG, ss.str());
 }
 
+void Entrada::comunicarCierre() {
+	Pedido pedido;
+	pedido.mtype = P_TERMINO_ENTRADA;
+	pedido.pid = pid;
+	pedido.nroEstacionamiento = nroEstacionamiento;
+
+	colaPedidos->escribir(pedido);
+}
+
 bool Entrada :: hayLugar() {
 	Pedido pedido;
 	pedido.mtype = P_OCUPO_LUGAR;
@@ -80,12 +99,13 @@ bool Entrada :: hayLugar() {
 	Respuesta respuesta;
 	colaRespuestas->leer(pid, &respuesta);
 
-	stringstream ss;
-	ss << "Entrada " << nombre << "(" << nroEstacionamiento << "): recibe respuesta";
-	Logger::write(INFO, ss.str());
 	return respuesta.respuesta.habiaLugar;
 }
 
 unsigned Entrada :: autosPorHora() {
     return rand() % AUTOS_POR_HORA;
+}
+
+void Entrada::esperarAutos() {
+	while (wait(NULL) > 0);
 }

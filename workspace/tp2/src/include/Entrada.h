@@ -18,9 +18,13 @@ class Entrada : public Proceso {
         int instanteFinal;
         Cola<Pedido>* colaPedidos;
         Cola<Respuesta>* colaRespuestas;
+        MemoriaCompartida<time_t> inicio;
 
         void inicializar();
+        void deinicializar();
         void recibirAutos();
+        void esperarAutos();
+        void comunicarCierre();
         unsigned autosPorHora();
         bool hayLugar();
 

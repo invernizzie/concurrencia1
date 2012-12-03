@@ -25,14 +25,18 @@ class Estacionamiento {
         void liberarLugarOcupado(unsigned nroLugar);
         void cobrar(unsigned duracionEstadia);
         EstadoEstacionamiento estadoActual();
+        bool estaCerrado();
+        void cerrarEntrada();
+        void cerrarAdministrador();
 
     private:
         int capacidad;
         int valorHora;
         int lugaresLibres;
         int facturacion;
+        int entradasActivas;
+        bool administradorActivo;
         vector<unsigned> posicionesLibres;
-        MemoriaCompartida < unsigned > EstacionamientosActivos;
 };
 
 #endif // ESTACIONAMIENTO_H

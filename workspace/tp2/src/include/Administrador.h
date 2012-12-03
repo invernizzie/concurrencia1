@@ -11,6 +11,7 @@ class Administrador : public Proceso {
     private:
 		int nroEstacionamiento;
         int tiempoSimulacion;
+		int capacidad;
         int instanteFinal;
         Cola<Pedido>* colaPedidos;
         Cola<Respuesta>* colaRespuestas;
@@ -21,7 +22,7 @@ class Administrador : public Proceso {
         unsigned tiempoEntreConsultas();
 
     public:
-        Administrador(int nroEstacionamiento, int tiempoSimulacion);
+        Administrador(int nroEstacionamiento, int tiempoSimulacion, int capacidad);
         virtual void ejecutar();
         virtual ~Administrador() {};
 };

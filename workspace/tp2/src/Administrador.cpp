@@ -9,9 +9,10 @@
 #include "include/Auto.h"
 #include "include/logger.h"
 
-Administrador :: Administrador(int nroEstacionamiento, int tiempoSimulacion):
+Administrador :: Administrador(int nroEstacionamiento, int tiempoSimulacion, int capacidad):
 		nroEstacionamiento(nroEstacionamiento),
 		tiempoSimulacion(tiempoSimulacion),
+		capacidad(capacidad),
 		instanteFinal(0),
 		colaPedidos(NULL),
 		colaRespuestas(NULL) {}
@@ -27,7 +28,7 @@ void Administrador :: inicializar() {
     MemoriaCompartida<time_t> inicio;
     inicio.crear((char*)ARCHIVO_AUXILIAR, C_SHM_TIEMPO_INICIO);
     instanteFinal = inicio.leer() + this->tiempoSimulacion;
-	inicio.liberar();
+	inicio.desvincularSinBorrar();
 
 	colaPedidos = new Cola<Pedido>((char*)ARCHIVO_COLAS, C_LOCK_COLA_PEDIDOS);
 	colaRespuestas = new Cola<Respuesta>((char*)ARCHIVO_COLAS, C_LOCK_COLA_RESPUESTAS);
@@ -41,6 +42,8 @@ void Administrador::deinicializar() {
 }
 
 void Administrador :: consultarPeriodicamente() {
+	bool estaVacio = false;
+
 	Respuesta r;
 	Pedido pedido;
 	pedido.mtype = P_CONSULTA_ESTADO;
@@ -48,8 +51,8 @@ void Administrador :: consultarPeriodicamente() {
 	pedido.nroEstacionamiento = nroEstacionamiento;
 
 	unsigned espera = tiempoEntreConsultas();
-    while ((instanteFinal > time(NULL) + espera)) { // Cuando termina?
-        std::stringstream ss;
+    while (!estaVacio || (instanteFinal > time(NULL))) {
+        stringstream ss;
         ss << "Administrador(" << nroEstacionamiento << "): esperara " << espera << " segundos";
         Logger::write(DEBUG, ss.str());
 
@@ -63,8 +66,13 @@ void Administrador :: consultarPeriodicamente() {
         		" lugares libres, se facturo " << r.respuesta.estado.facturacion;
         Logger::write(DEBUG, ss1.str());
 
+        estaVacio = r.respuesta.estado.lugaresLibres == capacidad;
         espera = tiempoEntreConsultas();
     }
+
+    pedido.mtype = P_TERMINO_ADMINISTRADOR;
+    colaPedidos->escribir(pedido);
+
     stringstream ss;
     ss << "Administrador(" << nroEstacionamiento << "): finaliza la simulacion";
     Logger::write(DEBUG, ss.str());

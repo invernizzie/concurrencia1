@@ -2,7 +2,7 @@
 
 	#define CONSTANTES_H_INCLUDED
 	#define CANTIDAD_ESTACIONAMIENTOS	1
-    #define CAPACIDAD_ESTACIONAMIENTO   400
+    #define CAPACIDAD_ESTACIONAMIENTO   100
     #define CANT_ENTRADAS               3
     #define CANT_SALIDAS                2
     #define TIEMPO_SIMULACION           10
