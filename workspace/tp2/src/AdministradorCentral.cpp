@@ -64,7 +64,11 @@ void AdministradorCentral::servirPedidos() {
 		Logger::write(INFO, ss.str());
 
 		switch (pedido.mtype) {
-			case P_PAGO_Y_LIBERO:
+			case P_PAGO:
+				cobrarEstadia(pedido);
+				break;
+
+			case P_LIBERA_LUGAR:
 				liberarPosicion(pedido);
 				break;
 
@@ -94,15 +98,34 @@ void AdministradorCentral::servirPedidos() {
 	}
 }
 
+void AdministradorCentral::cobrarEstadia(Pedido& pedido) {
+	Respuesta r;
+	r.mtype = pedido.pid;
+	Estacionamiento& e = *estacionamiento[pedido.nroEstacionamiento];
+	e.cobrar(pedido.duracionEstadia);
+
+	r.respuesta.pagoAceptado = true;
+	colaRespuestas->escribir(r);
+
+	stringstream ss;
+	ss << "Administrador central Actualiza el valor recaudado " <<
+		pedido.nroLugar << " de estac " <<
+		pedido.nroEstacionamiento << " de auto " << pedido.pid;
+	Logger::write(INFO, ss.str());
+};
+
 void AdministradorCentral::liberarPosicion(Pedido& pedido) {
+	Respuesta r;
+	r.mtype = pedido.pid;
 	Estacionamiento& e = *estacionamiento[pedido.nroEstacionamiento];
 	e.liberarLugarOcupado(pedido.nroLugar);
-	e.cobrar(pedido.duracionEstadia);
+	r.respuesta.lugarLiberado = true;
+	colaRespuestas->escribir(r);
 
 	stringstream ss;
 	ss << "Administrador central libera lugar " <<
 		pedido.nroLugar << " de estac " <<
-		pedido.nroEstacionamiento << " de auto " << pedido.pid;
+		pedido.nroEstacionamiento << " por salida " << pedido.pid;
 	Logger::write(INFO, ss.str());
 };
 

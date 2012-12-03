@@ -16,6 +16,8 @@ Auto :: Auto(int nroEstacionamiento):
 Auto :: ~Auto() {
 	delete colaPedidos;
 	delete colaRespuestas;
+	delete colaPedidoSalida;
+	delete colaRespuestaSalida;
 
     stringstream ss;
     ss << "Auto " << getpid() << "(" << nroEstacionamiento << "): destruido";
@@ -26,7 +28,8 @@ void Auto :: ejecutar() {
 	inicializar();
     buscarLugar();
     sleep(determinarEspera());
-    liberarLugar();
+    pagar();
+    salir();
 	// TODO No hay cuello de botella de cantidad de salidas, introducirlo
 
     stringstream ss;
@@ -63,19 +66,63 @@ void Auto :: buscarLugar() {
 	Logger::write(INFO, ss.str());
 }
 
-void Auto :: liberarLugar() {
+void Auto :: pagar() {
+
+	stringstream ss;
 	Pedido pedidoLiberacion;
-	pedidoLiberacion.mtype = P_PAGO_Y_LIBERO;
+	pedidoLiberacion.mtype = P_PAGO;
 	pedidoLiberacion.pid = pid;
 	pedidoLiberacion.nroEstacionamiento = nroEstacionamiento;
 	pedidoLiberacion.nroLugar = posicion;
 	pedidoLiberacion.duracionEstadia = espera;
 
 	colaPedidos->escribir(pedidoLiberacion);
+	ss << "Auto " << pid << "(" << nroEstacionamiento << "): Envio pago por " << espera << "tiempo de estadia";
+		Logger::write(DEBUG, ss.str());
 
+	Respuesta respuestaLiberacion;
+
+	colaRespuestas->leer(pid,&respuestaLiberacion);
+
+	ss.clear();
+	if(respuestaLiberacion.respuesta.pagoAceptado){
+		ss << "Auto " << pid << "(" << nroEstacionamiento << "): pudo pagar ";
+		Logger::write(DEBUG, ss.str());
+	}else{
+		ss << "Auto " << pid << "(" << nroEstacionamiento << "):  NO pudo pagar ";
+		Logger::write(DEBUG, ss.str());
+	}
+}
+
+void Auto :: salir() {
 	stringstream ss;
-	ss << "Auto " << pid << "(" << nroEstacionamiento << "): pague y libere lugar " << posicion;
+	unsigned salidaElegida = determinarSalida();
+	long salida = nroEstacionamiento*1000 + salidaElegida*100 + P_SE_VA;
+	colaPedidoSalida = new Cola<Pedido>((char*)ARCHIVOS_COLA_SALIDA, C_LOCK_COLA_PEDIDOS);
+	colaRespuestaSalida = new Cola<Respuesta>((char*)ARCHIVOS_COLA_SALIDA, C_LOCK_COLA_RESPUESTAS);
+
+	Pedido pedidoLiberacion;
+	pedidoLiberacion.mtype = salida;
+	pedidoLiberacion.pid = pid;
+	pedidoLiberacion.nroEstacionamiento = nroEstacionamiento;
+	pedidoLiberacion.nroLugar = posicion;
+	pedidoLiberacion.duracionEstadia = espera;
+
+	ss << "Auto " << pid << "(" << nroEstacionamiento << "): Pide libracion de lugar " << posicion << "a Salida: " << salidaElegida;
 	Logger::write(DEBUG, ss.str());
+	colaPedidoSalida->escribir(pedidoLiberacion);
+
+	Respuesta respuestaLiberacion;
+
+	colaRespuestaSalida->leer(pid,&respuestaLiberacion);
+
+	if(respuestaLiberacion.respuesta.lugarLiberado){
+		ss << "Auto " << pid << "(" << nroEstacionamiento << "): libere lugar " << posicion;
+		Logger::write(DEBUG, ss.str());
+	}else{
+		ss << "Auto " << pid << "(" << nroEstacionamiento << "): No pudo liberar lugar " << posicion;
+				Logger::write(DEBUG, ss.str());
+	}
 }
 
 unsigned Auto :: determinarEspera() {
