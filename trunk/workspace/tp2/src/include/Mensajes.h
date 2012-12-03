@@ -4,18 +4,26 @@
 #include <sys/types.h>
 
 // Tipos de pedido
-// Auto paga y se retira
-#define P_PAGO_Y_LIBERO				1
+// Auto paga
+#define P_PAGO				1
 // Auto solicita una posicion vacia
-#define P_PIDO_LUGAR				2
+#define P_PIDO_LUGAR		2
 // Entrada intenta reservar un lugar
-#define P_OCUPO_LUGAR				3
+#define P_OCUPO_LUGAR		3
 // Administrador consulta estado de su estacionamiento
-#define P_CONSULTA_ESTADO			4
+#define P_CONSULTA_ESTADO	4
+// Salida hace que Auto se retira
+#define P_SE_VA				5
+// Salida hace que se libere un lugar especificado
+#define P_LIBERA_LUGAR		6
+// Se utiliza para dar aviso de fin de simulacion
+#define P_FINALIZAR		7
+// Administrador consulta estado de su estacionamiento
+#define P_CONSULTA_ESTADO			8
 // Entrada termina su ejecucion
-#define P_TERMINO_ENTRADA			5
+#define P_TERMINO_ENTRADA			9
 // Administrador termina su ejecucion
-#define P_TERMINO_ADMINISTRADOR		6
+#define P_TERMINO_ADMINISTRADOR		10
 
 typedef struct Pedido {
 	long mtype;
@@ -41,6 +49,10 @@ typedef struct Respuesta {
 		unsigned lugarOtorgado;
 		// Respuesta a consulta de estado (Adm)
 		EstadoEstacionamiento estado;
+		// Repuesta a liberar (Salida)
+		bool lugarLiberado;
+		// Repuesta a liberar (Salida)
+		bool pagoAceptado;
 	} respuesta;
 } Respuesta;
 

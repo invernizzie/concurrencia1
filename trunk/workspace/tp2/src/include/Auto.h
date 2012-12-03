@@ -4,6 +4,7 @@
 #include "Proceso.h"
 #include "Cola.h"
 #include "Mensajes.h"
+#include <string>
 
 class Auto : public Proceso {
     private:
@@ -12,12 +13,15 @@ class Auto : public Proceso {
         unsigned espera;
 		Cola<Pedido>* colaPedidos;
 		Cola<Respuesta>* colaRespuestas;
+		Cola<Pedido>* colaPedidoSalida;
+		Cola<Respuesta>* colaRespuestaSalida;
 
 		void inicializar();
         void buscarLugar();
-        void liberarLugar();
+        void pagar();
         unsigned determinarEspera();
         unsigned determinarSalida(){return rand() % (CANT_SALIDAS - 1);};
+        void salir();
 
     public:
         Auto(int nroEstacionamiento);

@@ -1,8 +1,6 @@
 #ifndef ADM_CENTRAL_H
 #define ADM_CENTRAL_H
 
-#include <time.h>
-
 #include "Proceso.h"
 #include "Cola.h"
 #include "Mensajes.h"
@@ -14,6 +12,7 @@ class AdministradorCentral : public Proceso {
 		int cantEstacionamientos;
 		int capacidad;
 		int valorHora;
+		MemoriaCompartida < unsigned > EstacionamientosActivos;
 
 		Estacionamiento** estacionamiento;
         Cola<Pedido>* colaPedidos;
@@ -22,20 +21,14 @@ class AdministradorCentral : public Proceso {
 		void inicializar();
 		void deinicializar();
 		void servirPedidos();
-		bool hayEstacionamientosActivos();
 		void liberarPosicion(Pedido& pedido);
 		void asignarPosicion(Pedido& pedido);
 		void reservarLugar(Pedido& pedido);
 		void informarEstado(Pedido& pedido);
-		void decrementarEntradasActivas(Pedido& pedido);
-		void decrementarAdministradoresActivos(Pedido& pedido);
-
+		void cobrarEstadia(Pedido& pedido) ;
 
 	public:
-		AdministradorCentral(
-				int cantEstacionamientos,
-				int capacidad,
-				int valorHora);
+		AdministradorCentral(int cantEstacionamientos, int capacidad, int valorHora);
 		virtual ~AdministradorCentral() {};
 		void ejecutar();
 };

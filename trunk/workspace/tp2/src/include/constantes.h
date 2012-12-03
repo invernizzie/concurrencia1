@@ -21,6 +21,7 @@
 	#define ARCHIVO_LOCK_CANT_PROCESOS	 "tmp/proceso_lock.tmp"
 	#define ARCHIVO_COLAS				 "tmp/colas.tmp"
 	#define ARCHIVO_LOCK_CANT_ESTAC		 "tmp/cant_estac_lock.tmp"
+	#define ARCHIVOS_COLA_SALIDA		 "tmp/cola_salida_"
 
 	#define C_SHM_CANT_PROCESOS			 'c'
     #define C_SHM_CAPACIDAD             'C'
