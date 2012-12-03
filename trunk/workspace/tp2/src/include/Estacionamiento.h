@@ -7,6 +7,7 @@
 #include <sstream>
 
 #include "Mensajes.h"
+#include "MemoriaCompartida.h"
 
 using namespace std;
 
@@ -31,6 +32,7 @@ class Estacionamiento {
         int lugaresLibres;
         int facturacion;
         vector<unsigned> posicionesLibres;
+        MemoriaCompartida < unsigned > EstacionamientosActivos;
 };
 
 #endif // ESTACIONAMIENTO_H

@@ -144,7 +144,6 @@ int main(int argc, char **argv) {
 			entradas[est][entrada]->iniciar();
 		}
 	}
-
     inicio.liberar();
     memCapacidad.liberar();
     memPrecio.liberar();
@@ -159,6 +158,9 @@ int main(int argc, char **argv) {
     // TODO Esperar semaforo/lock de finalizacion y eliminar colas de mensajes?
     // No es mejor hacerlo cuando termina el administrador central?
     // Como determina el administrador central que tiene que terminar?
+
+    // COMO CADA ESTACIONAMIENTO TIENE EN SU DESTRUCTOR  UNA LLAMADA A LIBERAR, LA CANTIDAD DEBE SER CERO
+    // ESO INDICA QUE ADMIN PUEDE DESTRUIR LAS COLAS DE MENSAJES!!!!!!
 
 	return 0;
 }

@@ -1,7 +1,7 @@
 #ifndef ADMINISTRADOR_H_
 #define ADMINISTRADOR_H_
 
-#include <string>
+#include <cstring>
 
 #include "Proceso.h"
 #include "Cola.h"
