@@ -24,6 +24,7 @@
 		MemoriaCompartida ();
 		~MemoriaCompartida ();
 		int crear ( const char *archivo,char letra );
+		void desvincularSinBorrar();
 		void liberar ();
 		void escribir ( T dato );
 		T leer ();
@@ -63,8 +64,12 @@
 	}
 
 
-	template <class T> void MemoriaCompartida<T> :: liberar () {
+	template <class T> void MemoriaCompartida<T> :: desvincularSinBorrar() {
+		// detach del bloque de memoria
+		shmdt ( (void *) this->ptrDatos );
+	}
 
+	template <class T> void MemoriaCompartida<T> :: liberar () {
 		// detach del bloque de memoria
 		shmdt ( (void *) this->ptrDatos );
 

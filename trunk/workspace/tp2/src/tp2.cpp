@@ -110,23 +110,13 @@ int main(int argc, char **argv) {
     // Archivos utilizados por ftok y flock
     crearArchivosAuxiliares(capacidad);
 
-    // Tiempo de inicio, capacidad y precio guardados en memoria compartida
-    MemoriaCompartida<int> memCapacidad;
-    memCapacidad.crear((char*)ARCHIVO_AUXILIAR, C_SHM_CAPACIDAD);
-    memCapacidad.escribir(capacidad);
-    MemoriaCompartida<int> memPrecio;
-    memPrecio.crear((char*)ARCHIVO_AUXILIAR, C_SHM_PRECIO);
-    memPrecio.escribir(precio);
-    MemoriaCompartida<time_t> inicio;
-    inicio.crear((char*)ARCHIVO_AUXILIAR, C_SHM_TIEMPO_INICIO);
-
-	AdministradorCentral admin(cantEstacionamientos, capacidad, precio);
+	AdministradorCentral* admin = new AdministradorCentral(cantEstacionamientos, capacidad, precio);
     Administrador* admins[cantEstacionamientos];
     Entrada* entradas[cantEstacionamientos][CANT_ENTRADAS];
 
     // Encapsular esto en un estacionamiento?
     for (int est = 0; est < cantEstacionamientos; est++) {
-    	admins[est] = new Administrador(est, tiempoSimulacion);
+    	admins[est] = new Administrador(est, tiempoSimulacion, capacidad);
     	stringstream nombre;
     	for (int entrada = 0; entrada < CANT_ENTRADAS; entrada++) {
     		nombre.str("");
@@ -135,32 +125,26 @@ int main(int argc, char **argv) {
     	}
     }
 
-    // TODO Iniciar de una manera mas seria para mejorar simultaneidad (semaforo?)
+    // Tiempo de inicio guardado en memoria compartida
+    MemoriaCompartida<time_t> inicio;
+    inicio.crear((char*)ARCHIVO_AUXILIAR, C_SHM_TIEMPO_INICIO);
     inicio.escribir(time(NULL));
-    admin.iniciar();
+    inicio.desvincularSinBorrar();
+
+    // TODO Iniciar de una manera mas seria para mejorar simultaneidad (semaforo?)
+    admin->iniciar();
     for (int est = 0; est < cantEstacionamientos; est++) {
 		admins[est]->iniciar();
 		for (int entrada = 0; entrada < CANT_ENTRADAS; entrada++) {
 			entradas[est][entrada]->iniciar();
 		}
 	}
-    inicio.liberar();
-    memCapacidad.liberar();
-    memPrecio.liberar();
-
     for (int est = 0; est < cantEstacionamientos; est++) {
 		delete admins[est];
 		for (int entrada = 0; entrada < CANT_ENTRADAS; entrada++) {
 			delete entradas[est][entrada];
 		}
 	}
-
-    // TODO Esperar semaforo/lock de finalizacion y eliminar colas de mensajes?
-    // No es mejor hacerlo cuando termina el administrador central?
-    // Como determina el administrador central que tiene que terminar?
-
-    // COMO CADA ESTACIONAMIENTO TIENE EN SU DESTRUCTOR  UNA LLAMADA A LIBERAR, LA CANTIDAD DEBE SER CERO
-    // ESO INDICA QUE ADMIN PUEDE DESTRUIR LAS COLAS DE MENSAJES!!!!!!
 
 	return 0;
 }

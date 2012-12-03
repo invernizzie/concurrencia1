@@ -11,9 +11,9 @@ AdministradorCentral::AdministradorCentral(int cantEstacionamientos, int capacid
 	colaRespuestas(NULL) {}
 
 void AdministradorCentral::ejecutar() {
-	EstacionamientosActivos.crear((char*)ARCHIVO_LOCK_CANT_ESTAC, C_SHM_CANT_ESTACIONAMIENTOS);
 	inicializar();
 	servirPedidos();
+	deinicializar();
 };
 
 void AdministradorCentral::inicializar() {
@@ -22,7 +22,6 @@ void AdministradorCentral::inicializar() {
 	for (estacActivos = 0; estacActivos < cantEstacionamientos; estacActivos++) {
 		estacionamiento[estacActivos] = new Estacionamiento(capacidad, valorHora);
 	}
-	EstacionamientosActivos.escribir(estacActivos);
     colaPedidos = new Cola<Pedido>((char*)ARCHIVO_COLAS, C_LOCK_COLA_PEDIDOS);
     colaRespuestas = new Cola<Respuesta>((char*)ARCHIVO_COLAS, C_LOCK_COLA_RESPUESTAS);
 
@@ -36,19 +35,29 @@ void AdministradorCentral::deinicializar() {
 		delete estacionamiento[i];
 	}
 	delete[] estacionamiento;
+	colaPedidos->destruir();
+	colaRespuestas->destruir();
 	delete colaPedidos;
 	delete colaRespuestas;
 
 	stringstream ss;
 	ss << "Administrador central terminado";
 	Logger::write(INFO, ss.str());
-	EstacionamientosActivos.liberar();
+}
+
+bool AdministradorCentral::hayEstacionamientosActivos() {
+	bool todosCerrados = true;
+	for (int i = 0; i < cantEstacionamientos; i++) {
+		Estacionamiento& e = *estacionamiento[i];
+		todosCerrados = todosCerrados && e.estaCerrado();
+	}
+	return !todosCerrados;
 }
 
 void AdministradorCentral::servirPedidos() {
 	Pedido pedido;
-	while (true) { // TODO Cuando para?
-		colaPedidos->leer(-P_CONSULTA_ESTADO, &pedido);
+	while (hayEstacionamientosActivos()) {
+		colaPedidos->leer(-P_TERMINO_ADMINISTRADOR, &pedido);
 
 		stringstream ss;
 		ss << "Administrador central recibe pedido tipo " << pedido.mtype << " de " << pedido.pid;
@@ -69,6 +78,14 @@ void AdministradorCentral::servirPedidos() {
 
 			case P_CONSULTA_ESTADO:
 				informarEstado(pedido);
+				break;
+
+			case P_TERMINO_ENTRADA:
+				decrementarEntradasActivas(pedido);
+				break;
+
+			case P_TERMINO_ADMINISTRADOR:
+				decrementarAdministradoresActivos(pedido);
 				break;
 
 			default:
@@ -133,3 +150,21 @@ void AdministradorCentral::informarEstado(Pedido& pedido) {
 	ss << "Administrador central informa estado al adm " << pedido.pid << " de estac " << pedido.nroEstacionamiento;
 	Logger::write(INFO, ss.str());
 };
+
+void AdministradorCentral::decrementarEntradasActivas(Pedido& pedido) {
+	Estacionamiento& e = *estacionamiento[pedido.nroEstacionamiento];
+	e.cerrarEntrada();
+
+	stringstream ss;
+	ss << "Administrador central cierra entrada " << pedido.pid << " de estac " << pedido.nroEstacionamiento;
+	Logger::write(INFO, ss.str());
+}
+
+void AdministradorCentral::decrementarAdministradoresActivos(Pedido& pedido) {
+	Estacionamiento& e = *estacionamiento[pedido.nroEstacionamiento];
+	e.cerrarAdministrador();
+
+	stringstream ss;
+	ss << "Administrador central cierra admin  " << pedido.pid << " de estac " << pedido.nroEstacionamiento;
+	Logger::write(INFO, ss.str());
+}
