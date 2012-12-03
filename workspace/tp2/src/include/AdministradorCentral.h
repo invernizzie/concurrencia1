@@ -4,6 +4,7 @@
 #include "Proceso.h"
 #include "Cola.h"
 #include "Mensajes.h"
+#include "MemoriaCompartida.h"
 #include "Estacionamiento.h"
 
 class AdministradorCentral : public Proceso {
@@ -11,6 +12,8 @@ class AdministradorCentral : public Proceso {
 		int cantEstacionamientos;
 		int capacidad;
 		int valorHora;
+		MemoriaCompartida < unsigned > EstacionamientosActivos;
+
 		Estacionamiento** estacionamiento;
         Cola<Pedido>* colaPedidos;
         Cola<Respuesta>* colaRespuestas;

@@ -28,10 +28,10 @@ void Entrada :: ejecutar() {
 
 void Entrada :: inicializar() {
     // Obtener tiempo de inicio de memoria compartida
-    MemoriaCompartida<time_t> inicio;
+    //MemoriaCompartida<time_t> inicio;
     inicio.crear((char*)ARCHIVO_AUXILIAR, C_SHM_TIEMPO_INICIO);
     instanteFinal = inicio.leer() + this->tiempoSimulacion;
-    inicio.liberar();
+    //inicio.liberar();
 
     colaPedidos = new Cola<Pedido>((char*)ARCHIVO_COLAS, C_LOCK_COLA_PEDIDOS);
     colaRespuestas = new Cola<Respuesta>((char*)ARCHIVO_COLAS, C_LOCK_COLA_RESPUESTAS);

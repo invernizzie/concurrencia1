@@ -11,15 +11,18 @@ AdministradorCentral::AdministradorCentral(int cantEstacionamientos, int capacid
 	colaRespuestas(NULL) {}
 
 void AdministradorCentral::ejecutar() {
+	EstacionamientosActivos.crear((char*)ARCHIVO_LOCK_CANT_ESTAC, C_SHM_CANT_ESTACIONAMIENTOS);
 	inicializar();
 	servirPedidos();
 };
 
 void AdministradorCentral::inicializar() {
 	estacionamiento = new Estacionamiento*[cantEstacionamientos];
-	for (int i = 0; i < cantEstacionamientos; i++) {
-		estacionamiento[i] = new Estacionamiento(capacidad, valorHora);
+	int estacActivos;
+	for (estacActivos = 0; estacActivos < cantEstacionamientos; estacActivos++) {
+		estacionamiento[estacActivos] = new Estacionamiento(capacidad, valorHora);
 	}
+	EstacionamientosActivos.escribir(estacActivos);
     colaPedidos = new Cola<Pedido>((char*)ARCHIVO_COLAS, C_LOCK_COLA_PEDIDOS);
     colaRespuestas = new Cola<Respuesta>((char*)ARCHIVO_COLAS, C_LOCK_COLA_RESPUESTAS);
 
@@ -39,6 +42,7 @@ void AdministradorCentral::deinicializar() {
 	stringstream ss;
 	ss << "Administrador central terminado";
 	Logger::write(INFO, ss.str());
+	EstacionamientosActivos.liberar();
 }
 
 void AdministradorCentral::servirPedidos() {

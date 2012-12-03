@@ -49,7 +49,7 @@ void Administrador :: consultarPeriodicamente() {
 
 	unsigned espera = tiempoEntreConsultas();
     while ((instanteFinal > time(NULL) + espera)) { // Cuando termina?
-        stringstream ss;
+        std::stringstream ss;
         ss << "Administrador(" << nroEstacionamiento << "): esperara " << espera << " segundos";
         Logger::write(DEBUG, ss.str());
 
@@ -58,7 +58,7 @@ void Administrador :: consultarPeriodicamente() {
         colaPedidos->escribir(pedido);
         colaRespuestas->leer(pid, &r);
 
-        stringstream ss1;
+        std::stringstream ss1;
         ss1 << "Administrador(" << nroEstacionamiento << "): hay " << r.respuesta.estado.lugaresLibres <<
         		" lugares libres, se facturo " << r.respuesta.estado.facturacion;
         Logger::write(DEBUG, ss1.str());

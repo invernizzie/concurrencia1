@@ -12,12 +12,17 @@ Estacionamiento::Estacionamiento(int capacidad, int valorHora):
 	facturacion(0) {
 
 	posicionesLibres.reserve(capacidad);
-	for (unsigned i = 0; i < capacidad; i++) {
+	for (int i=0; i < capacidad; i++) {
 		posicionesLibres.push_back(i);
 	}
+	EstacionamientosActivos.crear((char*)ARCHIVO_LOCK_CANT_ESTAC, C_SHM_CANT_ESTACIONAMIENTOS);
+
 }
 
 Estacionamiento::~Estacionamiento() {
+	int estacActvos = EstacionamientosActivos.leer();
+	EstacionamientosActivos.escribir(--estacActvos);
+	EstacionamientosActivos.liberar();
 }
 
 bool Estacionamiento::reservarLugar() {
