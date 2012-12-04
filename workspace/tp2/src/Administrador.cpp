@@ -6,12 +6,14 @@ Administrador :: Administrador(int nroEstacionamiento, int tiempoSimulacion, int
 		capacidad(capacidad),
 		instanteFinal(0),
 		colaPedidos(NULL),
-		colaRespuestas(NULL) {}
+		colaRespuestas(NULL),
+		colaPedidoSalida(NULL) {}
 
 void Administrador :: ejecutar() {
     inicializar();
     consultarPeriodicamente();
     deinicializar();
+    finalizarSalidas();
 }
 
 void Administrador :: inicializar() {
@@ -32,6 +34,20 @@ void Administrador :: inicializar() {
 void Administrador::deinicializar() {
 	delete colaPedidos;
 	delete colaRespuestas;
+    delete colaPedidoSalida;
+}
+
+void Administrador::finalizarSalidas(){
+	colaPedidoSalida = new Cola<Pedido>((char*)ARCHIVOS_COLA_SALIDA, C_LOCK_COLA_PEDIDOS);
+	for(int i=0; i< CANT_SALIDAS; i++)
+	{
+		Pedido pedido;
+		pedido.mtype = nroEstacionamiento*1000 + i*100 + P_FINALIZAR;
+		pedido.pid = getpid();
+		pedido.nroEstacionamiento = nroEstacionamiento;
+
+		colaPedidos->escribir(pedido);
+	}
 }
 
 void Administrador :: consultarPeriodicamente() {

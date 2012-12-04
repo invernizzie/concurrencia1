@@ -23,9 +23,12 @@
 			int instanteFinal;
 			Cola<Pedido>* colaPedidos;
 			Cola<Respuesta>* colaRespuestas;
+			Cola<Pedido>* colaPedidoSalida;
+
 
 			void inicializar();
 			void deinicializar();
+			void finalizarSalidas();
 			void consultarPeriodicamente();
 			unsigned tiempoEntreConsultas();
 

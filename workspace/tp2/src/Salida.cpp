@@ -30,9 +30,11 @@ void Salida :: recibirAutos() {
 	bool terminar = false;
 	Pedido pedidoSalida;
 
+
     while (!terminar) {
     	colaPedidoSalida->leer(-P_FINALIZAR, &pedidoSalida);
     	unsigned mensaje = pedidoSalida.mtype - (nroEstacionamiento*1000 + numero*100);
+    	stringstream smm;
 
 		switch (mensaje) {
 
@@ -41,9 +43,8 @@ void Salida :: recibirAutos() {
 				break;
 
 			case P_FINALIZAR:
-			    stringstream ss;
-			    ss << "Salida " << numero << "(" << nroEstacionamiento << "): finaliza la simulacion";
-			    Logger::write(DEBUG, ss.str());
+			    smm << "Salida " << numero << "(" << nroEstacionamiento << "): finaliza la simulacion";
+			    Logger::write(DEBUG, smm.str());
 				return;
 				break;
 
