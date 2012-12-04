@@ -29,19 +29,19 @@ bool Estacionamiento::reservarLugar() {
 	return false;
 }
 
-unsigned Estacionamiento::asignarLugarLibre() {
+unsigned Estacionamiento::asignarPosicionLibre() {
 	unsigned posicion = posicionesLibres.back();
 	posicionesLibres.pop_back();
 	return posicion;
 }
 
-void Estacionamiento::liberarLugarOcupado(unsigned nroLugar) {
-	posicionesLibres.push_back(nroLugar);
+void Estacionamiento::liberarLugar() {
 	lugaresLibres++;
 }
 
-void Estacionamiento::cobrar(unsigned duracionEstadia) {
+void Estacionamiento::cobrarYLiberarPosicion(unsigned nroLugar, unsigned duracionEstadia) {
 	facturacion += duracionEstadia * valorHora;
+	posicionesLibres.push_back(nroLugar);
 }
 
 EstadoEstacionamiento Estacionamiento::estadoActual() {

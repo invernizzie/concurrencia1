@@ -1,5 +1,7 @@
 #include "include/Salida.h"
 
+#include <climits>
+
 Salida :: Salida(int nroEstacionamiento, int numero) :
 	nroEstacionamiento(nroEstacionamiento),
 	numero(numero),
@@ -15,14 +17,18 @@ void Salida :: ejecutar() {
     delete colaRespuestas;
     delete colaPedidoSalida;
     delete colaRespuestaSalida;
+
+    stringstream ss;
+	ss << "Salida " << numero << "(" << nroEstacionamiento << "): deinicializada";
+	Logger::write(INFO, ss.str());
 }
 
 void Salida :: inicializar() {
 
     colaPedidos = new Cola<Pedido>((char*)ARCHIVO_COLAS, C_LOCK_COLA_PEDIDOS);
     colaRespuestas = new Cola<Respuesta>((char*)ARCHIVO_COLAS, C_LOCK_COLA_RESPUESTAS);
-    colaPedidoSalida = new Cola<Pedido>((char*)ARCHIVOS_COLA_SALIDA, C_LOCK_COLA_PEDIDOS);
-    colaRespuestaSalida = new Cola<Respuesta>((char*)ARCHIVOS_COLA_SALIDA, C_LOCK_COLA_RESPUESTAS);
+    colaPedidoSalida = new Cola<Pedido>((char*)ARCHIVO_COLAS_SALIDA, C_LOCK_COLA_PEDIDOS);
+    colaRespuestaSalida = new Cola<Respuesta>((char*)ARCHIVO_COLAS_SALIDA, C_LOCK_COLA_RESPUESTAS);
 
 }
 
@@ -32,7 +38,7 @@ void Salida :: recibirAutos() {
 
 
     while (!terminar) {
-    	colaPedidoSalida->leer(-P_FINALIZAR, &pedidoSalida);
+    	colaPedidoSalida->leer(INT_MIN, &pedidoSalida);
     	unsigned mensaje = pedidoSalida.mtype - (nroEstacionamiento*1000 + numero*100);
     	stringstream smm;
 
@@ -68,7 +74,7 @@ bool Salida :: liberarLugar(unsigned posicion, unsigned espera) {
 	colaRespuestas->leer(pid, &respuesta);
 
 	stringstream ss;
-	ss << "Salida " << numero << "(" << nroEstacionamiento << "): recibe respuesta";
+	ss << "Salida " << numero << "(" << nroEstacionamiento << ") libero lugar " << posicion;
 	Logger::write(INFO, ss.str());
 	return respuesta.respuesta.lugarLiberado;
 }

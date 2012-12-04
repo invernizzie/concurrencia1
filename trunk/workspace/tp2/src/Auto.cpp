@@ -11,7 +11,9 @@ Auto :: Auto(int nroEstacionamiento):
 		posicion(0),
 		espera(0),
 		colaPedidos(NULL),
-		colaRespuestas(NULL) {}
+		colaRespuestas(NULL),
+		colaPedidoSalida(NULL),
+		colaRespuestaSalida(NULL) {}
 
 Auto :: ~Auto() {
 	delete colaPedidos;
@@ -70,7 +72,7 @@ void Auto :: pagar() {
 
 	stringstream ss;
 	Pedido pedidoLiberacion;
-	pedidoLiberacion.mtype = P_PAGO;
+	pedidoLiberacion.mtype = P_PAGO_DESOCUPO;
 	pedidoLiberacion.pid = pid;
 	pedidoLiberacion.nroEstacionamiento = nroEstacionamiento;
 	pedidoLiberacion.nroLugar = posicion;
@@ -98,8 +100,8 @@ void Auto :: salir() {
 	stringstream ss;
 	unsigned salidaElegida = determinarSalida();
 	long salida = nroEstacionamiento*1000 + salidaElegida*100 + P_SE_VA;
-	colaPedidoSalida = new Cola<Pedido>((char*)ARCHIVOS_COLA_SALIDA, C_LOCK_COLA_PEDIDOS);
-	colaRespuestaSalida = new Cola<Respuesta>((char*)ARCHIVOS_COLA_SALIDA, C_LOCK_COLA_RESPUESTAS);
+	colaPedidoSalida = new Cola<Pedido>((char*)ARCHIVO_COLAS_SALIDA, C_LOCK_COLA_PEDIDOS);
+	colaRespuestaSalida = new Cola<Respuesta>((char*)ARCHIVO_COLAS_SALIDA, C_LOCK_COLA_RESPUESTAS);
 
 	Pedido pedidoLiberacion;
 	pedidoLiberacion.mtype = salida;

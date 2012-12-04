@@ -1,5 +1,5 @@
-#ifndef ENTRADA_H_
-	#define ENTRADA_H_
+#ifndef SALIDA_H_
+	#define SALIDA_H_
 
 	#include <string>
 	#include <sstream>
@@ -27,7 +27,6 @@
 			Cola<Pedido>* colaPedidoSalida;
 			Cola<Respuesta>* colaRespuestaSalida;
 
-
 			void inicializar();
 			void recibirAutos();
 			bool liberarLugar(unsigned posicion, unsigned espera);
@@ -38,4 +37,4 @@
 			virtual ~Salida() {};
 	};
 
-#endif //ENTRADA_H_
+#endif //SALIDA_H_
