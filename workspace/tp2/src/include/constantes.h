@@ -31,6 +31,7 @@
 	#define C_LOCK_COLA_PEDIDOS			'p'
 	#define C_LOCK_COLA_RESPUESTAS		'r'
 
+
     enum EstadoLugar { LIBRE, OCUPADO, PARA_LIBERAR };
     enum TipoLog { INFO, DEBUG, WARNING, ERROR, FATAL };
 
