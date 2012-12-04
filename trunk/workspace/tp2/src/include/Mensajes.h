@@ -18,12 +18,10 @@
 #define P_LIBERA_LUGAR		6
 // Se utiliza para dar aviso de fin de simulacion
 #define P_FINALIZAR		7
-// Administrador consulta estado de su estacionamiento
-#define P_CONSULTA_ESTADO			8
 // Entrada termina su ejecucion
-#define P_TERMINO_ENTRADA			9
+#define P_TERMINO_ENTRADA			8
 // Administrador termina su ejecucion
-#define P_TERMINO_ADMINISTRADOR		10
+#define P_TERMINO_ADMINISTRADOR		9
 
 typedef struct Pedido {
 	long mtype;

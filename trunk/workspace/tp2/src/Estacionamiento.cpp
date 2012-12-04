@@ -3,7 +3,6 @@
 #include <errno.h>
 #include <stdlib.h>
 
-#include "include/logger.h"
 
 Estacionamiento::Estacionamiento(int capacidad, int valorHora):
 	capacidad(capacidad),

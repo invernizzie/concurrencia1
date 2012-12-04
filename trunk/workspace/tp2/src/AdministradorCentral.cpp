@@ -1,7 +1,5 @@
 #include "include/AdministradorCentral.h"
 
-#include "include/logger.h"
-
 AdministradorCentral::AdministradorCentral(int cantEstacionamientos, int capacidad, int valorHora):
 	cantEstacionamientos(cantEstacionamientos),
 	capacidad(capacidad),

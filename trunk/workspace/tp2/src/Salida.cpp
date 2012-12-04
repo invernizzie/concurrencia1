@@ -1,23 +1,12 @@
 #include "include/Salida.h"
 
-#include <cstdlib>
-#include <unistd.h>
-#include <time.h>
-#include <exception>
-#include <string>
-#include <stdlib.h>
-
-#include "include/constantes.h"
-#include "include/Auto.h"
-#include "include/logger.h"
-
 Salida :: Salida(int nroEstacionamiento, int numero) :
-			nroEstacionamiento(nroEstacionamiento),
-			numero(numero),
-            colaPedidos(NULL),
-            colaRespuestas(NULL),
-            colaPedidoSalida(NULL),
-            colaRespuestaSalida(NULL) {}
+	nroEstacionamiento(nroEstacionamiento),
+	numero(numero),
+	colaPedidos(NULL),
+	colaRespuestas(NULL),
+	colaPedidoSalida(NULL),
+	colaRespuestaSalida(NULL) {}
 
 void Salida :: ejecutar() {
     inicializar();
@@ -45,7 +34,7 @@ void Salida :: recibirAutos() {
     	colaPedidoSalida->leer(-P_FINALIZAR, &pedidoSalida);
     	unsigned mensaje = pedidoSalida.mtype - (nroEstacionamiento*1000 + numero*100);
 
-		switch (pedidoSalida.mtype) {
+		switch (mensaje) {
 
 			case P_SE_VA:
 				liberarLugar(pedidoSalida.nroLugar, pedidoSalida.duracionEstadia);
@@ -56,6 +45,7 @@ void Salida :: recibirAutos() {
 			    ss << "Salida " << numero << "(" << nroEstacionamiento << "): finaliza la simulacion";
 			    Logger::write(DEBUG, ss.str());
 				return;
+				break;
 
 			default:
 				break;

@@ -98,6 +98,7 @@ int main(int argc, char **argv) {
                 break;
             default:
                 abort();
+                break;
         }
     }
 
@@ -129,7 +130,8 @@ int main(int argc, char **argv) {
     MemoriaCompartida<time_t> inicio;
     inicio.crear((char*)ARCHIVO_AUXILIAR, C_SHM_TIEMPO_INICIO);
     inicio.escribir(time(NULL));
-    inicio.desvincularSinBorrar();
+    //inicio.desvincularSinBorrar();
+    inicio.liberar();
 
     // TODO Iniciar de una manera mas seria para mejorar simultaneidad (semaforo?)
     admin->iniciar();
