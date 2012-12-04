@@ -8,10 +8,6 @@
 #include <stdlib.h>
 #include <sys/wait.h>
 
-#include "include/constantes.h"
-#include "include/Auto.h"
-#include "include/logger.h"
-
 Entrada :: Entrada(int nroEstacionamiento, string nombre, int tiempoSimulacion) :
 			nroEstacionamiento(nroEstacionamiento),
             nombre(nombre),

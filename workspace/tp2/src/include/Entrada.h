@@ -7,6 +7,9 @@
 #include "MemoriaCompartida.h"
 #include "Cola.h"
 #include "Mensajes.h"
+#include "constantes.h"
+#include "Auto.h"
+#include "logger.h"
 
 using namespace std;
 

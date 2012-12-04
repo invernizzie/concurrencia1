@@ -6,6 +6,7 @@
 #include <exception>
 #include <sstream>
 
+#include "logger.h"
 #include "Mensajes.h"
 #include "MemoriaCompartida.h"
 

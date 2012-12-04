@@ -1,14 +1,5 @@
 #include "include/Administrador.h"
 
-#include <cstdlib>
-#include <unistd.h>
-#include <time.h>
-#include <exception>
-
-#include "include/constantes.h"
-#include "include/Auto.h"
-#include "include/logger.h"
-
 Administrador :: Administrador(int nroEstacionamiento, int tiempoSimulacion, int capacidad):
 		nroEstacionamiento(nroEstacionamiento),
 		tiempoSimulacion(tiempoSimulacion),
@@ -26,9 +17,11 @@ void Administrador :: ejecutar() {
 void Administrador :: inicializar() {
     // Obtener tiempo de inicio de memoria compartida
     MemoriaCompartida<time_t> inicio;
+
     inicio.crear((char*)ARCHIVO_AUXILIAR, C_SHM_TIEMPO_INICIO);
     instanteFinal = inicio.leer() + this->tiempoSimulacion;
-	inicio.desvincularSinBorrar();
+	//inicio.desvincularSinBorrar();
+    inicio.liberar();
 
 	colaPedidos = new Cola<Pedido>((char*)ARCHIVO_COLAS, C_LOCK_COLA_PEDIDOS);
 	colaRespuestas = new Cola<Respuesta>((char*)ARCHIVO_COLAS, C_LOCK_COLA_RESPUESTAS);

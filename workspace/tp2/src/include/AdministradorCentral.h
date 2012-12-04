@@ -6,6 +6,7 @@
 #include "Mensajes.h"
 #include "MemoriaCompartida.h"
 #include "Estacionamiento.h"
+#include "logger.h"
 
 class AdministradorCentral : public Proceso {
 	private:
@@ -26,6 +27,9 @@ class AdministradorCentral : public Proceso {
 		void reservarLugar(Pedido& pedido);
 		void informarEstado(Pedido& pedido);
 		void cobrarEstadia(Pedido& pedido) ;
+		void decrementarEntradasActivas(Pedido& pedido);
+		void decrementarAdministradoresActivos(Pedido& pedido);
+		bool hayEstacionamientosActivos();
 
 	public:
 		AdministradorCentral(int cantEstacionamientos, int capacidad, int valorHora);
