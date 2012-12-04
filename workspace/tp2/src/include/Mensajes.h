@@ -4,8 +4,8 @@
 #include <sys/types.h>
 
 // Tipos de pedido
-// Auto paga
-#define P_PAGO				1
+// Auto paga y desocupa posicion
+#define P_PAGO_DESOCUPO		1
 // Auto solicita una posicion vacia
 #define P_PIDO_LUGAR		2
 // Entrada intenta reservar un lugar
@@ -49,7 +49,7 @@ typedef struct Respuesta {
 		EstadoEstacionamiento estado;
 		// Repuesta a liberar (Salida)
 		bool lugarLiberado;
-		// Repuesta a liberar (Salida)
+		// Repuesta a pagar (Auto)
 		bool pagoAceptado;
 	} respuesta;
 } Respuesta;

@@ -22,9 +22,9 @@ class Estacionamiento {
         Estacionamiento(int capacidad, int valorHora);
         virtual ~Estacionamiento();
         bool reservarLugar();
-        unsigned asignarLugarLibre();
-        void liberarLugarOcupado(unsigned nroLugar);
-        void cobrar(unsigned duracionEstadia);
+        unsigned asignarPosicionLibre();
+        void liberarLugar();
+        void cobrarYLiberarPosicion(unsigned nroLugar, unsigned duracionEstadia);
         EstadoEstacionamiento estadoActual();
         bool estaCerrado();
         void cerrarEntrada();

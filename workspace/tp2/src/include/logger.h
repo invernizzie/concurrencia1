@@ -23,8 +23,8 @@
         virtual ~Logger();
 
     private:
-        Logger(){};
-        Logger(Logger const&){};
+        Logger(): lock(NULL) {};
+        Logger(Logger const&): lock(NULL) {};
         Logger& operator=(Logger const&){ return *this; };
         string fechaFormateada();
 

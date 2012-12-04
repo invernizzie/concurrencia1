@@ -46,6 +46,12 @@ void Entrada :: deinicializar() {
 }
 
 void Entrada :: recibirAutos() {
+
+    stringstream info;
+    info << "Entrada " << nombre << "(" << nroEstacionamiento << ") inicia simulacion por "
+    		<< tiempoSimulacion << " horas hasta " << instanteFinal;
+    Logger::write(INFO, info.str());
+
     while (instanteFinal > time(NULL)) {
         int autos = autosPorHora();
         stringstream ss;

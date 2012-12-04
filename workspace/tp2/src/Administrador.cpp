@@ -22,8 +22,7 @@ void Administrador :: inicializar() {
 
     inicio.crear((char*)ARCHIVO_AUXILIAR, C_SHM_TIEMPO_INICIO);
     instanteFinal = inicio.leer() + this->tiempoSimulacion;
-	//inicio.desvincularSinBorrar();
-    inicio.liberar();
+    inicio.desvincularSinBorrar();
 
 	colaPedidos = new Cola<Pedido>((char*)ARCHIVO_COLAS, C_LOCK_COLA_PEDIDOS);
 	colaRespuestas = new Cola<Respuesta>((char*)ARCHIVO_COLAS, C_LOCK_COLA_RESPUESTAS);
@@ -38,7 +37,7 @@ void Administrador::deinicializar() {
 }
 
 void Administrador::finalizarSalidas(){
-	colaPedidoSalida = new Cola<Pedido>((char*)ARCHIVOS_COLA_SALIDA, C_LOCK_COLA_PEDIDOS);
+	colaPedidoSalida = new Cola<Pedido>((char*)ARCHIVO_COLAS_SALIDA, C_LOCK_COLA_PEDIDOS);
 	for(int i=0; i< CANT_SALIDAS; i++)
 	{
 		Pedido pedido;
@@ -46,7 +45,7 @@ void Administrador::finalizarSalidas(){
 		pedido.pid = getpid();
 		pedido.nroEstacionamiento = nroEstacionamiento;
 
-		colaPedidos->escribir(pedido);
+		colaPedidoSalida->escribir(pedido);
 	}
 }
 

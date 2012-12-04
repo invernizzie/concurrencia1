@@ -18,6 +18,7 @@
 #include "include/MemoriaCompartida.h"
 #include "include/AdministradorCentral.h"
 #include "include/Entrada.h"
+#include "include/Salida.h"
 #include "include/Administrador.h"
 #include "include/Proceso.h"
 #include "include/logger.h"
@@ -27,6 +28,7 @@
  * - Capacidad
  * - Precio por hora
  * - modo Debug (archivo de salida opcional)
+ * - cantidad de Estacionamientos
  */
 #define OPTIONS     "e:t:c:p:d::"
 
@@ -114,6 +116,7 @@ int main(int argc, char **argv) {
 	AdministradorCentral* admin = new AdministradorCentral(cantEstacionamientos, capacidad, precio);
     Administrador* admins[cantEstacionamientos];
     Entrada* entradas[cantEstacionamientos][CANT_ENTRADAS];
+    Salida* salidas[cantEstacionamientos][CANT_SALIDAS];
 
     // Encapsular esto en un estacionamiento?
     for (int est = 0; est < cantEstacionamientos; est++) {
@@ -124,14 +127,16 @@ int main(int argc, char **argv) {
     		nombre << entrada;
     		entradas[est][entrada] = new Entrada(est, nombre.str(), tiempoSimulacion);
     	}
+    	for (int salida = 0; salida < CANT_SALIDAS; salida++) {
+    		salidas[est][salida] = new Salida(est, salida);
+    	}
     }
 
     // Tiempo de inicio guardado en memoria compartida
     MemoriaCompartida<time_t> inicio;
     inicio.crear((char*)ARCHIVO_AUXILIAR, C_SHM_TIEMPO_INICIO);
     inicio.escribir(time(NULL));
-    //inicio.desvincularSinBorrar();
-    inicio.liberar();
+    inicio.desvincularSinBorrar(); // Para evitar liberarla antes de que otros lean
 
     // TODO Iniciar de una manera mas seria para mejorar simultaneidad (semaforo?)
     admin->iniciar();
@@ -140,11 +145,18 @@ int main(int argc, char **argv) {
 		for (int entrada = 0; entrada < CANT_ENTRADAS; entrada++) {
 			entradas[est][entrada]->iniciar();
 		}
+		for (int salida = 0; salida < CANT_SALIDAS; salida++) {
+			salidas[est][salida]->iniciar();
+		}
 	}
+
     for (int est = 0; est < cantEstacionamientos; est++) {
 		delete admins[est];
 		for (int entrada = 0; entrada < CANT_ENTRADAS; entrada++) {
 			delete entradas[est][entrada];
+		}
+		for (int salida = 0; salida < CANT_SALIDAS; salida++) {
+			delete salidas[est][salida];
 		}
 	}
 
@@ -160,10 +172,8 @@ void crearArchivo(const char* nombre) {
 void crearArchivosAuxiliares(int capacidadEstacionamiento) {
     mkdir(DIR_AUXILIAR, 0777);
     crearArchivo(ARCHIVO_AUXILIAR);
-    crearArchivo(ARCHIVO_LOCK_OCUPACION);
-    crearArchivo(ARCHIVO_LOCK_FACTURACION);
-    crearArchivo(ARCHIVO_LOCK_CANT_PROCESOS);
     crearArchivo(ARCHIVO_COLAS);
+    crearArchivo(ARCHIVO_COLAS_SALIDA);
     for (int i = 0; i < capacidadEstacionamiento; i++) {
         stringstream ss;
         ss << DIR_AUXILIAR << "/pos_" << i << ".c";

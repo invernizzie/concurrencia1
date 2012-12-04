@@ -13,7 +13,6 @@ class AdministradorCentral : public Proceso {
 		int cantEstacionamientos;
 		int capacidad;
 		int valorHora;
-		MemoriaCompartida < unsigned > EstacionamientosActivos;
 
 		Estacionamiento** estacionamiento;
         Cola<Pedido>* colaPedidos;

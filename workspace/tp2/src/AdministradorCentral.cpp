@@ -38,6 +38,12 @@ void AdministradorCentral::deinicializar() {
 	delete colaPedidos;
 	delete colaRespuestas;
 
+    // Las siguientes solo se utilizan aqui para eliminarlas
+	Cola<Pedido> colaPedidoSalida((char*)ARCHIVO_COLAS_SALIDA, C_LOCK_COLA_PEDIDOS);
+	Cola<Respuesta> colaRespuestaSalida((char*)ARCHIVO_COLAS_SALIDA, C_LOCK_COLA_RESPUESTAS);
+	colaPedidoSalida.destruir();
+	colaRespuestaSalida.destruir();
+
 	stringstream ss;
 	ss << "Administrador central terminado";
 	Logger::write(INFO, ss.str());
@@ -62,7 +68,7 @@ void AdministradorCentral::servirPedidos() {
 		Logger::write(INFO, ss.str());
 
 		switch (pedido.mtype) {
-			case P_PAGO:
+			case P_PAGO_DESOCUPO:
 				cobrarEstadia(pedido);
 				break;
 
@@ -100,7 +106,7 @@ void AdministradorCentral::cobrarEstadia(Pedido& pedido) {
 	Respuesta r;
 	r.mtype = pedido.pid;
 	Estacionamiento& e = *estacionamiento[pedido.nroEstacionamiento];
-	e.cobrar(pedido.duracionEstadia);
+	e.cobrarYLiberarPosicion(pedido.nroLugar, pedido.duracionEstadia);
 
 	r.respuesta.pagoAceptado = true;
 	colaRespuestas->escribir(r);
@@ -116,7 +122,7 @@ void AdministradorCentral::liberarPosicion(Pedido& pedido) {
 	Respuesta r;
 	r.mtype = pedido.pid;
 	Estacionamiento& e = *estacionamiento[pedido.nroEstacionamiento];
-	e.liberarLugarOcupado(pedido.nroLugar);
+	e.liberarLugar();
 	r.respuesta.lugarLiberado = true;
 	colaRespuestas->escribir(r);
 
@@ -132,7 +138,7 @@ void AdministradorCentral::asignarPosicion(Pedido& pedido) {
 	r.mtype = pedido.pid;
 
 	Estacionamiento& e = *estacionamiento[pedido.nroEstacionamiento];
-	r.respuesta.lugarOtorgado = e.asignarLugarLibre();
+	r.respuesta.lugarOtorgado = e.asignarPosicionLibre();
 
 	colaRespuestas->escribir(r);
 
