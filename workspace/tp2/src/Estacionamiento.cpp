@@ -10,6 +10,7 @@ Estacionamiento::Estacionamiento(int capacidad, int valorHora):
 	lugaresLibres(capacidad),
 	facturacion(0),
 	entradasActivas(CANT_ENTRADAS),
+	salidasActivas(CANT_SALIDAS),
 	administradorActivo(true) {
 
 	posicionesLibres.reserve(capacidad);
@@ -52,11 +53,15 @@ EstadoEstacionamiento Estacionamiento::estadoActual() {
 }
 
 bool Estacionamiento::estaCerrado() {
-	return (!administradorActivo) && (entradasActivas <= 0);
+	return (!administradorActivo) && (entradasActivas <= 0) && (salidasActivas <= 0);
 }
 
 void Estacionamiento::cerrarEntrada() {
 	entradasActivas--;
+}
+
+void Estacionamiento::cerrarSalida() {
+	salidasActivas--;
 }
 
 void Estacionamiento::cerrarAdministrador() {

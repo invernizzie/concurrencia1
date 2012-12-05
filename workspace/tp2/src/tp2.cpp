@@ -116,9 +116,9 @@ int main(int argc, char **argv) {
         }
     }
 
-    TipoLog modoDebug = ERROR;
+    TipoLog modoDebug = WARNING;
     if (debug) {
-        modoDebug = INFO;
+        modoDebug = DEBUG;
     }
     Logger::initialize(modoDebug, archivoLog);
 

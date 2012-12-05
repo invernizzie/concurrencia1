@@ -3,7 +3,7 @@
 #include <climits>
 
 long Salida::mtypePara(int nroEstacionamiento, int nroSalida) {
-	return 1000 * nroEstacionamiento + nroSalida;
+	return 1000 * nroEstacionamiento + nroSalida + 1;
 }
 
 Salida :: Salida(int nroEstacionamiento, int numero) :
@@ -17,6 +17,7 @@ Salida :: Salida(int nroEstacionamiento, int numero) :
 void Salida :: ejecutar() {
     inicializar();
     recibirAutos();
+    comunicarCierre();
 
     delete colaPedidos;
     delete colaRespuestas;
@@ -42,14 +43,10 @@ void Salida :: recibirAutos() {
 	Pedido pedidoSalida;
 	int tipoMensaje = Salida::mtypePara(nroEstacionamiento, numero);
 
-	// TODO Quitar
-    stringstream ss;
-	ss << "Salida " << numero << "(" << nroEstacionamiento << ") leyendo mensajes hasta " << INT_MIN;
-	Logger::write(INFO, ss.str());
-
     while (!terminar) {
-    	colaPedidoSalida->leer(tipoMensaje, &pedidoSalida);
     	stringstream smm;
+
+    	colaPedidoSalida->leer(tipoMensaje, &pedidoSalida);
 
 		switch (pedidoSalida.tipoMensaje) {
 
@@ -58,8 +55,9 @@ void Salida :: recibirAutos() {
 				break;
 
 			case P_FINALIZAR:
-			    smm << "Salida " << numero << "(" << nroEstacionamiento << ") finaliza la simulacion";
+				smm << "Salida " << numero << "(" << nroEstacionamiento << ") finaliza la simulacion";
 			    Logger::write(DEBUG, smm.str());
+			    smm.str("");
 				terminar = true;
 				break;
 
@@ -98,7 +96,20 @@ bool Salida :: liberarLugar(pid_t _auto, unsigned posicion, unsigned espera) {
 
 	ss.str("");
 	ss << "Salida " << numero << "(" << nroEstacionamiento << ") libero lugar " << posicion;
-	Logger::write(INFO, ss.str());
+	Logger::write(DEBUG, ss.str());
 	return respuestaDelAdmin.respuesta.lugarLiberado;
+}
+
+void Salida::comunicarCierre() {
+	Pedido pedido;
+	pedido.mtype = P_TERMINO_SALIDA;
+	pedido.pid = pid;
+	pedido.nroEstacionamiento = nroEstacionamiento;
+
+	colaPedidos->escribir(pedido);
+
+    stringstream ss;
+    ss << "Salida " << numero << "(" << nroEstacionamiento << ") comunica cierre al adm central";
+    Logger::write(DEBUG, ss.str());
 }
 

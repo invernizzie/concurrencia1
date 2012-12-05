@@ -20,10 +20,6 @@ void Auto :: ejecutar() {
     pagar();
     salir();
     deinicializar();
-
-    stringstream ss;
-    ss << "Auto " << pid << "(" << nroEstacionamiento << "): se retira";
-	Logger::write(DEBUG, ss.str());
 }
 
 void Auto :: inicializar() {
@@ -37,7 +33,7 @@ void Auto::deinicializar() {
 	delete colaRespuestas;
 
     stringstream ss;
-    ss << "Auto " << getpid() << "(" << nroEstacionamiento << ") deinicializado";
+    ss << "Auto " << pid << "(" << nroEstacionamiento << ") se retira";
 	Logger::write(DEBUG, ss.str());
 }
 
@@ -45,7 +41,7 @@ void Auto::deinicializar() {
 // Si llega al final vuelve a empezar
 void Auto :: buscarLugar() {
     stringstream ss;
-    ss << "Auto " << pid << ": solicita lugar";
+    ss << "Auto " << pid << "(" << nroEstacionamiento << ") solicita lugar";
     Logger::write(DEBUG, ss.str());
 
     Pedido pedidoLugar;
@@ -60,7 +56,7 @@ void Auto :: buscarLugar() {
     posicion = respuesta.respuesta.lugarOtorgado;
 
     ss.str("");
-	ss << "Auto " << pid << "(" << nroEstacionamiento << "): obtuve lugar " << posicion;
+	ss << "Auto " << pid << "(" << nroEstacionamiento << "): obtuvo lugar " << posicion;
 	Logger::write(INFO, ss.str());
 }
 
@@ -75,8 +71,8 @@ void Auto :: pagar() {
 	pedidoLiberacion.duracionEstadia = espera;
 
 	colaPedidos->escribir(pedidoLiberacion);
-	ss << "Auto " << pid << "(" << nroEstacionamiento << ") envio pago por " << espera << " horas de estadia "
-			<< " y libero lugar " << posicion;
+	ss << "Auto " << pid << "(" << nroEstacionamiento << ") envia pago por " <<
+			espera << " horas de estadia " << " y libera lugar " << posicion;
 		Logger::write(DEBUG, ss.str());
 
 	Respuesta respuestaLiberacion;
@@ -85,11 +81,11 @@ void Auto :: pagar() {
 
 	ss.str("");
 	if(respuestaLiberacion.respuesta.pagoAceptado){
-		ss << "Auto " << pid << "(" << nroEstacionamiento << ") pude pagar ";
+		ss << "Auto " << pid << "(" << nroEstacionamiento << ") pudo pagar ";
 		Logger::write(DEBUG, ss.str());
 	}else{
 		// Nunca deberia suceder pero lo define el protocolo
-		ss << "Auto " << pid << "(" << nroEstacionamiento << ")  NO pude pagar ";
+		ss << "Auto " << pid << "(" << nroEstacionamiento << ")  NO pudo pagar ";
 		Logger::write(DEBUG, ss.str());
 	}
 }
@@ -109,8 +105,7 @@ void Auto :: salir() {
 	pedidoLiberacion.nroLugar = posicion;
 	pedidoLiberacion.duracionEstadia = espera;
 
-	ss << "Auto " << pid << "(" << nroEstacionamiento << ") se encola en salida " << salidaElegida
-			<< " con mtype " << salida;
+	ss << "Auto " << pid << "(" << nroEstacionamiento << ") se encola en salida " << salidaElegida;
 	Logger::write(DEBUG, ss.str());
 	colaPedidoSalida.escribir(pedidoLiberacion);
 
@@ -120,11 +115,11 @@ void Auto :: salir() {
 
 	ss.str("");
 	if(respuestaLiberacion.respuesta.lugarLiberado){
-		ss << "Auto " << pid << "(" << nroEstacionamiento << ") sali";
+		ss << "Auto " << pid << "(" << nroEstacionamiento << ") salio";
 		Logger::write(DEBUG, ss.str());
 	}else{
 		// Nunca deberia suceder pero lo define el protocolo
-		ss << "Auto " << pid << "(" << nroEstacionamiento << ") no pude salir";
+		ss << "Auto " << pid << "(" << nroEstacionamiento << ") no pudo salir";
 		Logger::write(DEBUG, ss.str());
 	}
 }

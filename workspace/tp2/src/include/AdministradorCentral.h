@@ -27,6 +27,7 @@ class AdministradorCentral : public Proceso {
 		void informarEstado(Pedido& pedido);
 		void cobrarEstadia(Pedido& pedido) ;
 		void decrementarEntradasActivas(Pedido& pedido);
+		void decrementarSalidasActivas(Pedido& pedido);
 		void decrementarAdministradoresActivos(Pedido& pedido);
 		bool hayEstacionamientosActivos();
 

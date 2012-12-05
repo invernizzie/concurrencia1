@@ -28,6 +28,7 @@ class Estacionamiento {
         EstadoEstacionamiento estadoActual();
         bool estaCerrado();
         void cerrarEntrada();
+        void cerrarSalida();
         void cerrarAdministrador();
 
     private:
@@ -36,6 +37,7 @@ class Estacionamiento {
         int lugaresLibres;
         int facturacion;
         int entradasActivas;
+        int salidasActivas;
         bool administradorActivo;
         vector<unsigned> posicionesLibres;
 };
