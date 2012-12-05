@@ -63,10 +63,6 @@ void AdministradorCentral::servirPedidos() {
 	while (hayEstacionamientosActivos()) {
 		colaPedidos->leer(-P_TERMINO_ADMINISTRADOR, &pedido);
 
-		stringstream ss;
-		ss << "Administrador central recibe pedido tipo " << pedido.mtype << " de " << pedido.pid;
-		Logger::write(INFO, ss.str());
-
 		switch (pedido.mtype) {
 			case P_PAGO_DESOCUPO:
 				cobrarEstadia(pedido);
@@ -92,6 +88,10 @@ void AdministradorCentral::servirPedidos() {
 				decrementarEntradasActivas(pedido);
 				break;
 
+			case P_TERMINO_SALIDA:
+				decrementarSalidasActivas(pedido);
+				break;
+
 			case P_TERMINO_ADMINISTRADOR:
 				decrementarAdministradoresActivos(pedido);
 				break;
@@ -112,10 +112,9 @@ void AdministradorCentral::cobrarEstadia(Pedido& pedido) {
 	colaRespuestas->escribir(r);
 
 	stringstream ss;
-	ss << "Administrador central Actualiza el valor recaudado " <<
-		pedido.nroLugar << " de estac " <<
-		pedido.nroEstacionamiento << " de auto " << pedido.pid;
-	Logger::write(INFO, ss.str());
+	ss << "Administrador central cobra al auto " << pedido.pid <<
+			" de estac " << pedido.nroEstacionamiento;
+	Logger::write(DEBUG, ss.str());
 };
 
 void AdministradorCentral::liberarPosicion(Pedido& pedido) {
@@ -127,10 +126,9 @@ void AdministradorCentral::liberarPosicion(Pedido& pedido) {
 	colaRespuestas->escribir(r);
 
 	stringstream ss;
-	ss << "Administrador central libera lugar " <<
-		pedido.nroLugar << " de estac " <<
-		pedido.nroEstacionamiento << " por salida " << pedido.pid;
-	Logger::write(INFO, ss.str());
+	ss << "Administrador central libera lugar " << pedido.nroLugar << " de estac "
+			<< pedido.nroEstacionamiento << " por salida " << pedido.pid;
+	Logger::write(DEBUG, ss.str());
 };
 
 void AdministradorCentral::asignarPosicion(Pedido& pedido) {
@@ -143,10 +141,9 @@ void AdministradorCentral::asignarPosicion(Pedido& pedido) {
 	colaRespuestas->escribir(r);
 
 	stringstream ss;
-	ss << "Administrador central asigna lugar " <<
-		r.respuesta.lugarOtorgado << " de estac " <<
-		pedido.nroEstacionamiento << " a auto " << pedido.pid;
-	Logger::write(INFO, ss.str());
+	ss << "Administrador central asigna lugar " << r.respuesta.lugarOtorgado <<
+			" de estac " << pedido.nroEstacionamiento << " a auto " << pedido.pid;
+	Logger::write(DEBUG, ss.str());
 };
 
 void AdministradorCentral::reservarLugar(Pedido& pedido) {
@@ -159,10 +156,10 @@ void AdministradorCentral::reservarLugar(Pedido& pedido) {
 	colaRespuestas->escribir(r);
 
 	stringstream ss;
-	ss << "Administrador central " <<
-		(r.respuesta.habiaLugar ? "" : "no") <<
-		" pudo reservar lugar para entrada " << pedido.pid << " de estac " << pedido.nroEstacionamiento;
-	Logger::write(INFO, ss.str());
+	ss << "Administrador central " << (r.respuesta.habiaLugar ? "" : "no ") <<
+			"pudo reservar lugar para entrada " << pedido.pid << " de estac "
+			<< pedido.nroEstacionamiento;
+	Logger::write(DEBUG, ss.str());
 };
 
 void AdministradorCentral::informarEstado(Pedido& pedido) {
@@ -174,8 +171,9 @@ void AdministradorCentral::informarEstado(Pedido& pedido) {
 
 	colaRespuestas->escribir(r);
 	stringstream ss;
-	ss << "Administrador central informa estado al adm " << pedido.pid << " de estac " << pedido.nroEstacionamiento;
-	Logger::write(INFO, ss.str());
+	ss << "Administrador central informa estado al adm " << pedido.pid
+			<< " de estac " << pedido.nroEstacionamiento;
+	Logger::write(DEBUG, ss.str());
 };
 
 void AdministradorCentral::decrementarEntradasActivas(Pedido& pedido) {
@@ -183,8 +181,19 @@ void AdministradorCentral::decrementarEntradasActivas(Pedido& pedido) {
 	e.cerrarEntrada();
 
 	stringstream ss;
-	ss << "Administrador central cierra entrada " << pedido.pid << " de estac " << pedido.nroEstacionamiento;
-	Logger::write(INFO, ss.str());
+	ss << "Administrador central cierra entrada " << pedido.pid <<
+			" de estac " << pedido.nroEstacionamiento;
+	Logger::write(DEBUG, ss.str());
+}
+
+void AdministradorCentral::decrementarSalidasActivas(Pedido& pedido) {
+	Estacionamiento& e = *estacionamiento[pedido.nroEstacionamiento];
+	e.cerrarSalida();
+
+	stringstream ss;
+	ss << "Administrador central cierra salida " << pedido.pid <<
+			" de estac " << pedido.nroEstacionamiento;
+	Logger::write(DEBUG, ss.str());
 }
 
 void AdministradorCentral::decrementarAdministradoresActivos(Pedido& pedido) {
@@ -192,6 +201,7 @@ void AdministradorCentral::decrementarAdministradoresActivos(Pedido& pedido) {
 	e.cerrarAdministrador();
 
 	stringstream ss;
-	ss << "Administrador central cierra admin  " << pedido.pid << " de estac " << pedido.nroEstacionamiento;
-	Logger::write(INFO, ss.str());
+	ss << "Administrador central cierra admin  " << pedido.pid <<
+			" de estac " << pedido.nroEstacionamiento;
+	Logger::write(DEBUG, ss.str());
 }

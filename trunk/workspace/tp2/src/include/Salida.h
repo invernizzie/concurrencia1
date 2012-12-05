@@ -29,6 +29,7 @@
 
 			void inicializar();
 			void recibirAutos();
+			void comunicarCierre();
 			bool liberarLugar(pid_t _auto, unsigned posicion, unsigned espera);
 
 		public:

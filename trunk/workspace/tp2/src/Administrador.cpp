@@ -51,6 +51,7 @@ void Administrador::finalizarSalidas(){
 	    Logger::write(DEBUG, ss.str());
 	}
 
+	// Comunica cierre al administrador central
     pedido.mtype = P_TERMINO_ADMINISTRADOR;
     colaPedidos->escribir(pedido);
 
@@ -71,7 +72,7 @@ void Administrador :: consultarPeriodicamente() {
 	unsigned espera = tiempoEntreConsultas();
     while (!estaVacio || (instanteFinal > time(NULL))) {
         stringstream ss;
-        ss << "Administrador(" << nroEstacionamiento << "): esperara " << espera << " segundos";
+        ss << "Administrador(" << nroEstacionamiento << ") esperara " << espera << " segundos";
         Logger::write(DEBUG, ss.str());
 
         sleep(espera);

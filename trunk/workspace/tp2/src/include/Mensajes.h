@@ -5,23 +5,25 @@
 
 	// Tipos de pedido
 	// Auto paga y desocupa posicion
-	#define P_PAGO_DESOCUPO		1
+	#define P_PAGO_DESOCUPO				1
 	// Auto solicita una posicion vacia
-	#define P_PIDO_LUGAR		2
+	#define P_PIDO_LUGAR				2
 	// Entrada intenta reservar un lugar
-	#define P_OCUPO_LUGAR		3
+	#define P_OCUPO_LUGAR				3
 	// Administrador consulta estado de su estacionamiento
-	#define P_CONSULTA_ESTADO	4
+	#define P_CONSULTA_ESTADO			4
 	// Salida hace que Auto se retira
-	#define P_SE_VA				5
+	#define P_SE_VA						5
 	// Salida hace que se libere un lugar especificado
-	#define P_LIBERA_LUGAR		6
+	#define P_LIBERA_LUGAR				6
 	// Se utiliza para dar aviso de fin de simulacion
-	#define P_FINALIZAR		7
+	#define P_FINALIZAR					7
 	// Entrada termina su ejecucion
 	#define P_TERMINO_ENTRADA			8
+	// Salida termina su ejecucion
+	#define P_TERMINO_SALIDA			9
 	// Administrador termina su ejecucion
-	#define P_TERMINO_ADMINISTRADOR		9
+	#define P_TERMINO_ADMINISTRADOR		10
 
 	typedef struct Pedido {
 		long mtype;
