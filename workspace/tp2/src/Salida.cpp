@@ -36,6 +36,10 @@ void Salida :: recibirAutos() {
 	bool terminar = false;
 	Pedido pedidoSalida;
 
+	// TODO Quitar
+    stringstream ss;
+	ss << "Salida " << numero << "(" << nroEstacionamiento << ") leyendo mensajes hasta " << INT_MIN;
+	Logger::write(INFO, ss.str());
 
     while (!terminar) {
     	colaPedidoSalida->leer(INT_MIN, &pedidoSalida);
@@ -68,12 +72,20 @@ bool Salida :: liberarLugar(unsigned posicion, unsigned espera) {
 	pedido.duracionEstadia = espera;
 	pedido.nroEstacionamiento = nroEstacionamiento;
 
+    stringstream ss;
+	ss << "Salida " << numero << "(" << nroEstacionamiento << ") liberara lugar " << posicion;
+	Logger::write(INFO, ss.str());
+
 	colaPedidos->escribir(pedido);
+
+    ss.str("");
+	ss << "Salida " << numero << "(" << nroEstacionamiento << ") esperando respuesta";
+	Logger::write(INFO, ss.str());
 
 	Respuesta respuesta;
 	colaRespuestas->leer(pid, &respuesta);
 
-	stringstream ss;
+	ss.str("");
 	ss << "Salida " << numero << "(" << nroEstacionamiento << ") libero lugar " << posicion;
 	Logger::write(INFO, ss.str());
 	return respuesta.respuesta.lugarLiberado;

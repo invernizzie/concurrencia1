@@ -49,7 +49,7 @@ void Entrada :: recibirAutos() {
 
     stringstream info;
     info << "Entrada " << nombre << "(" << nroEstacionamiento << ") inicia simulacion por "
-    		<< tiempoSimulacion << " horas hasta " << instanteFinal;
+    		<< tiempoSimulacion << " horas";
     Logger::write(INFO, info.str());
 
     while (instanteFinal > time(NULL)) {
