@@ -30,7 +30,7 @@
  * - modo Debug (archivo de salida opcional)
  * - cantidad de Estacionamientos
  */
-#define OPTIONS     "e:t:c:p:d::"
+#define OPTIONS     "e:t:c:p:d:h::"
 
 using namespace std;
 
@@ -98,8 +98,20 @@ int main(int argc, char **argv) {
                     cout << "Atencion: la opcion -" << (char) optopt << " es desconocida y sera ignorada" << endl;
                 }
                 break;
+
+            case 'h':
+				cout << "Ayuda de ejecucion:" << endl;
+				cout << "Ejecucion: ./tp2 [-h | -d <log> | -p <numero> | -e <numero> | -t <numero> | -c <numero>]" << endl;
+				cout << "Opcion '-c': Capacidad de los Estacionamientos. Debe Ser un entero positivo, y el valor por defecto es (100)" << endl;
+				cout << "Opcion '-d'<log>: Modo de ejecucion. Debe venir acompañado del archivo a utilizar para guardar el log.El valor por defecto es (DEBUG)" << endl;
+				cout << "Opcion '-e': Cantidad de Estacionamientos. Debe Ser un entero positivo, y el valor por defecto es (1)" << endl;
+				cout << "Opcion '-p': Valor hora de los Estacionamientos. Debe Ser un entero positivo, y el valor por defecto es (12)" << endl;
+				cout << "Opcion '-t': Tiempo de simulacion expresado en horas. Debe Ser un entero positivo, y el valor por defecto es (10)" << endl;
+				abort();
+                break;
+
             default:
-                abort();
+            	abort();
                 break;
         }
     }
