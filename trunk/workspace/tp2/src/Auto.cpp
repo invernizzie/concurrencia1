@@ -83,7 +83,7 @@ void Auto :: pagar() {
 
 	colaRespuestas->leer(pid,&respuestaLiberacion);
 
-	ss.clear();
+	ss.str("");
 	if(respuestaLiberacion.respuesta.pagoAceptado){
 		ss << "Auto " << pid << "(" << nroEstacionamiento << "): pudo pagar ";
 		Logger::write(DEBUG, ss.str());
