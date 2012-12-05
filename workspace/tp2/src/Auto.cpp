@@ -20,7 +20,6 @@ void Auto :: ejecutar() {
     pagar();
     salir();
     deinicializar();
-	// TODO No hay cuello de botella de cantidad de salidas, introducirlo
 
     stringstream ss;
     ss << "Auto " << pid << "(" << nroEstacionamiento << "): se retira";
@@ -76,7 +75,8 @@ void Auto :: pagar() {
 	pedidoLiberacion.duracionEstadia = espera;
 
 	colaPedidos->escribir(pedidoLiberacion);
-	ss << "Auto " << pid << "(" << nroEstacionamiento << "): Envio pago por " << espera << " horas de estadia";
+	ss << "Auto " << pid << "(" << nroEstacionamiento << ") envio pago por " << espera << " horas de estadia "
+			<< " y libero lugar " << posicion;
 		Logger::write(DEBUG, ss.str());
 
 	Respuesta respuestaLiberacion;
@@ -85,29 +85,32 @@ void Auto :: pagar() {
 
 	ss.str("");
 	if(respuestaLiberacion.respuesta.pagoAceptado){
-		ss << "Auto " << pid << "(" << nroEstacionamiento << "): pudo pagar ";
+		ss << "Auto " << pid << "(" << nroEstacionamiento << ") pude pagar ";
 		Logger::write(DEBUG, ss.str());
 	}else{
-		ss << "Auto " << pid << "(" << nroEstacionamiento << "):  NO pudo pagar ";
+		// Nunca deberia suceder pero lo define el protocolo
+		ss << "Auto " << pid << "(" << nroEstacionamiento << ")  NO pude pagar ";
 		Logger::write(DEBUG, ss.str());
 	}
 }
 
 void Auto :: salir() {
 	stringstream ss;
-	unsigned salidaElegida = determinarSalida();
-	long salida = nroEstacionamiento*1000 + salidaElegida*100 + P_SE_VA;
 	Cola<Pedido> colaPedidoSalida((char*)ARCHIVO_COLAS_SALIDA, C_LOCK_COLA_PEDIDOS);
 	Cola<Respuesta> colaRespuestaSalida((char*)ARCHIVO_COLAS_SALIDA, C_LOCK_COLA_RESPUESTAS);
 
+	unsigned salidaElegida = determinarSalida();
+	long salida = Salida::mtypePara(nroEstacionamiento, salidaElegida);
 	Pedido pedidoLiberacion;
 	pedidoLiberacion.mtype = salida;
+	pedidoLiberacion.tipoMensaje = P_SE_VA;
 	pedidoLiberacion.pid = pid;
 	pedidoLiberacion.nroEstacionamiento = nroEstacionamiento;
 	pedidoLiberacion.nroLugar = posicion;
 	pedidoLiberacion.duracionEstadia = espera;
 
-	ss << "Auto " << pid << "(" << nroEstacionamiento << "): Pide libracion de lugar " << posicion << "a Salida: " << salidaElegida;
+	ss << "Auto " << pid << "(" << nroEstacionamiento << ") se encola en salida " << salidaElegida
+			<< " con mtype " << salida;
 	Logger::write(DEBUG, ss.str());
 	colaPedidoSalida.escribir(pedidoLiberacion);
 
@@ -115,12 +118,14 @@ void Auto :: salir() {
 
 	colaRespuestaSalida.leer(pid,&respuestaLiberacion);
 
+	ss.str("");
 	if(respuestaLiberacion.respuesta.lugarLiberado){
-		ss << "Auto " << pid << "(" << nroEstacionamiento << "): libere lugar " << posicion;
+		ss << "Auto " << pid << "(" << nroEstacionamiento << ") sali";
 		Logger::write(DEBUG, ss.str());
 	}else{
-		ss << "Auto " << pid << "(" << nroEstacionamiento << "): No pudo liberar lugar " << posicion;
-				Logger::write(DEBUG, ss.str());
+		// Nunca deberia suceder pero lo define el protocolo
+		ss << "Auto " << pid << "(" << nroEstacionamiento << ") no pude salir";
+		Logger::write(DEBUG, ss.str());
 	}
 }
 

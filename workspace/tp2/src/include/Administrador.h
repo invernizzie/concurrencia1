@@ -14,6 +14,7 @@
 	#include "Cola.h"
 	#include "Mensajes.h"
 	#include "MemoriaCompartida.h"
+	#include "Salida.h"
 
 	class Administrador : public Proceso {
 		private:
@@ -23,8 +24,6 @@
 			int instanteFinal;
 			Cola<Pedido>* colaPedidos;
 			Cola<Respuesta>* colaRespuestas;
-			Cola<Pedido>* colaPedidoSalida;
-
 
 			void inicializar();
 			void deinicializar();
