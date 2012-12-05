@@ -4,6 +4,7 @@
 #include "Proceso.h"
 #include "Cola.h"
 #include "Mensajes.h"
+#include "Salida.h"
 #include <string>
 
 class Auto : public Proceso {
@@ -19,7 +20,7 @@ class Auto : public Proceso {
         void buscarLugar();
         void pagar();
         unsigned determinarEspera();
-        unsigned determinarSalida(){return rand() % (CANT_SALIDAS - 1);};
+        unsigned determinarSalida(){return rand() % (CANT_SALIDAS - 1) + 1;};
         void salir();
 
     public:

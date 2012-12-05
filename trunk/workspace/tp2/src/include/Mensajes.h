@@ -28,9 +28,12 @@
 		pid_t pid;
 		int nroEstacionamiento;
 
-		// Solo para que el auto pague
+		// Para cuando el auto paga
 		unsigned nroLugar;
 		unsigned duracionEstadia;
+		// Para cuando el auto sale o el adm
+		// indica finalizacion a la salida
+		int tipoMensaje;
 	} Pedido;
 
 	typedef struct EstadoEstacionamiento {

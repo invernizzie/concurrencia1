@@ -2,6 +2,10 @@
 
 #include <climits>
 
+long Salida::mtypePara(int nroEstacionamiento, int nroSalida) {
+	return 1000 * nroEstacionamiento + nroSalida;
+}
+
 Salida :: Salida(int nroEstacionamiento, int numero) :
 	nroEstacionamiento(nroEstacionamiento),
 	numero(numero),
@@ -13,13 +17,14 @@ Salida :: Salida(int nroEstacionamiento, int numero) :
 void Salida :: ejecutar() {
     inicializar();
     recibirAutos();
+
     delete colaPedidos;
     delete colaRespuestas;
     delete colaPedidoSalida;
     delete colaRespuestaSalida;
 
     stringstream ss;
-	ss << "Salida " << numero << "(" << nroEstacionamiento << "): deinicializada";
+	ss << "Salida " << numero << "(" << nroEstacionamiento << ") deinicializada";
 	Logger::write(INFO, ss.str());
 }
 
@@ -35,6 +40,7 @@ void Salida :: inicializar() {
 void Salida :: recibirAutos() {
 	bool terminar = false;
 	Pedido pedidoSalida;
+	int tipoMensaje = Salida::mtypePara(nroEstacionamiento, numero);
 
 	// TODO Quitar
     stringstream ss;
@@ -42,29 +48,33 @@ void Salida :: recibirAutos() {
 	Logger::write(INFO, ss.str());
 
     while (!terminar) {
-    	colaPedidoSalida->leer(INT_MIN, &pedidoSalida);
-    	unsigned mensaje = pedidoSalida.mtype - (nroEstacionamiento*1000 + numero*100);
+    	colaPedidoSalida->leer(tipoMensaje, &pedidoSalida);
     	stringstream smm;
 
-		switch (mensaje) {
+		switch (pedidoSalida.tipoMensaje) {
 
 			case P_SE_VA:
-				liberarLugar(pedidoSalida.nroLugar, pedidoSalida.duracionEstadia);
+				liberarLugar(pedidoSalida.pid, pedidoSalida.nroLugar, pedidoSalida.duracionEstadia);
 				break;
 
 			case P_FINALIZAR:
-			    smm << "Salida " << numero << "(" << nroEstacionamiento << "): finaliza la simulacion";
+			    smm << "Salida " << numero << "(" << nroEstacionamiento << ") finaliza la simulacion";
 			    Logger::write(DEBUG, smm.str());
-				return;
+				terminar = true;
 				break;
 
 			default:
+				// No deberia suceder
+				smm << "Salida " << numero << "(" << nroEstacionamiento << ") descarta mensaje tipo " << pedidoSalida.mtype << " de pid " << pedidoSalida.pid
+					<< " el valor de mensaje es " << pedidoSalida.tipoMensaje;
+				Logger::write(WARNING, smm.str());
+				smm.str("");
 				break;
         }
     }
 }
 
-bool Salida :: liberarLugar(unsigned posicion, unsigned espera) {
+bool Salida :: liberarLugar(pid_t _auto, unsigned posicion, unsigned espera) {
 	Pedido pedido;
 	pedido.mtype = P_LIBERA_LUGAR;
 	pedido.pid = getpid();
@@ -73,21 +83,22 @@ bool Salida :: liberarLugar(unsigned posicion, unsigned espera) {
 	pedido.nroEstacionamiento = nroEstacionamiento;
 
     stringstream ss;
-	ss << "Salida " << numero << "(" << nroEstacionamiento << ") liberara lugar " << posicion;
+	ss << "Salida " << numero << "(" << nroEstacionamiento << ") liberara lugar " << posicion << " de auto " << _auto;
 	Logger::write(INFO, ss.str());
 
 	colaPedidos->escribir(pedido);
 
-    ss.str("");
-	ss << "Salida " << numero << "(" << nroEstacionamiento << ") esperando respuesta";
-	Logger::write(INFO, ss.str());
+	Respuesta respuestaDelAdmin;
+	colaRespuestas->leer(pid, &respuestaDelAdmin);
 
-	Respuesta respuesta;
-	colaRespuestas->leer(pid, &respuesta);
+	Respuesta respuestaAlAuto;
+	respuestaAlAuto.mtype = _auto;
+	respuestaAlAuto.respuesta.lugarLiberado = true;
+	colaRespuestaSalida->escribir(respuestaAlAuto);
 
 	ss.str("");
 	ss << "Salida " << numero << "(" << nroEstacionamiento << ") libero lugar " << posicion;
 	Logger::write(INFO, ss.str());
-	return respuesta.respuesta.lugarLiberado;
+	return respuestaDelAdmin.respuesta.lugarLiberado;
 }
 

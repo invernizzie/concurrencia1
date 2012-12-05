@@ -6,14 +6,13 @@ Administrador :: Administrador(int nroEstacionamiento, int tiempoSimulacion, int
 		capacidad(capacidad),
 		instanteFinal(0),
 		colaPedidos(NULL),
-		colaRespuestas(NULL),
-		colaPedidoSalida(NULL) {}
+		colaRespuestas(NULL) {}
 
 void Administrador :: ejecutar() {
     inicializar();
     consultarPeriodicamente();
-    deinicializar();
     finalizarSalidas();
+    deinicializar();
 }
 
 void Administrador :: inicializar() {
@@ -33,20 +32,31 @@ void Administrador :: inicializar() {
 void Administrador::deinicializar() {
 	delete colaPedidos;
 	delete colaRespuestas;
-    delete colaPedidoSalida;
 }
 
 void Administrador::finalizarSalidas(){
-	colaPedidoSalida = new Cola<Pedido>((char*)ARCHIVO_COLAS_SALIDA, C_LOCK_COLA_PEDIDOS);
-	for(int i=0; i< CANT_SALIDAS; i++)
+	Pedido pedido;
+	Cola<Pedido> colaPedidoSalida ((char*)ARCHIVO_COLAS_SALIDA, C_LOCK_COLA_PEDIDOS);
+	for(int nroSalida = 0; nroSalida < CANT_SALIDAS; nroSalida++)
 	{
-		Pedido pedido;
-		pedido.mtype = nroEstacionamiento*1000 + i*100 + P_FINALIZAR;
+		pedido.mtype = Salida::mtypePara(nroEstacionamiento, nroSalida);
+		pedido.tipoMensaje = P_FINALIZAR;
 		pedido.pid = getpid();
 		pedido.nroEstacionamiento = nroEstacionamiento;
 
-		colaPedidoSalida->escribir(pedido);
+		colaPedidoSalida.escribir(pedido);
+
+	    stringstream ss;
+	    ss << "Administrador(" << nroEstacionamiento << ") finaliza salida " << nroSalida;
+	    Logger::write(DEBUG, ss.str());
 	}
+
+    pedido.mtype = P_TERMINO_ADMINISTRADOR;
+    colaPedidos->escribir(pedido);
+
+    stringstream ss;
+    ss << "Administrador(" << nroEstacionamiento << ") finaliza la simulacion";
+    Logger::write(DEBUG, ss.str());
 }
 
 void Administrador :: consultarPeriodicamente() {
@@ -77,13 +87,6 @@ void Administrador :: consultarPeriodicamente() {
         estaVacio = r.respuesta.estado.lugaresLibres == capacidad;
         espera = tiempoEntreConsultas();
     }
-
-    pedido.mtype = P_TERMINO_ADMINISTRADOR;
-    colaPedidos->escribir(pedido);
-
-    stringstream ss;
-    ss << "Administrador(" << nroEstacionamiento << "): finaliza la simulacion";
-    Logger::write(DEBUG, ss.str());
 }
 
 unsigned Administrador :: tiempoEntreConsultas() {

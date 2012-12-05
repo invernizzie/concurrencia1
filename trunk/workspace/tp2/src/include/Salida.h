@@ -29,12 +29,14 @@
 
 			void inicializar();
 			void recibirAutos();
-			bool liberarLugar(unsigned posicion, unsigned espera);
+			bool liberarLugar(pid_t _auto, unsigned posicion, unsigned espera);
 
 		public:
 			Salida(int nroEstacionamiento, int numero);
 			virtual void ejecutar();
 			virtual ~Salida() {};
+
+			static long mtypePara(int nroEstacionamiento, int nroSalida);
 	};
 
 #endif //SALIDA_H_
