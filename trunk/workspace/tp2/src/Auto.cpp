@@ -11,20 +11,7 @@ Auto :: Auto(int nroEstacionamiento):
 		posicion(0),
 		espera(0),
 		colaPedidos(NULL),
-		colaRespuestas(NULL),
-		colaPedidoSalida(NULL),
-		colaRespuestaSalida(NULL) {}
-
-Auto :: ~Auto() {
-	delete colaPedidos;
-	delete colaRespuestas;
-	delete colaPedidoSalida;
-	delete colaRespuestaSalida;
-
-    stringstream ss;
-    ss << "Auto " << getpid() << "(" << nroEstacionamiento << "): destruido";
-	Logger::write(DEBUG, ss.str());
-}
+		colaRespuestas(NULL) {}
 
 void Auto :: ejecutar() {
 	inicializar();
@@ -32,6 +19,7 @@ void Auto :: ejecutar() {
     sleep(determinarEspera());
     pagar();
     salir();
+    deinicializar();
 	// TODO No hay cuello de botella de cantidad de salidas, introducirlo
 
     stringstream ss;
@@ -43,6 +31,15 @@ void Auto :: inicializar() {
     srand (time(NULL) + pid);
 	colaPedidos = new Cola<Pedido>((char*)ARCHIVO_COLAS, C_LOCK_COLA_PEDIDOS);
 	colaRespuestas = new Cola<Respuesta>((char*)ARCHIVO_COLAS, C_LOCK_COLA_RESPUESTAS);
+}
+
+void Auto::deinicializar() {
+	delete colaPedidos;
+	delete colaRespuestas;
+
+    stringstream ss;
+    ss << "Auto " << getpid() << "(" << nroEstacionamiento << ") deinicializado";
+	Logger::write(DEBUG, ss.str());
 }
 
 // Estrategia: comienza en posicion 0, mira una a una
@@ -79,7 +76,7 @@ void Auto :: pagar() {
 	pedidoLiberacion.duracionEstadia = espera;
 
 	colaPedidos->escribir(pedidoLiberacion);
-	ss << "Auto " << pid << "(" << nroEstacionamiento << "): Envio pago por " << espera << "tiempo de estadia";
+	ss << "Auto " << pid << "(" << nroEstacionamiento << "): Envio pago por " << espera << " horas de estadia";
 		Logger::write(DEBUG, ss.str());
 
 	Respuesta respuestaLiberacion;
@@ -100,8 +97,8 @@ void Auto :: salir() {
 	stringstream ss;
 	unsigned salidaElegida = determinarSalida();
 	long salida = nroEstacionamiento*1000 + salidaElegida*100 + P_SE_VA;
-	colaPedidoSalida = new Cola<Pedido>((char*)ARCHIVO_COLAS_SALIDA, C_LOCK_COLA_PEDIDOS);
-	colaRespuestaSalida = new Cola<Respuesta>((char*)ARCHIVO_COLAS_SALIDA, C_LOCK_COLA_RESPUESTAS);
+	Cola<Pedido> colaPedidoSalida((char*)ARCHIVO_COLAS_SALIDA, C_LOCK_COLA_PEDIDOS);
+	Cola<Respuesta> colaRespuestaSalida((char*)ARCHIVO_COLAS_SALIDA, C_LOCK_COLA_RESPUESTAS);
 
 	Pedido pedidoLiberacion;
 	pedidoLiberacion.mtype = salida;
@@ -112,11 +109,11 @@ void Auto :: salir() {
 
 	ss << "Auto " << pid << "(" << nroEstacionamiento << "): Pide libracion de lugar " << posicion << "a Salida: " << salidaElegida;
 	Logger::write(DEBUG, ss.str());
-	colaPedidoSalida->escribir(pedidoLiberacion);
+	colaPedidoSalida.escribir(pedidoLiberacion);
 
 	Respuesta respuestaLiberacion;
 
-	colaRespuestaSalida->leer(pid,&respuestaLiberacion);
+	colaRespuestaSalida.leer(pid,&respuestaLiberacion);
 
 	if(respuestaLiberacion.respuesta.lugarLiberado){
 		ss << "Auto " << pid << "(" << nroEstacionamiento << "): libere lugar " << posicion;

@@ -30,7 +30,7 @@
  * - modo Debug (archivo de salida opcional)
  * - cantidad de Estacionamientos
  */
-#define OPTIONS     "e:t:c:p:d:h::"
+#define OPTIONS     "e:t:c:p:d::h"
 
 using namespace std;
 

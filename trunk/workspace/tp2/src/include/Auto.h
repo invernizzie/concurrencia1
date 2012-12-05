@@ -13,10 +13,9 @@ class Auto : public Proceso {
         unsigned espera;
 		Cola<Pedido>* colaPedidos;
 		Cola<Respuesta>* colaRespuestas;
-		Cola<Pedido>* colaPedidoSalida;
-		Cola<Respuesta>* colaRespuestaSalida;
 
 		void inicializar();
+		void deinicializar();
         void buscarLugar();
         void pagar();
         unsigned determinarEspera();
@@ -26,7 +25,7 @@ class Auto : public Proceso {
     public:
         Auto(int nroEstacionamiento);
         virtual void ejecutar();
-        virtual ~Auto();
+        virtual ~Auto() {};
 };
 
 #endif // AUTO_H_
